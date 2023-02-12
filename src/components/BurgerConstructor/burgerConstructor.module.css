@@ -1,0 +1,59 @@
+.section {
+  padding-top: 100px;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 8px;
+}
+
+.sum {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  align-items: center;
+  justify-content: flex-end;
+  padding-top: 40px;
+}
+
+.sum svg {
+  width: 33px; 
+  height: 33px;
+  padding-left: 10px;
+  padding-right: 40px;
+}
+
+.scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: calc(100vh - 560px);
+    overflow-y: auto;
+  }
+  
+  .scroll::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+  }
+  
+  .scroll::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+  }
+  .scroll {
+    scrollbar-color: #8585AD #2F2F37; 
+    scrollbar-width: 8px; 
+  }
