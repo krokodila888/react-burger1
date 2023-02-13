@@ -7,8 +7,17 @@ import Modal from "../Modal/Modal.jsx";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
 
 function BurgerIngredients(props) {
-  const { ingredients, buns, filling, sauce, isOpen, onClose, selectedIngredient, handleIngredientClick } = props;
+  const { ingredients, isOpen, onClose, selectedIngredient, handleIngredientClick } = props;
   const [current, setCurrent] = React.useState("one");
+  const [buns, setBuns] = React.useState([]);
+  const [filling, setFilling] = React.useState([]);
+  const [sauce, setSauce] = React.useState([]);
+
+  React.useEffect(() => {
+    setBuns(ingredients.filter((item) => {return (item.type === "bun")}));
+    setFilling(ingredients.filter((item) => {return (item.type === "main")}));
+    setSauce(ingredients.filter((item) => {return (item.type === "sauce")}))
+  }, [ingredients])
 
   function handleClick(data) {
     handleIngredientClick(data);
@@ -81,10 +90,7 @@ function BurgerIngredients(props) {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.array,
-  buns: PropTypes.array.isRequired,
-  filling: PropTypes.array.isRequired,
-  sauce: PropTypes.array.isRequired,
+  ingredients: PropTypes.array.isRequired,
   handleIngredientClick: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,

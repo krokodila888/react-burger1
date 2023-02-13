@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom'
 import ModalOverlay from '../ModalOverlay/ModalOverlay.jsx';
-import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
 import "./modal.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -10,6 +9,22 @@ const modalRoot = document.getElementById("react-modals");
 
 function Modal(props) {
   const {isOpen, onClose, children} = props;
+  const overlay = React.useRef();
+
+  React.useEffect(() => {
+    const closeByClick = (event) => {
+      if (event.target.classList.contains('modalOverlay')) {
+        onClose();
+      }
+    };
+    const element = overlay.current;
+    if (element && overlay && overlay.current) {
+      element.addEventListener('click', closeByClick);
+        return () => {
+          element.removeEventListener('click', closeByClick);
+        };
+    }
+}, []);
 
   React.useEffect(() => {
     const escFunction = (event) => {
@@ -24,16 +39,17 @@ function Modal(props) {
   }, [])
 
   return ReactDOM.createPortal (
-    <>
-      <ModalOverlay isOpen={isOpen} onClose={onClose}>
+    <div className={`modal ${isOpen ? 'modal_opened' : ''}`}>
+      <div ref={overlay}>
+        <ModalOverlay isOpen={isOpen} onClose={onClose} />
+      </div>
       <div className='modal__container'>
         <div className="modal__button-container">
           <CloseIcon type="primary" onClick={onClose} />
         </div>
         {children}
        </div>
-      </ModalOverlay>
-    </>, modalRoot
+    </div>, modalRoot
   );
 }
 

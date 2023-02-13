@@ -32,3 +32,11 @@
     right: 40px;
     top: 60px;
 }
+
+.modal {
+  visibility: hidden;
+}
+
+.modal_opened {
+  visibility: visible;
+}

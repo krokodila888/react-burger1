@@ -6,7 +6,16 @@ import Modal from "../Modal/Modal.jsx";
 import OrderDetails from "../OrderDetails/OrderDetails.jsx";
 
 function BurgerConstructor(props) {
-  const { buns, filling, sauce, isOpen, onClose, openOrderModal } = props;
+  const { ingredients, isOpen, onClose, openOrderModal } = props;
+  const [buns, setBuns] = React.useState([]);
+  const [filling, setFilling] = React.useState([]);
+  const [sauce, setSauce] = React.useState([]);
+
+  React.useEffect(() => {
+    setBuns(ingredients.filter((item) => {return (item.type === "bun")}));
+    setFilling(ingredients.filter((item) => {return (item.type === "main")}));
+    setSauce(ingredients.filter((item) => {return (item.type === "sauce")}))
+  }, [ingredients])
 
   return (
     <section className={styles.section}>
@@ -79,9 +88,8 @@ function BurgerConstructor(props) {
 export default BurgerConstructor;
 
 BurgerConstructor.propTypes = {
-  buns: PropTypes.array,
-  filling: PropTypes.array,
-  sauce: PropTypes.array,
+  ingredients: PropTypes.array.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  openOrderModal: PropTypes.func.isRequired
 }; 

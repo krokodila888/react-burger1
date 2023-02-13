@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from 'prop-types';
 import './IngredientCard.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function IngredientCard(props) {
   const {ingredient, onIngredientClick } = props;
-  //const {name, price, image} = ingredient;
 
   function handleClick(ingredient) {
     onIngredientClick(ingredient);
@@ -27,6 +26,6 @@ function IngredientCard(props) {
 export default IngredientCard;
 
 IngredientCard.propTypes = {
-  ingredient: PropTypes.object,
-  onIngredientClick: PropTypes.func,
+  ingredient: PropTypes.object.isRequired,
+  onIngredientClick: PropTypes.func.isRequired,
 }; 
