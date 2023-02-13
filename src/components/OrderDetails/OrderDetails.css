@@ -1,0 +1,21 @@
+.orderDetails__title {
+  padding-top: 80px;
+  padding-bottom: 32px;
+}
+
+.orderDetails__id-text {
+  padding-bottom: 60px;
+}
+
+.orderDetails__text-block {
+  padding-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 60px;
+}
+
+.orderDetails__image {
+  outline: 5px solid #1C1C21;
+  outline-offset: -3px;
+}
