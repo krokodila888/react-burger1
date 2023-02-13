@@ -5,6 +5,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from '../IngredientCard/IngredientCard.jsx';
 import Modal from "../Modal/Modal.jsx";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
+import {ingredientPropTypes} from "../../utils/constants";
+import {currentSelectedIngredient} from "../../utils/constants";
 
 function BurgerIngredients(props) {
   const { ingredients, isOpen, onClose, selectedIngredient, handleIngredientClick } = props;
@@ -90,9 +92,9 @@ function BurgerIngredients(props) {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.array.isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
   handleIngredientClick: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  selectedIngredient: PropTypes.object,
+  selectedIngredient: currentSelectedIngredient.isRequired
 };

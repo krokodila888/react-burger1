@@ -21,6 +21,14 @@
   padding-right: 8px;
 }
 
+.fun {
+  padding-left: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 8px;
+}
+
 .sum {
   display: flex;
   flex-direction: row;

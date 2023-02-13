@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import styles from "./ingredientDetails.module.css";
+import {currentSelectedIngredient} from "../../utils/constants";
 
 function IngredientDetails(props) {
   const {selectedIngredient} = props;
@@ -54,5 +55,5 @@ function IngredientDetails(props) {
 export default IngredientDetails;
 
 IngredientDetails.propTypes = {
-  selectedIngredient: PropTypes.object.isRequired,
+  selectedIngredient: currentSelectedIngredient.isRequired
 };

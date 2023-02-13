@@ -4,6 +4,7 @@ import styles from "./burgerConstructor.module.css";
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal/Modal.jsx";
 import OrderDetails from "../OrderDetails/OrderDetails.jsx";
+import {ingredientPropTypes} from "../../utils/constants";
 
 function BurgerConstructor(props) {
   const { ingredients, isOpen, onClose, openOrderModal } = props;
@@ -20,8 +21,7 @@ function BurgerConstructor(props) {
   return (
     <section className={styles.section}>
       <ul className={styles.ul} id='BurgerConstructor'>
-        <li className={styles.li}>
-          <DragIcon type="primary" />
+        <li className={styles.fun}>
           {typeof(buns[0]) !== 'undefined' && (filling) !== null &&
             <ConstructorElement 
               type="top"
@@ -54,8 +54,7 @@ function BurgerConstructor(props) {
           </li>
         ))}
         </div>
-        <li className={styles.li}>
-          <DragIcon type="primary" />
+        <li className={styles.fun}>
           {typeof(buns[0]) !== 'undefined' && (filling) !== null &&
             <ConstructorElement 
               type="bottom"
@@ -88,7 +87,7 @@ function BurgerConstructor(props) {
 export default BurgerConstructor;
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.array.isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   openOrderModal: PropTypes.func.isRequired
