@@ -12,7 +12,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [orderModalIsOpen, setOrderModalIsOpen] = React.useState(false);
   const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
-  const [selectedIngredient, setSelectedIngredient] = React.useState({});
+  const [selectedIngredient, setSelectedIngredient] = React.useState();
 
   function getAllIngredients() {
     setIsLoading(true);
@@ -41,9 +41,8 @@ function App() {
   }
 
   function handleIngredientClick(data) {
-    // eslint-disable-next-line no-sequences
-    if (data) return openIngredientModal(), 
-    setSelectedIngredient(data);
+    if (data) return (openIngredientModal(), 
+    setSelectedIngredient(data));
   }
 
   function closeModal() {

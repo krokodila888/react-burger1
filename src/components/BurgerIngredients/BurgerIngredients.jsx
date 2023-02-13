@@ -6,7 +6,6 @@ import IngredientCard from '../IngredientCard/IngredientCard.jsx';
 import Modal from "../Modal/Modal.jsx";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
 import {ingredientPropTypes} from "../../utils/constants";
-import {currentSelectedIngredient} from "../../utils/constants";
 
 function BurgerIngredients(props) {
   const { ingredients, isOpen, onClose, selectedIngredient, handleIngredientClick } = props;
@@ -76,14 +75,14 @@ function BurgerIngredients(props) {
           ))}
         </ul>
       </div>
-      <Modal
+      {selectedIngredient && <Modal
         isOpen={isOpen}
         onClose={onClose}
           children={
           <IngredientDetails
             selectedIngredient={selectedIngredient}
           />}>
-      </Modal>
+      </Modal>}
       <div id="react-modals"></div>
     </section>
   );
@@ -92,9 +91,9 @@ function BurgerIngredients(props) {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
+  ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
   handleIngredientClick: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  selectedIngredient: currentSelectedIngredient.isRequired
+  selectedIngredient: ingredientPropTypes,
 };
