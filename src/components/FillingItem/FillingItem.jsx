@@ -2,51 +2,42 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./fillingItem.module.css";
-import { ConstructorElement, DragIcon, Button, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ingredientPropTypes } from "../../utils/constants";
 
 function FillingItem(props) {
   const { item, index, removeItem, moveCard } = props;
-  const keyId = item.keyId;
 
   const ref = React.useRef(null);
     const [{ handlerId }, drop] = useDrop({
-        // Указываем тип получаемых элементов, чтобы dnd понимал,
-        // в какой контейнер можно класть перетаскиваемый элемент, а в какой нельзя.
-        // Элементы и контейнеры с разными типами не будут взаимодействовать
-        accept: 'component',
-        collect(monitor) {
-            return {
-                handlerId: monitor.getHandlerId()
-            }
-        },
-        // Вызывается, когда перетаскиваемый элемент оказывается над ингредиентом,
-        // индекс которого у нас задан в пропсах props.index
-        hover(item, monitor) {
-            if (!ref.current) {
-                return;
-            }
-            // Переопределяем индексы ингредиентов для удобства
-            const dragIndex = item.index;
-            const hoverIndex = index;
-            // Ничего не делаем, если ингредиент находится 
-            if (dragIndex === hoverIndex) {
-                return;
-            }
-            // Определяем границы карточки ингредиента
-            const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-                return;
-            }
-            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-                return;
-            }
-            // Выполняем наш коллбэк с перемещением карточек внутри массива
-            moveCard(dragIndex, hoverIndex);
-            item.index = hoverIndex;
+      accept: 'component',
+      collect(monitor) {
+        return {
+          handlerId: monitor.getHandlerId()
         }
+      },
+      hover(item, monitor) {
+        if (!ref.current) {
+          return;
+        }
+        const dragIndex = item.index;
+        const hoverIndex = index;
+        if (dragIndex === hoverIndex) {
+          return;
+        }
+        const hoverBoundingRect = ref.current?.getBoundingClientRect();
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const clientOffset = monitor.getClientOffset();
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+          return;
+        }
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+          return;
+        }
+        moveCard(dragIndex, hoverIndex);
+        item.index = hoverIndex;
+      }
     })
     // Задаем функционал перетаскивания для элементов внутри списка
     // ингредиентов заказа
@@ -75,3 +66,10 @@ function FillingItem(props) {
 }
 
 export default FillingItem;
+
+FillingItem.propTypes = {
+  index: PropTypes.number.isRequired,
+  removeItem: PropTypes.func.isRequired,
+  moveCard: PropTypes.func.isRequired,
+  item: ingredientPropTypes.isRequired,
+};

@@ -6,23 +6,45 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from '../IngredientCard/IngredientCard.jsx';
 import Modal from "../Modal/Modal.jsx";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
-import {ingredientPropTypes} from "../../utils/constants";
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngredients } from '../../services/actions/ingredients';
 
 function BurgerIngredients(props) {
   const bunsScroll = React.useRef();
   const fillingScroll = React.useRef();
-  const sauceScroll = React.useRef();
+  const sauceScroll = React.useRef();  
+  const fillingsBlock = React.useRef();
   const { isOpen, onClose, handleIngredientClick } = props;
-  const [current, setCurrent] = React.useState(bunsScroll);
+  const [current, setCurrent] = React.useState('bunsScroll');
   const dispatch = useDispatch();
   const { ingredients, ingredientsRequest } = useSelector(state => state.ingredientsReducer);
   const { currentItem } = useSelector(state => state.currentIngredientReducer);
+  const [heightScroll, setHeightScroll] = React.useState(0);
+  
+  function getPosition() {
+    let currentHeightScroll = fillingsBlock.current.scrollTop;
+    setHeightScroll(currentHeightScroll);
+  };
+
+  function setPosition() {
+    if (heightScroll < 130)
+    setCurrent('bunsScroll');
+    if (heightScroll >= 130 && heightScroll < 540)
+    setCurrent('sauceScroll');
+    if (heightScroll >= 540)
+    setCurrent('fillingScroll');
+  };
+
+  React.useEffect(() => {
+    getPosition();
+  }, []);
+
+  React.useEffect(() => {
+    setPosition();
+  }, [heightScroll]);
 
   React.useEffect(()=> {
     dispatch(getIngredients());
-    console.log(ingredients)
     }, [])
 
   function handleClick(data) {
@@ -31,17 +53,17 @@ function BurgerIngredients(props) {
 
   function onBunsClick() {
     bunsScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
-    setCurrent(bunsScroll)
+    setCurrent('bunsScroll');
   };
-
+  
   function onFillingClick() {
     fillingScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
-    setCurrent(fillingScroll)
+    setCurrent('fillingScroll');
   };
 
   function onSauceClick() {
     sauceScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
-    setCurrent(sauceScroll)
+    setCurrent('sauceScroll');
   };
   
   return (
@@ -52,27 +74,27 @@ function BurgerIngredients(props) {
       <nav className={styles.nav}>
         <Tab 
           value="bunsScroll" 
-          active={current === bunsScroll}
-          onClick={() => {setCurrent(bunsScroll); onBunsClick()}}>
+          active={current === 'bunsScroll'}
+          onClick={() => {setCurrent('bunsScroll'); onBunsClick()}}>
             Булки
         </Tab>
         <Tab 
           value="sauceScroll" 
-          active={current === sauceScroll} 
-          onClick={() => {setCurrent(sauceScroll); onSauceClick()}}>
+          active={current === 'sauceScroll'} 
+          onClick={() => {setCurrent('sauceScroll'); onSauceClick()}}>
             Соусы
         </Tab>
         <Tab 
           value="fillingScroll" 
-          active={current === fillingScroll}
-          onClick={() => {setCurrent(fillingScroll); onFillingClick()}}>
+          active={current === 'fillingScroll'}
+          onClick={() => {setCurrent('fillingScroll'); onFillingClick()}}>
             Начинки
         </Tab>
       </nav>
       {ingredientsRequest ? (
         <p>Идет загрузка</p>
       ) : (
-      <div className={styles.scroll}>
+      <div className={styles.scroll} ref={fillingsBlock} onScroll={getPosition}>
         <h2 className="text text_type_main-medium" ref={bunsScroll}>Булки</h2>
         <ul className={styles.ul}>
           {typeof(ingredients) !== 'undefined' && (ingredients) !== null && ingredients.filter((item) => {return (item.type === "bun")}).map((item) => (

@@ -21,6 +21,7 @@
 .scroll {
   max-height: calc(100vh - 364px);
   overflow-y: auto;
+  position: relative;
 }
 
 .scroll::-webkit-scrollbar {
