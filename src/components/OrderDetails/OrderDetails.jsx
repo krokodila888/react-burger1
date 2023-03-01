@@ -34,16 +34,4 @@ function OrderDetails() {
   );
 }
 
-const mapStateToProps = (store, ownProps) => {
-  return { 
-    sendOrderNumber: store.sendOrderNumber
-    };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    sendOrder: () => dispatch(sendNewOrder1()),
-  };
-}; 
-
-export default connect(mapDispatchToProps, mapStateToProps) (OrderDetails);
+export default OrderDetails;

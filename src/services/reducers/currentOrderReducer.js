@@ -1,7 +1,8 @@
 import {
   SEND_ORDER,
   SEND_ORDER_FAILED,
-  SEND_ORDER_SUCCESS
+  SEND_ORDER_SUCCESS,
+  REMOVE_ORDER
 } from "../../utils/constants";
 
 const initialState = {
@@ -34,6 +35,9 @@ export const currentOrderReducer = (state = initialState, action) => {
         sendOrderFailed: true, 
         sendOrderRequest: false 
       };
+    }
+    case REMOVE_ORDER: {
+      return state
     }
     default: {
       return state

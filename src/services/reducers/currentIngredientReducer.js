@@ -27,7 +27,6 @@ export const currentIngredientReducer = (state = initialState, action) => {
         },
         ingredientModalIsOpen: true
       }
-
     case CLEAR_CURRENT_INGREDIENT:
       return state
     default: {

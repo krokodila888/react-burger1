@@ -9,12 +9,14 @@ import Preloader from '../Preloader/Preloader';
 import { useDispatch } from 'react-redux';
 import { sendNewOrder1 } from '../../services/actions/sendOrder';
 import { removeCurrentIngredient } from '../../services/actions/currentIngredient';
+import { removeOrder } from '../../services/actions/sendOrder';
 
 function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [orderModalIsOpen, setOrderModalIsOpen] = React.useState(false);
   const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
+
   const dispatch = useDispatch();
 
   function openOrderModal(data) {
@@ -31,6 +33,7 @@ function App() {
     setOrderModalIsOpen(false);
     setIngredientModalIsOpen(false);
     dispatch(removeCurrentIngredient());
+    dispatch(removeOrder());
   }
 
   return (

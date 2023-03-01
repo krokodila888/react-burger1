@@ -1,7 +1,8 @@
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
-  REPLACE_INGREDIENT
+  REPLACE_INGREDIENT,
+  CLEAR_CONSTRUCTOR
 } from "../../utils/constants";
   
 const initialState = {
@@ -51,7 +52,6 @@ export const currentBurgerReducer = (state = initialState, action) => {
       };
     }
     case REPLACE_INGREDIENT:{
-      const newIngredients = action.items;
       return {
         ...state,
         currentBurger: [
@@ -59,6 +59,9 @@ export const currentBurgerReducer = (state = initialState, action) => {
           ...action.items
         ],
       };
+    }
+    case CLEAR_CONSTRUCTOR:{
+      return initialState
     }
     default: {
       return state

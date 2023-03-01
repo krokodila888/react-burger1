@@ -6,7 +6,7 @@ import { ConstructorElement, Button, CurrencyIcon } from "@ya.praktikum/react-de
 import Modal from "../Modal/Modal.jsx";
 import OrderDetails from "../OrderDetails/OrderDetails.jsx";
 import { useSelector, useDispatch } from 'react-redux';
-import { setIngredient, removeIngredient, replaceIngredient } from '../../services/actions/currentBurger';
+import { setIngredient, removeIngredient, replaceIngredient, clearConstructor } from '../../services/actions/currentBurger';
 import { v4 as uuidv4 } from 'uuid';
 import FillingItem from "../FillingItem/FillingItem.jsx";
 
@@ -50,7 +50,8 @@ function BurgerConstructor(props) {
 
   function handleOrder() {
     let arr = currentBurger.concat(currentBurger[0]).map((item => item._id));
-    openOrderModal(arr)
+    openOrderModal(arr);
+    dispatch(clearConstructor())
   }
 
   return (
@@ -68,6 +69,10 @@ function BurgerConstructor(props) {
           }
         </li>
         <div className={styles.scroll} >
+        {currentBurger[1] === undefined && 
+          <p className={styles.text}>
+            Перетащите ингредиенты сюда
+          </p>}
         {typeof(ingredients) !== 'undefined' && (ingredients) !== null && currentBurger.slice(1).map((item, index) => (
           <FillingItem 
             item={item} 
@@ -96,9 +101,10 @@ function BurgerConstructor(props) {
           </p>
         }
         <CurrencyIcon type="primary" />
-        <Button htmlType="button" type="primary" size="medium" onClick={handleOrder}>
+        {currentBurger[1] !== undefined && 
+        <Button htmlType="button" type="primary" size="medium" onClick={handleOrder}> 
           Оформить заказ
-        </Button>
+        </Button>}
       </div>
       <Modal
         isOpen={isOpen}

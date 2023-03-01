@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "./ingredientDetails.module.css";
 import { useSelector } from 'react-redux';
-import { connect } from 'react-redux';
-import { setCurrentIngredient } from '../../services/actions/currentIngredient';
 
 function IngredientDetails() {
   const { name, image_large, calories, carbohydrates, fat, proteins } =
@@ -56,16 +54,4 @@ function IngredientDetails() {
   );
 }
 
-const mapStateToProps = (store, ownProps) => {
-  return { 
-    currentItem: store.currentItem
-    };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    setCurrentIngredient: () => dispatch(setCurrentIngredient),
-  };
-}; 
-
-export default connect(mapDispatchToProps, mapStateToProps) (IngredientDetails);
+export default IngredientDetails;

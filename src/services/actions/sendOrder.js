@@ -3,7 +3,8 @@ import { api } from '../../utils/Api';
 import {
   SEND_ORDER,
   SEND_ORDER_FAILED,
-  SEND_ORDER_SUCCESS
+  SEND_ORDER_SUCCESS,
+  REMOVE_ORDER
 } from "../../utils/constants";
 
 export function sendNewOrder1(data) {
@@ -28,5 +29,11 @@ export function sendNewOrder1(data) {
         type: SEND_ORDER_FAILED
       })
     })
+  }
+}
+
+export function removeOrder() {
+  return {
+    type: REMOVE_ORDER
   }
 } 

@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from "./burgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -141,19 +140,7 @@ function BurgerIngredients(props) {
   );
 }  
 
-const mapStateToProps = (store, ownProps) => {
-  return { 
-    ingredients: store.ingredients
-  };
-};
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    ingredients: () => dispatch(getIngredients()),
-  };
-}; 
-
-export default connect(mapDispatchToProps, mapStateToProps) (BurgerIngredients);
+export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
   handleIngredientClick: PropTypes.func.isRequired,
