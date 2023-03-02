@@ -15,7 +15,22 @@
   padding-top: 60px;
 }
 
+.orderDetails__text-error:first-child {
+  padding-top: 150px;
+}
+
+.text_loading {
+  padding-top: 40px;
+  padding-bottom: 80px;
+}
+
 .orderDetails__image {
   outline: 5px solid #1C1C21;
   outline-offset: -3px;
+}
+
+.pic svg {
+  width: 38px; 
+  height: 38px;
+  padding-top: 50px;
 }

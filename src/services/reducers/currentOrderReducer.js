@@ -9,7 +9,7 @@ const initialState = {
   sendOrderRequest: false,
   sendOrderFailed: false,
   sendOrder: {},
-  sendOrderNumber: 0
+  sendOrderNumber: null
 }
 
 export const currentOrderReducer = (state = initialState, action) => {
@@ -37,7 +37,7 @@ export const currentOrderReducer = (state = initialState, action) => {
       };
     }
     case REMOVE_ORDER: {
-      return state
+      return initialState
     }
     default: {
       return state

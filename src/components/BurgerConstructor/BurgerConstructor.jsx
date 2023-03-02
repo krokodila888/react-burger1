@@ -69,7 +69,7 @@ function BurgerConstructor(props) {
           }
         </li>
         <div className={styles.scroll} >
-        {currentBurger[1] === undefined && 
+        {typeof(ingredients) !== 'undefined' && currentBurger[1] === undefined && 
           <p className={styles.text}>
             Перетащите ингредиенты сюда
           </p>}
@@ -96,11 +96,13 @@ function BurgerConstructor(props) {
       </ul>
       <div className={styles.sum}>
         {typeof(ingredients) !== 'undefined' && (ingredients) !== null && 
+        <>
           <p className="text text_type_digits-medium">
             {(currentBurger[0].price) + (currentBurger.reduce((a, item) => a + item.price, 0))}
           </p>
+          <CurrencyIcon type="primary" />
+        </>
         }
-        <CurrencyIcon type="primary" />
         {currentBurger[1] !== undefined && 
         <Button htmlType="button" type="primary" size="medium" onClick={handleOrder}> 
           Оформить заказ
