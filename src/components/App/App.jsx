@@ -15,7 +15,7 @@ import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
 import IngredientPage from '../../pages/IngredientPage/IngredientPage';
 import { removeOrder } from '../../services/actions/sendOrder';
-import { getUserData, getNewToken, removeTokenRequest } from '../../services/actions/auth';
+import { getUserData, getNewToken, removeTokenRequest, removeUserData } from '../../services/actions/auth';
 import { removeOnClick } from '../../services/actions/location';
 import AppHeader from '../../components/AppHeader/AppHeader.jsx';
 import ProtectedRoute from '../ProtectedRoute';
@@ -45,8 +45,13 @@ function App() {
     if (refreshToken.success) {
       localStorage.setItem('accessToken', refreshToken.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', refreshToken.refreshToken);
-      dispatch(getUserData())}
-      removeTokenRequest();
+      dispatch(getUserData())
+    }
+    else {
+      localStorage.clear();
+      removeUserData()
+    }
+    removeTokenRequest();
   }, [refreshToken]);
 
   useEffect(() => {
@@ -85,22 +90,22 @@ function App() {
               openOrderModal = {openOrderModal}/>} />
           <Route exact path="/profile" element={
             <ProtectedRoute 
-            loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
-            url={'/login'}>
+              loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
+              url={'/login'}>
               <ProfilePage />
             </ProtectedRoute>}>      
           </Route>
           <Route exact path="/login" element={
             <ProtectedRoute 
-            loggedIn={user === null}
-            url={`${locations[2]}`}>
+              loggedIn={user === null || localStorage.getItem('accessToken') === null}
+              url={`${locations[2]}`}>
               <LoginPage />
             </ProtectedRoute>}>      
           </Route>
           <Route exact path="/register" element={
             <ProtectedRoute 
-            loggedIn={user === null}
-            url={'/'}>
+              loggedIn={user === null}
+              url={'/'}>
               <RegisterPage />
             </ProtectedRoute>}>      
           </Route>

@@ -18,12 +18,12 @@ function IngredientPage() {
       currentItem = ingredients.find((item) => item._id === ingredientId.ingredientID.replace(':', ''));
       setIngredient1(currentItem);
     }},
-    [ingredients, ingredientId]
+    [ingredients]
   );
 
   React.useEffect(()=> {
     dispatch(getIngredients());
-    }, [ingredients])
+    }, [ingredientId])
 
   useEffect(
     () => {

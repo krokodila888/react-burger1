@@ -24,10 +24,10 @@ function LoginPage() {
 
   useEffect(() => {
     if (sendLogin.success) {
-      navigate(-1);
       localStorage.setItem('accessToken', sendLogin.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', sendLogin.refreshToken);
       dispatch(getUserData());
+      navigate(-1);
  } }, [sendLogin]);
 
   return (

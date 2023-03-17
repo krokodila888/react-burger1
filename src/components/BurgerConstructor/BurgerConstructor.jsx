@@ -58,11 +58,13 @@ function BurgerConstructor(props) {
 
   function handleOrder() {
     let arr = currentBurger.concat(currentBurger[0]).map((item => item._id));
-    if (user === null && localStorage.getItem('accessToken') === null) {
+    if (user === null || localStorage.getItem('accessToken') === null) {
       navigate('/login')
     } else {
       openOrderModal(arr);
-      dispatch(clearConstructor())}
+      dispatch(clearConstructor());
+    console.log(localStorage);
+  console.log(user)}
   }
 
   return (
