@@ -21,8 +21,9 @@ function BurgerIngredients(props) {
   const [heightScroll, setHeightScroll] = React.useState(0);
   
   function getPosition() {
+    if (fillingsBlock.current) {
     let currentHeightScroll = fillingsBlock.current.scrollTop;
-    setHeightScroll(currentHeightScroll);
+    setHeightScroll(currentHeightScroll);}
   };
 
   function setPosition() {
@@ -51,19 +52,19 @@ function BurgerIngredients(props) {
     handleIngredientClick(data);
   }
 
-  function onBunsClick() {
-    bunsScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
-    setCurrent('bunsScroll');
+  function onBunsClick() {if (typeof(ingredients) !== 'undefined')
+    {bunsScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
+    setCurrent('bunsScroll');}
   };
   
-  function onFillingClick() {
-    fillingScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
-    setCurrent('fillingScroll');
+  function onFillingClick() { if (typeof(ingredients) !== 'undefined')
+    {fillingScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
+    setCurrent('fillingScroll');}
   };
 
-  function onSauceClick() {
-    sauceScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
-    setCurrent('sauceScroll');
+  function onSauceClick() {if (typeof(ingredients) !== 'undefined')
+    {sauceScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
+    setCurrent('sauceScroll');}
   };
   
   return (
@@ -129,14 +130,7 @@ function BurgerIngredients(props) {
           ))}
         </ul>
       </div>)}
-      {currentItem && <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-          children={
-          <IngredientDetails
-          />}>
-      </Modal>}
-      <div id="react-modals"></div>
+
     </section>
   );
 }  
@@ -144,7 +138,17 @@ function BurgerIngredients(props) {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  handleIngredientClick: PropTypes.func.isRequired,
+  //handleIngredientClick: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 };
+
+/*
+      {currentItem && <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+          children={
+          <IngredientDetails
+          />}>
+      </Modal>}
+      <div id="react-modals"></div>*/

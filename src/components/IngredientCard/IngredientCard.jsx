@@ -1,15 +1,18 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import './IngredientCard.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropTypes} from "../../utils/constants";
 import { setCurrentIngredient } from '../../services/actions/currentIngredient';
+import { setOnClick } from '../../services/actions/location';
 
 function IngredientCard(props) {
   const {ingredient, onIngredientClick } = props;
   const { currentBurger } = useSelector(state => state.currentBurgerReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const itemId = ingredient._id;
 
   const [, dragRef] = useDrag({
@@ -19,7 +22,8 @@ function IngredientCard(props) {
 
   function handleClick(ingredient) {
     dispatch(setCurrentIngredient(ingredient));
-    onIngredientClick(ingredient);
+    dispatch(setOnClick(ingredient));
+    navigate(`/ingredients/:${ingredient._id}`)
   }
 
   function count() {
@@ -49,6 +53,5 @@ function IngredientCard(props) {
 export default IngredientCard;
 
 IngredientCard.propTypes = {
-  ingredient: ingredientPropTypes.isRequired,
-  onIngredientClick: PropTypes.func.isRequired,
+  ingredient: ingredientPropTypes.isRequired
 };

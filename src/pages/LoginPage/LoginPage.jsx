@@ -24,19 +24,11 @@ function LoginPage() {
 
   useEffect(() => {
     if (sendLogin.success) {
-      /*console.log(sendLogin);
-      console.log(localStorage);
-      console.log(sendLogin.accessToken);
-      console.log(sendLogin.refreshToken);*/
+      navigate(-1);
       localStorage.setItem('accessToken', sendLogin.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', sendLogin.refreshToken);
       dispatch(getUserData());
-      navigate("/")};
-    }, [sendLogin]);
-
-  useEffect(() => {
-    console.log(localStorage.getItem('accessToken'))
-  }, [sendLogin]);
+ } }, [sendLogin]);
 
   return (
       <div className={styles.container}>

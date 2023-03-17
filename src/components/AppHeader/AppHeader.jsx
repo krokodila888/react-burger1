@@ -1,9 +1,21 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import "./AppHeader.css";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLocation } from '../../services/actions/location';
 
 function AppHeader() {
+  let location = useLocation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setLocation(location.pathname))
+  }, [location]);
+
+  React.useEffect(() => {
+    console.log(location.state)
+  }, [location]);
 
   return (
     <header className='appHeader__header'>

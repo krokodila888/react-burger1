@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, useLocation, Route, useNavigate } from 'react-router-dom';
+import { Navigate, useHistory, useParams } from "react-router";
 import styles from "./app.module.css";
 import Preloader from '../Preloader/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,8 +16,11 @@ import ProfilePage from '../../pages/ProfilePage/ProfilePage';
 import IngredientPage from '../../pages/IngredientPage/IngredientPage';
 import { removeOrder } from '../../services/actions/sendOrder';
 import { getUserData, getNewToken, removeTokenRequest } from '../../services/actions/auth';
+import { removeOnClick } from '../../services/actions/location';
 import AppHeader from '../../components/AppHeader/AppHeader.jsx';
 import ProtectedRoute from '../ProtectedRoute';
+import Modal from "../Modal/Modal.jsx";
+import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
 
 function App() {
 
@@ -24,6 +28,7 @@ function App() {
   const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
   const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
   const { emailSend } = useSelector(state => state.resetPasswordReducer);
+  const { locations, onClick, itemData } = useSelector(state => state.locationReducer);
   const [isUserLoaded, setIsUserLoaded] = useState(false);
   const dispatch = useDispatch();
 
@@ -54,28 +59,22 @@ function App() {
     } else {setIsUserLoaded(false)}
   }, [user]);
 
-  useEffect(() => {
-    console.log(user);
-    console.log(isUserLoaded);
-    console.log(localStorage.getItem('accessToken'));
-    console.log(localStorage)
-  }, []);
-
   function openOrderModal(data) {
     dispatch(sendNewOrder1(data));
     setOrderModalIsOpen(true)
   }
 
-  function handleIngredientClick(data) {
+  /*function handleIngredientClick(data) {
     if (data) return (
       setIngredientModalIsOpen(true));
-  }
+  }*/
 
   function closeModal() {
     setOrderModalIsOpen(false);
     setIngredientModalIsOpen(false);
     dispatch(removeCurrentIngredient());
     dispatch(removeOrder());
+    dispatch(removeOnClick())
   }
 
   return (
@@ -89,7 +88,7 @@ function App() {
               ingredientModalIsOpen = {ingredientModalIsOpen}
               onClose = {closeModal}
               openOrderModal = {openOrderModal}
-              handleIngredientClick = {handleIngredientClick}/>} />
+              /*handleIngredientClick = {handleIngredientClick}*//>} />
           <Route exact path="/profile" element={
             <ProtectedRoute 
             loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
@@ -100,7 +99,7 @@ function App() {
           <Route exact path="/login" element={
             <ProtectedRoute 
             loggedIn={user === null}
-            url={'/'}>
+            url={`${locations[2]}`}>
               <LoginPage />
             </ProtectedRoute>}>      
           </Route>
@@ -111,6 +110,18 @@ function App() {
               <RegisterPage />
             </ProtectedRoute>}>      
           </Route>
+          {onClick && (
+            <Route
+              path='/ingredients/:ingredientId'
+              element={
+                <Modal 
+                  isOpen={onClick}
+                  onClose={closeModal}>
+                    <IngredientDetails />
+                </Modal>
+              }
+            />
+          )}
           <Route exact path="/forgot-password" element={
             <ProtectedRoute 
             loggedIn={user === null}
@@ -126,9 +137,10 @@ function App() {
             </ProtectedRoute>}>      
           </Route>*/
           <Route path="*" element={<PageNotFound />} />
-          <Route path="/ingredients/:ingredientID" element={<IngredientPage />} />
+          {!onClick && <Route path="/ingredients/:ingredientID" element={<IngredientPage />} />}
         </Routes>
       </BrowserRouter>
+      <div id="react-modals"></div>
     </div>
   );
 }
@@ -172,3 +184,23 @@ export default App;
               <ResetPasswordPage />
             </ProtectedRoute>}>      
           </Route>*/
+
+          /*      {background && (
+        <Route
+          path='/ingredients/:ingredientId'
+          element={
+            <Modal onClose={onClose}>
+              <IngredientsDetails />
+            </Modal>
+          }
+        />
+      )}
+      
+      
+            {currentItem && <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+          children={
+          <IngredientDetails
+          />}>
+      </Modal>}*/

@@ -5,6 +5,7 @@ import { currentIngredientReducer } from "./currentIngredientReducer";
 import { currentOrderReducer } from "./currentOrderReducer";
 import { resetPasswordReducer } from "./resetPasswordReducer";
 import { authReducer } from "./authReducer";
+import {locationReducer} from './locationReducer';
 
 export const rootReducer = combineReducers({
   ingredientsReducer,
@@ -12,5 +13,6 @@ export const rootReducer = combineReducers({
   currentIngredientReducer,
   currentOrderReducer,
   resetPasswordReducer,
-  authReducer
+  authReducer,
+  locationReducer
 }) 
