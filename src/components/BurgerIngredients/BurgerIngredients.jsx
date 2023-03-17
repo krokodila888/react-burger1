@@ -45,7 +45,7 @@ function BurgerIngredients(props) {
 
   React.useEffect(()=> {
     dispatch(getIngredients());
-    console.log(ingredients);
+    console.log(localStorage);
   }, [])
 
   function handleClick(data) {

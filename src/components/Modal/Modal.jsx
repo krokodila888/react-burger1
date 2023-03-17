@@ -15,6 +15,7 @@ function Modal(props) {
   const overlay = React.useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { onClick } = useSelector(state => state.locationReducer);
 
   React.useEffect(() => {
     const closeByClick = (event) => {
@@ -33,8 +34,9 @@ function Modal(props) {
 
   function handleClose() {
     onClose();
-    dispatch(removeOnClick())
-    navigate(-1)
+    dispatch(removeOnClick());
+    if (onClick) {navigate(-1)}
+    else navigate('/')
   }
 
   React.useEffect(() => {

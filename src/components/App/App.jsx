@@ -64,11 +64,6 @@ function App() {
     setOrderModalIsOpen(true)
   }
 
-  /*function handleIngredientClick(data) {
-    if (data) return (
-      setIngredientModalIsOpen(true));
-  }*/
-
   function closeModal() {
     setOrderModalIsOpen(false);
     setIngredientModalIsOpen(false);
@@ -87,8 +82,7 @@ function App() {
               orderModalIsOpen = {orderModalIsOpen}
               ingredientModalIsOpen = {ingredientModalIsOpen}
               onClose = {closeModal}
-              openOrderModal = {openOrderModal}
-              /*handleIngredientClick = {handleIngredientClick}*//>} />
+              openOrderModal = {openOrderModal}/>} />
           <Route exact path="/profile" element={
             <ProtectedRoute 
             loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
@@ -146,61 +140,3 @@ function App() {
 }
 
 export default App;
-
-/*
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          
-          
-          <Route exact path="/login" element={
-            <ProtectedRoute 
-            loggedIn={!isUserLoaded}
-            url={'/'}>
-              <LoginPage />
-            </ProtectedRoute>}>      
-          </Route>
-          <Route exact path="/register" element={
-            <ProtectedRoute 
-            loggedIn={!isUserLoaded}
-            url={'/'}>
-              <RegisterPage />
-            </ProtectedRoute>}>      
-          </Route>
-                    <Route exact path="/forgot-password" element={
-            <ProtectedRoute 
-            loggedIn={!isUserLoaded}
-            url={'/'}>
-              <ForgotPasswordPage />
-            </ProtectedRoute>}>      
-          </Route>
-          <Route exact path="/reset-password" element={
-            <ProtectedRoute 
-            loggedIn={user === null && emailSend}
-            url={'forgot-password'}>
-              <ResetPasswordPage />
-            </ProtectedRoute>}>      
-          </Route>*/
-
-          /*      {background && (
-        <Route
-          path='/ingredients/:ingredientId'
-          element={
-            <Modal onClose={onClose}>
-              <IngredientsDetails />
-            </Modal>
-          }
-        />
-      )}
-      
-      
-            {currentItem && <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-          children={
-          <IngredientDetails
-          />}>
-      </Modal>}*/
