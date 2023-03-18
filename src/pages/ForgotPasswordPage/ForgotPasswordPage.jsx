@@ -25,7 +25,6 @@ function ForgotPasswordPage() {
   }, [sendEmailRes]);
 
   function handleSubmit() {
-    console.log(formEmail);
     dispatch(sendEmailToResetPassword(formEmail))
   }
 
