@@ -36,7 +36,6 @@ function App() {
 
   useEffect(() => {
     dispatch(getUserData());
-    console.log(user, localStorage)
   }, []);
 
   React.useEffect(()=> {
@@ -54,16 +53,7 @@ function App() {
       localStorage.setItem('refreshToken', refreshToken.refreshToken);
       dispatch(getUserData())
     }
-    /*else {
-      //localStorage.clear();
-      //removeUserData()
-    }*/
-    //removeTokenRequest();
   }, [refreshToken]);
-
-  useEffect(() => {
-    console.log(user)
-  }, []);
 
   useEffect(() => {
     if (user !== null && localStorage.getItem('accessToken') !== null) {
