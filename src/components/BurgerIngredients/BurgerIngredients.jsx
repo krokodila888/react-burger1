@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import styles from "./burgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from '../IngredientCard/IngredientCard.jsx';
-//import Modal from "../Modal/Modal.jsx";
-//import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
 import { useSelector, useDispatch } from 'react-redux';
-//import { getIngredients } from '../../services/actions/ingredients';
 
 function BurgerIngredients(props) {
   const bunsScroll = React.useRef();
@@ -26,11 +23,6 @@ function BurgerIngredients(props) {
     let currentHeightScroll = fillingsBlock.current.scrollTop;
     setHeightScroll(currentHeightScroll);}
   };
-
-  React.useEffect(()=> {
-    console.log(localStorage);
-    console.log(user);
-  }, [])
 
   function setPosition() {
     if (heightScroll < 130)
