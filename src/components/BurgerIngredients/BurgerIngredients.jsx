@@ -3,28 +3,34 @@ import PropTypes from 'prop-types';
 import styles from "./burgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from '../IngredientCard/IngredientCard.jsx';
-import Modal from "../Modal/Modal.jsx";
-import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
+//import Modal from "../Modal/Modal.jsx";
+//import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
 import { useSelector, useDispatch } from 'react-redux';
-import { getIngredients } from '../../services/actions/ingredients';
+//import { getIngredients } from '../../services/actions/ingredients';
 
 function BurgerIngredients(props) {
   const bunsScroll = React.useRef();
   const fillingScroll = React.useRef();
   const sauceScroll = React.useRef();  
   const fillingsBlock = React.useRef();
-  const { isOpen, onClose, handleIngredientClick } = props;
+  const { handleIngredientClick } = props;
   const [current, setCurrent] = React.useState('bunsScroll');
-  const dispatch = useDispatch();
+  const { user } = useSelector(state => state.authReducer);
   const { ingredients, ingredientsRequest } = useSelector(state => state.ingredientsReducer);
-  const { currentItem } = useSelector(state => state.currentIngredientReducer);
+  //const { currentItem } = useSelector(state => state.currentIngredientReducer);
   const [heightScroll, setHeightScroll] = React.useState(0);
+  const dispatch = useDispatch();
   
   function getPosition() {
     if (fillingsBlock.current) {
     let currentHeightScroll = fillingsBlock.current.scrollTop;
     setHeightScroll(currentHeightScroll);}
   };
+
+  React.useEffect(()=> {
+    console.log(localStorage);
+    console.log(user);
+  }, [])
 
   function setPosition() {
     if (heightScroll < 130)
@@ -42,11 +48,6 @@ function BurgerIngredients(props) {
   React.useEffect(() => {
     setPosition();
   }, [heightScroll]);
-
-  React.useEffect(()=> {
-    dispatch(getIngredients());
-    console.log(localStorage);
-  }, [])
 
   function handleClick(data) {
     handleIngredientClick(data);
@@ -138,17 +139,5 @@ function BurgerIngredients(props) {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-  //handleIngredientClick: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired
 };
-
-/*
-      {currentItem && <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-          children={
-          <IngredientDetails
-          />}>
-      </Modal>}
-      <div id="react-modals"></div>*/

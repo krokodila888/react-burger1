@@ -25,7 +25,8 @@ export class Api {
     this._newOrder = fetch(`${this._bazeUrl}/orders`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + `${localStorage.getItem('accessToken')}`
     },
       body: JSON.stringify({ 
         "ingredients": data
@@ -63,13 +64,6 @@ export class Api {
         })
     })
     .then(this._handleResult)
-  /*  .then((data) => {
-      console.log(data);
-      localStorage.setItem('accessToken', data.accessToken.replace('Bearer ', ''));
-      localStorage.setItem('refreshToken', data.refreshToken);
-    })*/
-    //localStorage.setItem('accessToken', data.accessToken.replace('Bearer ', ''));
-    //localStorage.setItem('refreshToken', data.refreshToken);
   }
 
   getUserRequest() {
@@ -96,7 +90,7 @@ export class Api {
     .then(this._handleResult)
   }
 
-  refreshToken() {
+  refreshToken(data) {
     return fetch(`${bazeUrl}/auth/token`, {
       method: 'POST',
       headers: {
@@ -104,8 +98,7 @@ export class Api {
         Authorization: 'Bearer ' + `${localStorage.getItem('accessToken')}`*/
       },
       //credentials: 'include',
-      body: JSON.stringify({"token": `${localStorage.getItem('refreshToken')}`
-    })
+      body: JSON.stringify({"token": data/*`${localStorage.getItem('refreshToken')}`*/})
     })
     .then(this._handleResult)
   }
@@ -146,22 +139,6 @@ export class Api {
 //      credentials: 'include'
     })
   }
-
-
-  /*export const loginRequest = async form => {
-    return await fetch('https://cosmic.nomoreparties.space/login', {
-      method: 'POST',
-      mode: 'cors',
-      cache: 'no-cache',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form),
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer'
-    });
-  };*/
 }
   
 export const api = new Api(bazeUrl);

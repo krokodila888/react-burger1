@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
+import React, { useCallback, useState, useEffect } from 'react';
+import { Link, Navigate, useNavigate, NavLink } from 'react-router-dom';
 import { Input, Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './profilePage.module.css';
+import styles from './profileOrdersPage.module.css';
 import { getUserData, getNewToken, removeTokenRequest, updateUserData, removeUserData, removeLogOutData, logOut, removeLogin, removeRegister } from '../../services/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 
-function ProfilePage() {
+function ProfileOrderPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
@@ -59,11 +59,11 @@ function ProfilePage() {
   return (
       <div className={styles.container}>
         <div className={styles.column}>
-          <NavLink to="/profile" className={({ isActive }) => 
+          <NavLink to="/profile" end={true} className={({ isActive }) => 
             (isActive ? styles.active : "text_type_main-medium text_color_inactive")} >
             Профиль
           </NavLink>
-          <NavLink to="/profile/orders" className={({ isActive }) => 
+          <NavLink to="/profile/orders" end={true} className={({ isActive }) => 
             (isActive ? styles.active : "text_type_main-medium text_color_inactive")}>
             История заказов
           </NavLink>
@@ -72,37 +72,8 @@ function ProfilePage() {
             Выход
           </NavLink>
         </div>
-        <form className={styles.form} onSubmit={handleCancel}>
-          <Input 
-            placeholder="Имя" 
-            value={form.name} 
-            name="name" 
-            onChange={onChange}
-            icon={'EditIcon'} />
-          <EmailInput 
-            placeholder="E-mail" 
-            value={form.email} 
-            name="email" 
-            onChange={onChange}
-            icon={'EditIcon'} />
-          <PasswordInput 
-            placeholder="Пароль"
-            value={form.password}
-            name="password"
-            onChange={onChange}
-            icon={'EditIcon'} />
-          {(user !== null && (form.email !== user.email || form.name !== user.name || form.password !== '')) ? 
-            (<>
-            <Button htmlType="button" type="primary" size="medium" onClick={handleUpdateUser}> 
-              Сохранить
-            </Button>
-            <Button htmlType="button" type="primary" size="medium" > 
-              Отмена
-            </Button>
-        </>) : (<></>)}
-        </form>
       </div>
   );
 }
 
-export default ProfilePage;
+export default ProfileOrderPage;

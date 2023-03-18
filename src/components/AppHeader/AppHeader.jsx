@@ -19,17 +19,17 @@ function AppHeader() {
         <div className='appHeader__left-links'>
           <NavLink to="/" className={({ isActive }) => 
             (isActive ? 'appHeader__link appHeader__active-link text text_type_main-default pl-5 pr-5 pb-5 pt-5' : "appHeader__link text text_type_main-default text_color_inactive pl-5 pr-5 pb-5 pt-5")} >
-            <BurgerIcon/>Конструктор
+            <BurgerIcon type="secondary"/>Конструктор
           </NavLink>
           <NavLink to="/orders" className={({ isActive }) => 
             (isActive ? 'appHeader__link appHeader__active-link text text_type_main-default pl-5 pr-5 pb-5 pt-5' : "appHeader__link text text_type_main-default text_color_inactive pl-5 pr-5 pb-5 pt-5")} >
-            <ListIcon/>Лента заказов
+            <ListIcon type="secondary"/>Лента заказов
           </NavLink>
         </div>
           <Logo/>
           <NavLink to="/profile" className={({ isActive }) => 
             (isActive ? 'appHeader__link appHeader__active-link text text_type_main-default pl-5 pr-5 pb-5 pt-5 appHeader__padding-to-right' : "appHeader__link text text_type_main-default text_color_inactive pl-5 pr-5 pb-5 pt-5 appHeader__padding-to-right")} >
-            <ProfileIcon/>Личный кабинет
+            <ProfileIcon type="secondary"/>Личный кабинет
           </NavLink>
       </nav>
     </header>

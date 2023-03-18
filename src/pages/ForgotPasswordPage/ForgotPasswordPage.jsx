@@ -33,7 +33,7 @@ function ForgotPasswordPage() {
     <div className={styles.container}>
       {((sendEmailRes !== {}) && !sendEmailRequest && !sendEmailFailed) ? (
         <>
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleSubmit}>
             <h1 className="text text_type_main-medium">Восстановление пароля</h1>
             <EmailInput 
               placeholder="Укажите e-mail" 

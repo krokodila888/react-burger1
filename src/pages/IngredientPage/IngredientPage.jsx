@@ -21,10 +21,6 @@ function IngredientPage() {
     [ingredients]
   );
 
-  React.useEffect(()=> {
-    dispatch(getIngredients());
-    }, [ingredientId])
-
   useEffect(
     () => {
       loadIngredientInfo();

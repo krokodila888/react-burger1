@@ -181,7 +181,7 @@ export function getNewToken() {
     dispatch({
       type: SEND_REFRESH_TOKEN_REQUEST
     })
-    api.refreshToken().then( res  => {
+    api.refreshToken(localStorage.getItem('refreshToken')).then( res  => {
       if (res && res.success) {
         dispatch({
           type: SEND_REFRESH_TOKEN_REQUEST_SUCCESS,

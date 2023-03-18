@@ -36,9 +36,8 @@ function RegisterPage() {
 
   return (
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleRegister}>
           <h1 className="text text_type_main-medium">Регистрация</h1>
-
           <Input 
             placeholder="Имя" 
             value={form.name} 
@@ -58,7 +57,7 @@ function RegisterPage() {
           <Button 
             htmlType="button" 
             type="primary" 
-            size="large"
+            size="large" 
             onClick={handleRegister}>
             Зарегистрироваться
           </Button>

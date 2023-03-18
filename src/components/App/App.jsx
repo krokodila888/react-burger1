@@ -13,6 +13,7 @@ import RegisterPage from '../../pages/RegisterPage/RegisterPage';
 import ForgotPasswordPage from '../../pages/ForgotPasswordPage/ForgotPasswordPage';
 import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
+import ProfileOrdersPage from '../../pages/ProfileOrdersPage/ProfileOrdersPage';
 import IngredientPage from '../../pages/IngredientPage/IngredientPage';
 import { removeOrder } from '../../services/actions/sendOrder';
 import { getUserData, getNewToken, removeTokenRequest, removeUserData } from '../../services/actions/auth';
@@ -21,11 +22,12 @@ import AppHeader from '../../components/AppHeader/AppHeader.jsx';
 import ProtectedRoute from '../ProtectedRoute';
 import Modal from "../Modal/Modal.jsx";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
+import { getIngredients } from '../../services/actions/ingredients';
 
 function App() {
 
   const [orderModalIsOpen, setOrderModalIsOpen] = React.useState(false);
-  const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
+  //const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
   const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
   const { emailSend } = useSelector(state => state.resetPasswordReducer);
   const { locations, onClick, itemData } = useSelector(state => state.locationReducer);
@@ -34,7 +36,12 @@ function App() {
 
   useEffect(() => {
     dispatch(getUserData());
+    console.log(user, localStorage)
   }, []);
+
+  React.useEffect(()=> {
+    dispatch(getIngredients());
+  }, [])
 
   useEffect(() => {
     if (getUserDataRequestFailed)
@@ -47,11 +54,11 @@ function App() {
       localStorage.setItem('refreshToken', refreshToken.refreshToken);
       dispatch(getUserData())
     }
-    else {
-      localStorage.clear();
-      removeUserData()
-    }
-    removeTokenRequest();
+    /*else {
+      //localStorage.clear();
+      //removeUserData()
+    }*/
+    //removeTokenRequest();
   }, [refreshToken]);
 
   useEffect(() => {
@@ -71,7 +78,6 @@ function App() {
 
   function closeModal() {
     setOrderModalIsOpen(false);
-    setIngredientModalIsOpen(false);
     dispatch(removeCurrentIngredient());
     dispatch(removeOrder());
     dispatch(removeOnClick())
@@ -85,7 +91,6 @@ function App() {
           <Route path="/" element={
             <Main 
               orderModalIsOpen = {orderModalIsOpen}
-              ingredientModalIsOpen = {ingredientModalIsOpen}
               onClose = {closeModal}
               openOrderModal = {openOrderModal}/>} />
           <Route exact path="/profile" element={
@@ -95,10 +100,17 @@ function App() {
               <ProfilePage />
             </ProtectedRoute>}>      
           </Route>
+          <Route exact path="/profile/orders" element={
+            <ProtectedRoute 
+              loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
+              url={'/login'}>
+              <ProfileOrdersPage />
+            </ProtectedRoute>}>      
+          </Route>
           <Route exact path="/login" element={
             <ProtectedRoute 
-              loggedIn={user === null || localStorage.getItem('accessToken') === null}
-              url={`${locations[2]}`}>
+              loggedIn={user === null}
+              url={`/`}>
               <LoginPage />
             </ProtectedRoute>}>      
           </Route>

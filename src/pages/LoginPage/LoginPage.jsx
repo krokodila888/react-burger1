@@ -18,7 +18,6 @@ function LoginPage() {
   };
 
   function handleLogin() {
-    console.log(form);
     dispatch(login(form));
   }
 
@@ -32,7 +31,7 @@ function LoginPage() {
 
   return (
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleLogin}>
           <h1 className="text text_type_main-medium">Вход</h1>
           <EmailInput 
             placeholder="E-mail" 
