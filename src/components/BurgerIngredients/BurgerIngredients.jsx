@@ -2,8 +2,12 @@ import React from "react";
 import PropTypes from 'prop-types';
 import styles from "./burgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import IngredientCard from '../IngredientCard/IngredientCard.jsx';
+import IngredientCard from '../IngredientCard/IngredientCard';
 import { useSelector, useDispatch } from 'react-redux';
+
+/*interface IBurgerIngredientsProps {
+  handleIngredientClick: FC
+}*/
 
 function BurgerIngredients(props) {
   const bunsScroll = React.useRef();
@@ -35,6 +39,7 @@ function BurgerIngredients(props) {
 
   React.useEffect(() => {
     getPosition();
+    console.log(ingredients);
   }, []);
 
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import { bazeUrl } from './constants.js';
+import { bazeUrl } from './constants';
 
 export class Api {
   constructor(bazeUrl) {
