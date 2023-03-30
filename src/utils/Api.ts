@@ -1,11 +1,33 @@
-import { bazeUrl } from './constants.js';
+import { bazeUrl } from './constants';
+
+type TRegister = {
+  password: string;
+  email: string; 
+  name: string;
+}
+
+type TLogin = {
+  email: string;
+  password: string;
+}
+
+type TRequestToResetPassword = {
+  email: string;
+}
+
+type TResetPassword = {
+  password: string;
+  token: string
+}
 
 export class Api {
-  constructor(bazeUrl) {
-    this._bazeUrl = bazeUrl;
+  private _bazeUrl: string;
+
+  constructor(baseUrl: string) {
+    this._bazeUrl = baseUrl;
   }
 
-  _handleResult(res) {
+  _handleResult(res: Response) {
     if (res.ok) {
         return res.json();
     } else {
@@ -21,8 +43,8 @@ export class Api {
       }).then(this._handleResult);
   } 
 
-  sendOrder(data) {
-    this._newOrder = fetch(`${this._bazeUrl}/orders`, {
+  sendOrder(data: string[]) {
+    return fetch(`${this._bazeUrl}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,17 +54,15 @@ export class Api {
         "ingredients": data
     })
       })
-    .then(this._handleResult);
-    return this._newOrder;  
+    .then(this._handleResult); 
   }
 
-  signUp(data) {
+  signUp(data: TRegister) {
     return fetch(`${bazeUrl}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      //credentials: 'include',
       body: JSON.stringify({
         'password': data.password,
         'email': data.email,
@@ -51,13 +71,12 @@ export class Api {
     .then(this._handleResult)
   }
 
-  signIn(data) {
+  signIn(data: TLogin) {
     return fetch(`${bazeUrl}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      //credentials: 'include',
       body: JSON.stringify({
         'email': data.email,
         'password': data.password
@@ -77,39 +96,35 @@ export class Api {
     .then(this._handleResult)
   }
 
-  updateUser(data) {
+  updateUser(data: string) {
     return fetch(`${bazeUrl}/auth/user`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + `${localStorage.getItem('accessToken')}`
       },
-      //credentials: 'include',
       body: JSON.stringify(data)
     })
     .then(this._handleResult)
   }
 
-  refreshToken(data) {
+  refreshToken(data: string) {
     return fetch(`${bazeUrl}/auth/token`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'/*,
-        Authorization: 'Bearer ' + `${localStorage.getItem('accessToken')}`*/
+        'Content-Type': 'application/json'
       },
-      //credentials: 'include',
-      body: JSON.stringify({"token": data/*`${localStorage.getItem('refreshToken')}`*/})
+      body: JSON.stringify({"token": data})
     })
     .then(this._handleResult)
   }
 
-  requestToResetPassword(data) {
+  requestToResetPassword(data: TRequestToResetPassword) {
     return fetch(`${bazeUrl}/password-reset`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      //credentials: 'include',
       body: JSON.stringify({
         'email': data.email 
       })
@@ -117,13 +132,12 @@ export class Api {
     .then(this._handleResult)
   }
 
-  resetPassword(data) {
+  resetPassword(data: TResetPassword) {
     return fetch(`${bazeUrl}/password-reset/reset`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      //credentials: 'include',
       body: JSON.stringify(data)
       })
       .then(this._handleResult)
@@ -136,7 +150,6 @@ export class Api {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({"token": localStorage.getItem('refreshToken')})
-//      credentials: 'include'
     })
   }
 }

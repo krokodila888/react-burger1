@@ -3,8 +3,7 @@ import styles from "./ingredientDetails.module.css";
 import { useSelector } from 'react-redux';
 
 function IngredientDetails() {
-  const { name, image_large, calories, carbohydrates, fat, proteins } =
-  useSelector((state) => state.currentIngredientReducer.currentItem);
+  const { name, image_large, calories, carbohydrates, fat, proteins } = useSelector((state: any) => state.currentIngredientReducer.currentItem);
 
   return (
     <div className={styles.test}>

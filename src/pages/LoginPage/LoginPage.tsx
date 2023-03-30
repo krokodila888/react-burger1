@@ -1,20 +1,29 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Button, PasswordInput, EmailInput, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { login, getUserData } from '../../services/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './loginPage.module.css';
 
-function LoginPage() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user } = useSelector(state => state.authReducer);
-  const [form, setValue] = useState({ email: '', password: '' });
-  const { sendLogin, sendLoginRequest, sendLoginFailed } = useSelector(state => state.authReducer);
+type TFormLogin = {
+  email: string;
+  password: string; 
+}
 
-  const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+function LoginPage() {
+  const dispatch = useDispatch() as any;
+  const navigate = useNavigate();
+  //const { user } = useSelector(state => state.authReducer);
+  const { user } = useSelector((state: any) => state.authReducer);
+  const [form, setValue] = useState<TFormLogin>({ email: '', password: '' });
+  //const { sendLogin, sendLoginRequest, sendLoginFailed } = useSelector(state => state.authReducer);
+  const { sendLogin, sendLoginRequest, sendLoginFailed } = useSelector((state: any) => state.authReducer);
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (e.target !== null)
+    setValue({ ...form, [name]: value });
   };
 
   function handleLogin() {

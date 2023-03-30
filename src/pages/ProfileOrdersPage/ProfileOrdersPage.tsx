@@ -1,17 +1,24 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
 import { Link, Navigate, useNavigate, NavLink } from 'react-router-dom';
 import { Input, Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './profileOrdersPage.module.css';
 import { getUserData, getNewToken, removeTokenRequest, updateUserData, removeUserData, removeLogOutData, logOut, removeLogin, removeRegister } from '../../services/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 
-function ProfileOrderPage() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
-  const [form, setValue] = useState({ name: '', email: '', password: '' });
+type TFormOrderProfile = {
+  name: string;
+  email: string;
+  password: string;
+}
 
-  const onChange = e => {
+function ProfileOrderPage() {
+  const dispatch = useDispatch() as any;
+  const navigate = useNavigate();
+  //const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
+  const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
+  const [form, setValue] = useState<TFormOrderProfile>({ name: '', email: '', password: '' });
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 

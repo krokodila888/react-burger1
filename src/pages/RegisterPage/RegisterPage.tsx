@@ -1,18 +1,26 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Input, Button, PasswordInput, EmailInput, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './registerPage.module.css';
 import { register, getUserData } from '../../services/actions/auth';
 
-function RegisterPage() {
-  const [form, setValue] = useState({ email: '', password: '', name: ''  });
-  const { user } = useSelector(state => state.authReducer);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { sendRegister, sendRegisterRequest, sendRegisterFailed } = useSelector(state => state.authReducer);
+type TFormRegister = {
+  email: string;
+  password: string;
+  name: string;
+}
 
-  const onChange = e => {
+function RegisterPage() {
+  const [form, setValue] = useState<TFormRegister>({ email: '', password: '', name: ''  });
+  //const { user } = useSelector(state => state.authReducer);
+  const { user } = useSelector((state: any) => state.authReducer);
+  const dispatch = useDispatch() as any;
+  const navigate = useNavigate();
+  //const { sendRegister, sendRegisterRequest, sendRegisterFailed } = useSelector(state => state.authReducer);
+  const { sendRegister, sendRegisterRequest, sendRegisterFailed } = useSelector((state: any) => state.authReducer);
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 

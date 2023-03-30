@@ -1,7 +1,11 @@
 import React from 'react'
 import './Preloader.css'
 
-const Preloader = (props) => {
+type TPreloaderProps = {
+  isLoading: boolean;
+}
+
+const Preloader = (props: TPreloaderProps) => {
 
   const {isLoading} = props;
 

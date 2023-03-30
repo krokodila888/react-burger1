@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { Input, Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './profilePage.module.css';
 import { getUserData, getNewToken, removeTokenRequest, updateUserData, removeUserData, removeLogOutData, logOut, removeLogin, removeRegister } from '../../services/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 
-function ProfilePage() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
-  const [form, setValue] = useState({ name: '', email: '', password: '' });
+type TFormProfile = {
+  name: string;
+  email: string;
+  password: string;
+}
 
-  const onChange = e => {
+function ProfilePage() {
+  const dispatch = useDispatch() as any;
+  const navigate = useNavigate();
+  //const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
+  const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
+  const [form, setValue] = useState<TFormProfile>({ name: '', email: '', password: '' });
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -83,8 +90,7 @@ function ProfilePage() {
             placeholder="E-mail" 
             value={form.email} 
             name="email" 
-            onChange={onChange}
-            icon={'EditIcon'} />
+            onChange={onChange}/>
           <PasswordInput 
             placeholder="Пароль"
             value={form.password}

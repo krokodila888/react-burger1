@@ -2,7 +2,11 @@ import React from "react";
 import "./modalOverlay.css";
 import PropTypes from 'prop-types';
 
-function ModalOverlay(props) {
+interface IModalOverlayProps {
+  isOpen: boolean;
+}
+
+function ModalOverlay(props: IModalOverlayProps) {
   const {isOpen} = props;
 
   return (

@@ -1,20 +1,19 @@
-import React from "react";
+import React, { FC } from "react";
 import PropTypes from 'prop-types';
 import styles from "./burgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import IngredientCard from '../IngredientCard/IngredientCard.jsx';
+import IngredientCard from '../IngredientCard/IngredientCard';
 import { useSelector, useDispatch } from 'react-redux';
+import { IIngredient, TIngredient } from '../../types/types';
 
-function BurgerIngredients(props) {
-  const bunsScroll = React.useRef();
-  const fillingScroll = React.useRef();
-  const sauceScroll = React.useRef();  
-  const fillingsBlock = React.useRef();
-  const { handleIngredientClick } = props;
+function BurgerIngredients() {
+  const bunsScroll = React.useRef<HTMLDivElement>(null);
+  const fillingScroll = React.useRef<HTMLDivElement>(null);
+  const sauceScroll = React.useRef<HTMLDivElement>(null);  
+  const fillingsBlock = React.useRef<HTMLDivElement>(null);
   const [current, setCurrent] = React.useState('bunsScroll');
-  const { user } = useSelector(state => state.authReducer);
-  const { ingredients, ingredientsRequest } = useSelector(state => state.ingredientsReducer);
-  //const { currentItem } = useSelector(state => state.currentIngredientReducer);
+  const { user } = useSelector((state: any) => state.authReducer);
+  const { ingredients, ingredientsRequest } = useSelector((state: any) => state.ingredientsReducer);
   const [heightScroll, setHeightScroll] = React.useState(0);
   const dispatch = useDispatch();
   
@@ -35,27 +34,24 @@ function BurgerIngredients(props) {
 
   React.useEffect(() => {
     getPosition();
+    console.log(ingredients);
   }, []);
 
   React.useEffect(() => {
     setPosition();
   }, [heightScroll]);
 
-  function handleClick(data) {
-    handleIngredientClick(data);
-  }
-
-  function onBunsClick() {if (typeof(ingredients) !== 'undefined')
+  function onBunsClick() {if (typeof(ingredients) !== 'undefined' && bunsScroll.current !== null)
     {bunsScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
     setCurrent('bunsScroll');}
   };
   
-  function onFillingClick() { if (typeof(ingredients) !== 'undefined')
+  function onFillingClick() { if (typeof(ingredients) !== 'undefined' && fillingScroll.current !== null)
     {fillingScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
     setCurrent('fillingScroll');}
   };
 
-  function onSauceClick() {if (typeof(ingredients) !== 'undefined')
+  function onSauceClick() {if (typeof(ingredients) !== 'undefined' && sauceScroll.current !== null)
     {sauceScroll.current.scrollIntoView({block: "start", behavior: "smooth"});
     setCurrent('sauceScroll');}
   };
@@ -91,33 +87,30 @@ function BurgerIngredients(props) {
       <div className={styles.scroll} ref={fillingsBlock} onScroll={getPosition}>
         <h2 className="text text_type_main-medium" ref={bunsScroll}>Булки</h2>
         <ul className={styles.ul}>
-          {typeof(ingredients) !== 'undefined' && (ingredients) !== null && ingredients.filter((item) => {return (item.type === "bun")}).map((item) => (
+          {typeof(ingredients) !== 'undefined' && (ingredients) !== null && ingredients.filter((item: TIngredient) => {return (item.type === "bun")}).map((item: TIngredient) => (
             <div key={item._id}>
               <IngredientCard 
                 ingredient = {item}
-                onIngredientClick = {handleIngredientClick}
               />
             </div>
           ))}
         </ul>
         <h2 className="text text_type_main-medium" ref={sauceScroll}>Соусы</h2>
         <ul className={styles.ul}>
-          {typeof(ingredients) !== 'undefined' && (ingredients) !== null && ingredients.filter((item) => {return (item.type === "sauce")}).map((item) => (
+          {typeof(ingredients) !== 'undefined' && (ingredients) !== null && ingredients.filter((item: TIngredient) => {return (item.type === "sauce")}).map((item: TIngredient) => (
             <div key={item._id}>
               <IngredientCard 
-                ingredient = {item}                
-                onIngredientClick = {handleIngredientClick}
+                ingredient = {item}
               />
             </div>
           ))}
         </ul>
         <h2 className="text text_type_main-medium" ref={fillingScroll}>Начинки</h2>
         <ul className={styles.ul}>
-          {typeof(ingredients) !== 'undefined' && (ingredients) !== null && ingredients.filter((item) => {return (item.type === "main")}).map((item) => (
+          {typeof(ingredients) !== 'undefined' && (ingredients) !== null && ingredients.filter((item: TIngredient) => {return (item.type === "main")}).map((item: TIngredient) => (
             <div key={item._id}>
               <IngredientCard 
                 ingredient = {item}
-                onIngredientClick = {handleClick}
               />
             </div>
           ))}
@@ -129,7 +122,3 @@ function BurgerIngredients(props) {
 }  
 
 export default BurgerIngredients;
-
-BurgerIngredients.propTypes = {
-  onClose: PropTypes.func.isRequired
-};

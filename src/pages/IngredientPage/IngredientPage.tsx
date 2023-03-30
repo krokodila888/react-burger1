@@ -1,21 +1,22 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, PureComponent, FunctionComponent, FC } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styles from './ingredientPage.module.css';
 import Preloader from '../../components/Preloader/Preloader';
 import { getIngredients } from '../../services/actions/ingredients';
+import { IIngredient, TIngredient } from '../../types/types';
 
 function IngredientPage() {
 
-  const { ingredients, ingredientsRequest } = useSelector(state => state.ingredientsReducer);
-  const [ingredient1, setIngredient1] = useState({});
-  const ingredientId = useParams();
+  //const { ingredients, ingredientsRequest } = useSelector(state => state.ingredientsReducer);
+  const { ingredients, ingredientsRequest } = useSelector((state: any) => state.ingredientsReducer);
+  const [ingredient1, setIngredient1] = useState<IIngredient | undefined>();
+  const ingredientId = useParams() as any;
   const dispatch = useDispatch();
 
   const loadIngredientInfo = useCallback(
     () => {if (ingredients !== null) {
-      let currentItem = {};
-      currentItem = ingredients.find((item) => item._id === ingredientId.ingredientID.replace(':', ''));
+      let currentItem: IIngredient | undefined = ingredients.find((item: IIngredient) => item._id === ingredientId.ingredientID.replace(':', ''));
       setIngredient1(currentItem);
     }},
     [ingredients]
@@ -40,7 +41,7 @@ function IngredientPage() {
         <h2 className="text text_type_main-large pt-3">
           Детали ингредиента
         </h2>
-        {ingredient1.name === null ? <p>Идет загрузка</p> :
+        {ingredient1 === undefined ? <p>Идет загрузка</p> :
         <>
         <img src={ingredient1.image_large} alt="Картинка с выбранным ингредиентом" />
         <h3 className="text text_type_main-medium pt-4">

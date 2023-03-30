@@ -1,18 +1,23 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Input, Button, PasswordInput, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Link, useNavigate } from 'react-router-dom';
+import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import Preloader from '../../components/Preloader/Preloader';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './resetPassword.module.css';
 import { resetPassword, removePassword } from '../../services/actions/resetPassword';
 
+type TFormPassword = {
+  password: string;
+  token: string;
+}
+
 function ResetPasswordPage() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch() as any;
   const navigate = useNavigate();
-  const { user } = useSelector(state => state.authReducer);
-  const { sendPasswordRequest, sendPasswordFailed, sendPasswordRes, emailSend } = useSelector(state => state.resetPasswordReducer);
-  const [formPassword, setFormPassword] = useState({ password: '', token: '' });
+  const { user } = useSelector((state: any) => state.authReducer);
+  const { sendPasswordRequest, sendPasswordFailed, sendPasswordRes, emailSend } = useSelector((state: any) => state.resetPasswordReducer);
+  const [formPassword, setFormPassword] = useState<TFormPassword>({ password: '', token: '' });
 
   useEffect(() => {
     if (sendPasswordRes.success) {
@@ -20,7 +25,7 @@ function ResetPasswordPage() {
     dispatch(removePassword())}
   }, [sendPasswordRes]);
 
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormPassword({ ...formPassword, [e.target.name]: e.target.value });
   };
 
@@ -31,7 +36,7 @@ function ResetPasswordPage() {
 
   return (
     <div className={styles.container}>
-      {((sendPasswordRes !== {}) && !sendPasswordRequest && !sendPasswordFailed) ? (
+      {(!sendPasswordRequest && !sendPasswordFailed) ? (
           <>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>

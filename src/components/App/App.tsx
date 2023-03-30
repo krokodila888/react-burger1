@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FC } from "react";
 import { BrowserRouter, Routes, useLocation, Route, useNavigate } from 'react-router-dom';
-import { Navigate, useHistory, useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 import styles from "./app.module.css";
 import Preloader from '../Preloader/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendNewOrder1 } from '../../services/actions/sendOrder';
 import { removeCurrentIngredient } from '../../services/actions/currentIngredient';
 import Main from '../../pages/Main/Main';
 import PageNotFound from '../../pages/PageNotFound/PageNotFound';
@@ -18,21 +17,23 @@ import IngredientPage from '../../pages/IngredientPage/IngredientPage';
 import { removeOrder } from '../../services/actions/sendOrder';
 import { getUserData, getNewToken, removeTokenRequest, removeUserData } from '../../services/actions/auth';
 import { removeOnClick } from '../../services/actions/location';
-import AppHeader from '../../components/AppHeader/AppHeader.jsx';
+import AppHeader from '../AppHeader/AppHeader';
 import ProtectedRoute from '../ProtectedRoute';
-import Modal from "../Modal/Modal.jsx";
-import IngredientDetails from "../IngredientDetails/IngredientDetails.jsx";
+import Modal from "../Modal/Modal";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import { getIngredients } from '../../services/actions/ingredients';
+import { sendNewOrder1 } from '../../services/actions/sendOrder';
+
+type ScriptEvent = () => void;
 
 function App() {
 
-  const [orderModalIsOpen, setOrderModalIsOpen] = React.useState(false);
-  //const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
-  const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
-  const { emailSend } = useSelector(state => state.resetPasswordReducer);
-  const { locations, onClick, itemData } = useSelector(state => state.locationReducer);
-  const [isUserLoaded, setIsUserLoaded] = useState(false);
-  const dispatch = useDispatch();
+  const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
+  const { emailSend } = useSelector((state: any) => state.resetPasswordReducer);
+  const { locations, onClick, itemData } = useSelector((state: any) => state.locationReducer);
+  const [isUserLoaded, setIsUserLoaded] = useState<boolean>(false);
+  const [orderModalIsOpen, setOrderModalIsOpen] = useState<boolean>(false);
+  const dispatch = useDispatch() as any;
 
   useEffect(() => {
     dispatch(getUserData());
@@ -61,12 +62,12 @@ function App() {
     } else {setIsUserLoaded(false)}
   }, [user]);
 
-  function openOrderModal(data) {
+  function openOrderModal(data: boolean) {
     dispatch(sendNewOrder1(data));
     setOrderModalIsOpen(true)
   }
 
-  function closeModal() {
+  const closeModal: ScriptEvent = () => {
     setOrderModalIsOpen(false);
     dispatch(removeCurrentIngredient());
     dispatch(removeOrder());
@@ -80,31 +81,32 @@ function App() {
         <Routes>
           <Route path="/" element={
             <Main 
-              orderModalIsOpen = {orderModalIsOpen}
-              onClose = {closeModal}
-              openOrderModal = {openOrderModal}/>} />
-          <Route exact path="/profile" element={
+              onClose={closeModal}
+              orderModalIsOpen={orderModalIsOpen}
+              openOrderModal={openOrderModal}
+              />} />
+          <Route path="/profile/*" element={
             <ProtectedRoute 
               loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
               url={'/login'}>
               <ProfilePage />
             </ProtectedRoute>}>      
           </Route>
-          <Route exact path="/profile/orders" element={
+          <Route path="/profile/orders" element={
             <ProtectedRoute 
               loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
               url={'/login'}>
               <ProfileOrdersPage />
             </ProtectedRoute>}>      
           </Route>
-          <Route exact path="/login" element={
+          <Route path="/login" element={
             <ProtectedRoute 
               loggedIn={user === null}
               url={`/`}>
               <LoginPage />
             </ProtectedRoute>}>      
           </Route>
-          <Route exact path="/register" element={
+          <Route path="/register" element={
             <ProtectedRoute 
               loggedIn={user === null}
               url={'/'}>
@@ -123,14 +125,14 @@ function App() {
               }
             />
           )}
-          <Route exact path="/forgot-password" element={
+          <Route path="/forgot-password" element={
             <ProtectedRoute 
             loggedIn={user === null}
             url={'/'}>
               <ForgotPasswordPage />
             </ProtectedRoute>}>      
           </Route>
-          <Route exact path="/reset-password" element={
+          <Route path="/reset-password" element={
             <ProtectedRoute 
             loggedIn={user === null && emailSend}
             url={'/forgot-password'}>

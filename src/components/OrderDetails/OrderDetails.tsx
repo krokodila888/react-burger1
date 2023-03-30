@@ -7,7 +7,7 @@ import Preloader from '../Preloader/Preloader';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function OrderDetails() {
-  const { sendOrderNumber, sendOrderRequest, sendOrderFailed } = useSelector(state => state.currentOrderReducer);
+  const { sendOrderNumber, sendOrderRequest, sendOrderFailed } = useSelector((state: any) => state.currentOrderReducer);
 
   return (
     <div className="pic">

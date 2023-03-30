@@ -1,27 +1,40 @@
-import React from "react";
+import React, { useState, FC } from "react";
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom'
-import ModalOverlay from '../ModalOverlay/ModalOverlay.jsx';
+import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import "./modal.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Navigate, useNavigate } from "react-router-dom";
 import { removeOnClick } from '../../services/actions/location';
 import { useSelector, useDispatch } from 'react-redux';
+import {locationReducer} from '../../services/reducers/locationReducer';
 
-const modalRoot = document.getElementById("react-modals");
+type ScriptEvent = () => void;
 
-function Modal(props) {
-  const {isOpen, onClose, children} = props;
-  const overlay = React.useRef();
+interface ILocationReducerState {
+  onClick: any;
+}
+
+const modalRoot = (document.getElementById("react-modals") as Element);
+
+interface IModalProps {
+  isOpen: boolean;
+  onClose: ScriptEvent; 
+  children: React.ReactNode;
+}
+
+const Modal: FC<IModalProps> = ({ isOpen, onClose, children }) => {
+
+  const overlay = React.useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { onClick } = useSelector(state => state.locationReducer);
+  const onClick = useSelector((state: ILocationReducerState) => state.onClick);
 
   React.useEffect(() => {
-    const closeByClick = (event) => {
-      if (event.target.classList.contains('modalOverlay')) {
+    const closeByClick = (event: MouseEvent) => {
+      if (event !== null && event.target) {if ((event.target as Element).classList.contains('modalOverlay')) {
         handleClose();
-      }
+      }}
     };
     const element = overlay.current;
     if (element && overlay && overlay.current) {
@@ -40,7 +53,7 @@ function Modal(props) {
   }
 
   React.useEffect(() => {
-    const escFunction = (event) => {
+    const escFunction = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         handleClose();
       }
@@ -54,7 +67,7 @@ function Modal(props) {
   return ReactDOM.createPortal (
     <div className={`modal ${isOpen ? 'modal_opened' : ''}`}>
       <div ref={overlay}>
-        <ModalOverlay isOpen={isOpen} onClose={handleClose} />
+        <ModalOverlay isOpen={isOpen} />
       </div>
       <div className='modal__container'>
         <div className="modal__button-container">
