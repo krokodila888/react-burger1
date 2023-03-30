@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import "./AppHeader.css";
 import { NavLink, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setLocation } from '../../services/actions/location';
 
 function AppHeader() {

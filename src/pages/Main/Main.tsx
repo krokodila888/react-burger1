@@ -3,7 +3,7 @@ import AppHeader from '../../components/AppHeader/AppHeader.jsx';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor';
-import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients.jsx';
+import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients';
 import styles from "./main.module.css";
 import Preloader from '../../components/Preloader/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,19 +13,17 @@ import { removeCurrentIngredient } from '../../services/actions/currentIngredien
 import { removeOrder } from '../../services/actions/sendOrder';
 
 type ScriptEvent = () => void;
+type ScriptEventModalOpen = (data: boolean) => void;
 
 interface IMainProps {
   onClose: ScriptEvent;
   orderModalIsOpen: boolean;
-  openOrderModal: any;
+  openOrderModal: ScriptEventModalOpen;
 }
 
 const Main: FC<IMainProps> = ({onClose, orderModalIsOpen, openOrderModal}) => {
-  //const { onClose, ingredientModalIsOpen, onClose, openOrderModal, handleIngredientClick } = props;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useDispatch() as any;
-
-  
 
   return (
     <div>
@@ -33,7 +31,6 @@ const Main: FC<IMainProps> = ({onClose, orderModalIsOpen, openOrderModal}) => {
         <DndProvider backend={HTML5Backend}>
           <div className={styles.main}>
             <BurgerIngredients 
-              onClose = {onClose}
             />
             <BurgerConstructor 
               isOpen = {orderModalIsOpen}

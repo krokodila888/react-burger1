@@ -23,14 +23,11 @@ interface IModalProps {
   children: React.ReactNode;
 }
 
-/*export */const Modal: FC<IModalProps> = ({ isOpen, onClose, children }) => 
+const Modal: FC<IModalProps> = ({ isOpen, onClose, children }) => {
 
-/*function Modal(props)*/ {
-  //const {isOpen, onClose, children} = props;
   const overlay = React.useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //const { onClick } = useSelector(state => state.locationReducer);
   const onClick = useSelector((state: ILocationReducerState) => state.onClick);
 
   React.useEffect(() => {
@@ -85,7 +82,7 @@ interface IModalProps {
 export default Modal;
 
 Modal.propTypes = {
-  //isOpen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired
 };

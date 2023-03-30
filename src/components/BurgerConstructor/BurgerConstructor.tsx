@@ -11,30 +11,26 @@ import { setIngredient, removeIngredient, replaceIngredient, clearConstructor } 
 import { v4 as uuidv4 } from 'uuid';
 import FillingItem from "../FillingItem/FillingItem";
 import { getUserData } from '../../services/actions/auth';
-/*import { combineReducers } from 'redux';
-import { ingredientsReducer } from "../../services/reducers/ingredientsReducer";
-import { currentBurgerReducer } from "../../services/reducers/currentBurgerReducer";
-import { currentIngredientReducer } from "../../services/reducers/currentIngredientReducer";
-import { currentOrderReducer } from "../../services/reducers/currentOrderReducer";
-import { resetPasswordReducer } from "../../services/reducers/resetPasswordReducer";
-import { authReducer } from "../../services/reducers/authReducer";
-import {locationReducer} from '../../services/reducers/locationReducer';*/
 import { IIngredient, TIngredient } from '../../types/types';
 
 type ScriptEvent = () => void;
+type ScriptEventModalOpen = (data: boolean) => void;
+
+type TMoveCard = (dragIndex: number | undefined, hoverIndex: number) => void;
+
+type TDragIndex = number | string;
 
 type TBurgerConstructorProps = {
   isOpen: boolean;
   onClose: ScriptEvent; 
-  openOrderModal: any;
+  openOrderModal: ScriptEventModalOpen;
 }
 
-type TRemoveItem = {
-  item: TIngredient;
+type TOnDropHandler = {
+  itemId: string;
 }
 
-const BurgerConstructor: FC<TBurgerConstructorProps> = ({ isOpen, onClose, openOrderModal }) => 
-/*function BurgerConstructor(props: IBurgerConstructorProps)*/ {
+const BurgerConstructor: FC<TBurgerConstructorProps> = ({ isOpen, onClose, openOrderModal }) => {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
   const { user } = useSelector((state: any) => state.authReducer);
@@ -55,24 +51,23 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ isOpen, onClose, openO
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(itemId) {
+    drop(itemId: TOnDropHandler) {
       onDropHandler(itemId);
     },
   });
 
-  const removeItem: FC<TIngredient> = (/*e: React.MouseEvent, */item) => {
-    //e.preventDefault();
+  const removeItem: FC<TIngredient> = (item) => {
     return dispatch(removeIngredient(item));
   }
 
-  function onDropHandler(data: any) {
+  function onDropHandler(data: TOnDropHandler) {
     let currentItem: TIngredient | undefined = structuredClone(ingredients.find((item: TIngredient) => (item._id === data.itemId)));
     if (currentItem !== undefined) 
     {currentItem.keyId = uuidv4();}
     dispatch(setIngredient(currentItem));
   }
 
-  const moveCard = React.useCallback((dragIndex: any, hoverIndex: any) => {
+  const moveCard = React.useCallback((dragIndex: number, hoverIndex: number) => {
     const dragCard = currentIngredients[dragIndex];
     const newCards = [...currentIngredients];
     newCards.splice(dragIndex, 1);
@@ -87,8 +82,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ isOpen, onClose, openO
     } else {
       openOrderModal(arr);
       dispatch(clearConstructor());
-    console.log(localStorage);
-  console.log(user)}
+    }
   }
 
   return (

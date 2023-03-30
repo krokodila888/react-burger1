@@ -11,13 +11,11 @@ import { IIngredient, TIngredient } from '../../types/types';
 import React, { FC } from 'react';
 
 type TIngredientCardProps = {
-  ingredient: TIngredient;
-  onIngredientClick: FC<void>;
+  ingredient: TIngredient
 }
 
 function IngredientCard (props: TIngredientCardProps) {
-  const {ingredient, onIngredientClick } = props;
-  //const { currentBurger } = useSelector(state => state.currentBurgerReducer);
+  const {ingredient } = props;
   const { currentBurger } = useSelector((state: any) => state.currentBurgerReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();

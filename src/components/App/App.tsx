@@ -28,12 +28,8 @@ type ScriptEvent = () => void;
 
 function App() {
 
-  //const [ingredientModalIsOpen, setIngredientModalIsOpen] = React.useState(false);
-  //const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
   const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
-  //const { emailSend } = useSelector(state => state.resetPasswordReducer);
   const { emailSend } = useSelector((state: any) => state.resetPasswordReducer);
-  //const { locations, onClick, itemData } = useSelector(state => state.locationReducer);
   const { locations, onClick, itemData } = useSelector((state: any) => state.locationReducer);
   const [isUserLoaded, setIsUserLoaded] = useState<boolean>(false);
   const [orderModalIsOpen, setOrderModalIsOpen] = useState<boolean>(false);

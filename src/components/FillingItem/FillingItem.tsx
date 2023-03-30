@@ -1,21 +1,20 @@
 import React, { FC } from "react";
-import PropTypes from 'prop-types';
+import PropTypes, { string } from 'prop-types';
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./fillingItem.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientPropTypes } from "../../utils/constants";
 import { IIngredient, TIngredient } from '../../types/types';
 
-type TRemoveItem = {
-  item: TIngredient;
-}
-
+type TMoveCard = (dragIndex: number | undefined, hoverIndex: number) => void;
 type TFillingItemProps = {
   item: TIngredient;
-  index: any;
+  index: number;
   removeItem: FC<TIngredient>;
   moveCard: any;
 }
+
+type THandlerId = number | string | null;
 
 function FillingItem(props: TFillingItemProps) {
   const { item, index, removeItem, moveCard } = props;
@@ -41,10 +40,10 @@ function FillingItem(props: TFillingItemProps) {
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = (clientOffset as any).y - hoverBoundingRect.top;
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      if (dragIndex !== undefined && dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      if (dragIndex !== undefined && dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
       moveCard(dragIndex, hoverIndex);
@@ -63,6 +62,10 @@ function FillingItem(props: TFillingItemProps) {
     const opacity = isDragging ? 0 : 1;
     if (item.type !== 'bun') drag(drop(ref));
     const preventDefault = (e: any) => e.preventDefault();
+
+  React.useEffect(() => {
+    console.log(handlerId)
+  }, []);
 
   return (
     <li className={styles.li} ref={ref}>

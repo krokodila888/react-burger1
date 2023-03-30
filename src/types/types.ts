@@ -29,4 +29,5 @@ export type TIngredient = {
   readonly _id: string;
   keyId?: string;
   id?: string;
+  index?: number;
 };

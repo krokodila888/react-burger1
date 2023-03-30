@@ -15,9 +15,7 @@ type TFormPassword = {
 function ResetPasswordPage() {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
-  //const { user } = useSelector(state => state.authReducer);
   const { user } = useSelector((state: any) => state.authReducer);
-  //const { sendPasswordRequest, sendPasswordFailed, sendPasswordRes, emailSend } = useSelector(state => state.resetPasswordReducer);
   const { sendPasswordRequest, sendPasswordFailed, sendPasswordRes, emailSend } = useSelector((state: any) => state.resetPasswordReducer);
   const [formPassword, setFormPassword] = useState<TFormPassword>({ password: '', token: '' });
 
