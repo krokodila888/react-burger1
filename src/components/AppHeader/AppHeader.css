@@ -18,6 +18,11 @@
   flex-direction: row;
 }
 
+.appHeader__active-link svg {
+  color: #F2F2F3;
+  fill: #F2F2F3;
+}
+
 .appHeader__link {
   font-family: 'Jet Brains Mono', Arial, sans-serif;
   display: flex;
