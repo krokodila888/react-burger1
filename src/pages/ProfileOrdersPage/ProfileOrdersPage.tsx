@@ -6,8 +6,10 @@ import { getUserDataThunk, getNewTokenThunk, removeTokenRequest, updateUserDataT
 import { useSelector, useDispatch } from 'react-redux';
 import { wsUrl, wsUrlForUser } from "../../utils/constants";
 import { wsActions } from "../../services/wsMiddleware";
-//import OrderFeed from '../../components/OrderFeed/OrderFeed';
-import { TMessageAllOrders, TOrderItem } from '../../types/types';
+import { TOrderItem } from '../../types/types';
+import OrderProfileCard from "../../components/OrderProfileCard/OrderProfileCard";
+import Modal from "../../components/Modal/Modal";
+import OrderInfo from "../../components/OrderInfo/OrderInfo";
 
 type TFormOrderProfile = {
   name: string;
@@ -22,6 +24,7 @@ function ProfileOrderPage() {
   const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
   const [form, setValue] = useState<TFormOrderProfile>({ name: '', email: '', password: '' });
   const { message, total, totalToday, orders } = useSelector((state: any) => state.wsReducer);
+  const copied = structuredClone(orders).reverse();
 
   React.useEffect(() => {
     console.log('AAA');
@@ -56,11 +59,6 @@ function ProfileOrderPage() {
     };
   }, [refreshToken]);
 
-  useEffect(() => {
-    if (user !== null)
-    setValue({ name: user.name, email: user.email, password: '' });
-  }, [user]);
-
   function handleLogout() {
     dispatch(logoutThunk());
     dispatch(removeUserData());
@@ -69,14 +67,6 @@ function ProfileOrderPage() {
     dispatch(removeRegister());
     localStorage.clear();
     navigate("/login")
-  }
-
-  function handleUpdateUser() {
-    dispatch(updateUserDataThunk(form));
-  }
-
-  function handleCancel() {
-    setValue({ name: user.name, email: user.email, password: '' })
   }
 
   return (
@@ -95,7 +85,19 @@ function ProfileOrderPage() {
             Выход
           </NavLink>
         </div>
-      </div>
+        {!message ? (
+        <p>Идет загрузка</p>
+      ) : (
+      <div className={styles.scroll} >
+        {message.success && typeof(message) !== 'undefined' && (message) !== null && copied.map((item: TOrderItem, index: number) => (
+            <div key={index}>
+              <OrderProfileCard 
+                orderItem = {item}
+              />
+            </div>
+          ))}
+      </div>)}
+    </div>
   );
 }
 

@@ -19,7 +19,7 @@ const initialState: TCurrentBurgerState = {
       image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
       image: "https://code.s3.yandex.net/react/code/bun-02.png",
       price: 1255,
-      _id: "60d3b41abdacab0026a733c6",
+      _id: "643d69a5c3f7b9001cfa093c",
       calories: 420,
       carbohydrates: 53,
       fat: 24,

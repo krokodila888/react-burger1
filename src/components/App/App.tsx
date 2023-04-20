@@ -16,12 +16,14 @@ import FeedPage from '../../pages/FeedPage/FeedPage';
 import ProfileOrdersPage from '../../pages/ProfileOrdersPage/ProfileOrdersPage';
 import IngredientPage from '../../pages/IngredientPage/IngredientPage';
 import { removeOrder } from '../../services/actions/sendOrder';
+import { removeOrderInfo } from '../../services/actions/currentOrderInfo';
 import { getUserDataThunk, getNewTokenThunk, removeTokenRequest, removeUserData } from '../../services/actions/auth';
 import { removeOnClick } from '../../services/actions/location';
 import AppHeader from '../AppHeader/AppHeader';
 import ProtectedRoute from '../ProtectedRoute';
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import OrderInfo from "../OrderInfo/OrderInfo";
 import { getIngredients } from '../../services/actions/ingredients';
 import { sendNewOrderThunk } from '../../services/actions/sendOrder';
 
@@ -31,7 +33,7 @@ function App() {
 
   const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
   const { emailSend } = useSelector((state: any) => state.resetPasswordReducer);
-  const { locations, onClick, itemData } = useSelector((state: any) => state.locationReducer);
+  const { locations, onClick, itemData, itemType } = useSelector((state: any) => state.locationReducer);
   const [isUserLoaded, setIsUserLoaded] = useState<boolean>(false);
   const [orderModalIsOpen, setOrderModalIsOpen] = useState<boolean>(false);
   const dispatch = useDispatch() as any;
@@ -71,6 +73,7 @@ function App() {
   const closeModal: ScriptEvent = () => {
     setOrderModalIsOpen(false);
     dispatch(removeCurrentIngredient());
+    dispatch(removeOrderInfo());
     dispatch(removeOrder());
     dispatch(removeOnClick())
   }
@@ -117,7 +120,7 @@ function App() {
               <RegisterPage />
             </ProtectedRoute>}>      
           </Route>
-          {onClick && (
+          {onClick && (itemType === 'ingredient') && (
             <Route
               path='/ingredients/:ingredientId'
               element={
@@ -125,6 +128,18 @@ function App() {
                   isOpen={onClick}
                   onClose={closeModal}>
                     <IngredientDetails />
+                </Modal>
+              }
+            />
+          )}
+          {onClick && (itemType === 'order') && (
+            <Route
+              path='/feed/:orderId'
+              element={
+                <Modal 
+                  isOpen={onClick}
+                  onClose={closeModal}>
+                    <OrderInfo />
                 </Modal>
               }
             />

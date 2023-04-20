@@ -6,7 +6,7 @@ import './IngredientCard.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientPropTypes} from "../../utils/constants";
 import { setCurrentIngredient } from '../../services/actions/currentIngredient';
-import { setOnClick } from '../../services/actions/location';
+import { setOnClick, setItemType } from '../../services/actions/location';
 import { IIngredient, TIngredient } from '../../types/types';
 import React, { FC } from 'react';
 
@@ -29,6 +29,7 @@ function IngredientCard (props: TIngredientCardProps) {
   function handleClick(ingredient: TIngredient) {
     dispatch(setCurrentIngredient(ingredient));
     console.log(ingredient);
+    dispatch(setItemType('ingredient'));
     dispatch(setOnClick(ingredient));
     navigate(`/ingredients/:${ingredient._id}`)
   }

@@ -5,8 +5,10 @@ import { TAuthActions } from './actions/auth';
 import { TCurrentBurgerActions } from './actions/currentBurger';
 import { TCurrentIngredientActions } from './actions/currentIngredient';
 import { TGetIngredientsActions } from './actions/ingredients';
+import { TOrderInfoActions } from './actions/currentOrderInfo';
 import { TLocationActions } from './actions/location';
 import { TResetPasswordActions } from './actions/resetPassword';
+import { TSendOrderActions } from './actions/sendOrder';
 import { TWSActions } from './actions/wsActions';
 import { socketMiddleware } from './wsMiddleware';
 import { rootReducer } from './reducers/rootReducer';
@@ -18,6 +20,8 @@ export type TAppActions =
   | TCurrentIngredientActions
   | TGetIngredientsActions
   | TLocationActions
+  | TOrderInfoActions
+  | TSendOrderActions
   | TResetPasswordActions
   | TWSActions;
 

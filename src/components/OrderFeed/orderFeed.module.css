@@ -1,5 +1,5 @@
 .section {
-  max-width: 600px; 
+  max-width: 645px; 
   margin-left: 20px;
 }
 
@@ -21,6 +21,10 @@
   max-height: calc(100vh - 364px);
   overflow-y: auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
 }
 
 .scroll::-webkit-scrollbar {

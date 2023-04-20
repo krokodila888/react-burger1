@@ -1,10 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import './OrderSmallCard.css';
+import './OrderProfileCard.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { setOrderInfo } from '../../services/actions/currentOrderInfo';
-import { setOnClick, setItemType } from '../../services/actions/location';
+import {ingredientPropTypes} from "../../utils/constants";
+import { setCurrentIngredient } from '../../services/actions/currentIngredient';
+import { setOnClick } from '../../services/actions/location';
 import { IIngredient, TIngredient } from '../../types/types';
 import { TMessageAllOrders, TOrderItem } from '../../types/types';
 import React, { FC } from 'react';
@@ -14,7 +16,7 @@ type TOrderCardProps = {
   orderItem: TOrderItem
 }
 
-function OrderSmallCard (props: TOrderCardProps) {
+function OrderProfileCard (props: TOrderCardProps) {
 
   const { orderItem } = props;
   const { ingredients } = useSelector((state: any) => state.ingredientsReducer);
@@ -25,14 +27,12 @@ function OrderSmallCard (props: TOrderCardProps) {
   const creationDate: string = `${orderItem.createdAt.slice(8, 10)}.${orderItem.createdAt.slice(5, 7)}.${orderItem.createdAt.slice(0, 4)}`;
   const currentDate: string = ('0' + current.getDate()).slice(-2) + '.' + ('0' + (current.getMonth()+1)).slice(-2) + '.' + current.getFullYear();
 
-  function handleClick(orderItem: TOrderItem) {
-    dispatch(setOrderInfo(orderItem));
-    console.log(orderItem);
-    dispatch(setItemType('order'));
-    dispatch(setOnClick(orderItem));
-    navigate(`/feed/:${orderItem._id}`)
+  function handleClick(ingredient: TIngredient) {
+    dispatch(setCurrentIngredient(ingredient));
+    console.log(ingredient);
+    dispatch(setOnClick(ingredient));
+    navigate(`/ingredients/:${ingredient._id}`)
   }
-
   let yesterday1 = new Date();
   yesterday1.setDate(yesterday1.getDate() - 1);
   let yesterday = `${yesterday1.getDate()}.${('0' + (yesterday1.getMonth()+1)).slice(-2)}.${yesterday1.getFullYear()}`;
@@ -86,18 +86,29 @@ function OrderSmallCard (props: TOrderCardProps) {
     else return creationDate
   };
 
+  function getStatus(): string {
+    if (orderItem.status === 'done') return "Выполнен";
+    else return "Готовится"
+  };
+
+  function getStatusStyle(): string {
+    if (orderItem.status === 'done') return '#00CCCC';
+    else return "white"
+  };
+
   return (
-    <li className="orderSmallCard__card" onClick={() => handleClick(orderItem)}>
-      <div className='orderSmallCard__div'>
+    <li className="orderProfileCard__card">
+      <div className='orderProfileCard__div'>
         <p className="text text_type_main-default">#{orderItem.number}</p>
         <p className="text text_type_main-small text_color_inactive">{getData()}, {orderItem.createdAt.slice(11, 13)}:{orderItem.createdAt.slice(14, 16)}</p>
       </div>
-      <p className="text text_type_main-medium orderSmallCard_name">{orderItem.name}</p>
-      <div className='orderSmallCard__div'>
+      <p className="text text_type_main-medium orderSmallCard_name pt-4">{orderItem.name}</p>
+      <p className='text text_type_main-small' style={{color: `${getStatusStyle()}`, }}>{getStatus()}</p>
+      <div className='orderProfileCard__div pt-4'>
         <div className='items_list'>
           {icons}
         </div>
-        <div className='orderSmallCard__div1'>
+        <div className='orderProfileCard__div1'>
           <p className="text text_type_digits-default">
           {prices}
           </p>
@@ -109,4 +120,4 @@ function OrderSmallCard (props: TOrderCardProps) {
   )
 }
 
-export default OrderSmallCard;
+export default OrderProfileCard;

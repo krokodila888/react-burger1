@@ -4,22 +4,15 @@ import './FeedPage.css';
 import { getUserDataThunk, getNewTokenThunk, removeTokenRequest, updateUserDataThunk, removeUserData, removeLogOutData, logoutThunk, removeLogin, removeRegister } from '../../services/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { wsActions } from "../../services/wsMiddleware";
-import { wsUrl, wsUrlForUser } from "../../utils/constants";
+import { wsUrl } from "../../utils/constants";
 import OrderFeed from '../../components/OrderFeed/OrderFeed';
-import { TMessageAllOrders, TOrderItem } from '../../types/types';
-
-type TFormOrderProfile = {
-  name: string;
-  email: string;
-  password: string;
-}
+import { TOrderItem } from '../../types/types';
 
 function FeedPage() {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
   const { message, total, totalToday, orders } = useSelector((state: any) => state.wsReducer);
   const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
-  const [form, setValue] = useState<TFormOrderProfile>({ name: '', email: '', password: '' });
 
   useEffect(() => {
     dispatch({ type: wsActions.wsInit, payload: wsUrl });
@@ -58,12 +51,11 @@ function FeedPage() {
     navigate("/login")
   }
 
-  function handleUpdateUser() {
-    dispatch(updateUserDataThunk(form));
-  }
-
-  function handleCancel() {
-    setValue({ name: user.name, email: user.email, password: '' })
+  function setColumnWidth() {
+    const num = orders.filter((item: TOrderItem) => {return (item.status === "done")}).length;
+    if (num > 40) return '350px';
+    if (num > 30 && num < 41) return '280px';
+    if (num > 20 && num < 31) return '210px';
   }
 
   return (
@@ -71,7 +63,7 @@ function FeedPage() {
       <OrderFeed/>
       <div className='feedPage__second-column'>
         <div className='feedPage__row'>
-          <div className='feedPage__column1'>
+          <div style={{display: 'flex', flexDirection: 'column', width: `${setColumnWidth()}`}}>
             <p className='feedPage__text1 text_type_main-medium'>Готовы:</p>
               <div className='feedPage__column2'>
                 {typeof(orders) !== 'undefined' && (orders[0] !== null) && orders.filter((item: TOrderItem) => {return (item.status === "done")}).map((item: TOrderItem) => (

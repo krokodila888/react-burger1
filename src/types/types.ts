@@ -34,7 +34,7 @@ export type TIngredient = {
 
 export type TOrderItem = {
   createdAt: string;
-  ingredients: Array<TIngredient>;
+  ingredients: Array<string>;
   name: string;
   number: number; 
   status: string;
