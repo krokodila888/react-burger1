@@ -7,7 +7,7 @@ import {
 } from "../../utils/constants";
 
 import type { TWSActions } from '../actions/wsActions';
-import { TMessageAllOrders, TOrderItem } from '../../types/types';
+import { TMessage, TOrderItem } from '../../types/types';
 
 export interface IMessage {
   readonly message: any;
@@ -19,7 +19,7 @@ type TWSState = {
   total: number | null;
   totalToday: number | null;
   error?: Event;
-  message: TMessageAllOrders | {}
+  message: TMessage | {}
 }
   
 const initialState = {

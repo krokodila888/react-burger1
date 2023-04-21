@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
-import { Link, Navigate, useNavigate, NavLink } from 'react-router-dom';
 import './FeedPage.css';
-import { getUserDataThunk, getNewTokenThunk, removeTokenRequest, updateUserDataThunk, removeUserData, removeLogOutData, logoutThunk, removeLogin, removeRegister } from '../../services/actions/auth';
+import { getUserDataThunk, getNewTokenThunk, removeTokenRequest } from '../../services/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
 import { wsActions } from "../../services/wsMiddleware";
 import { wsUrl } from "../../utils/constants";
@@ -10,18 +9,12 @@ import { TOrderItem } from '../../types/types';
 
 function FeedPage() {
   const dispatch = useDispatch() as any;
-  const navigate = useNavigate();
-  const { message, total, totalToday, orders } = useSelector((state: any) => state.wsReducer);
-  const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
+  const { total, totalToday, orders } = useSelector((state: any) => state.wsReducer);
+  const { refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
 
   useEffect(() => {
     dispatch({ type: wsActions.wsInit, payload: wsUrl });
   }, []);
-
-  useEffect(() => {
-    if (message && message[0] !== null)
-    console.log(message);
-  }, [message]);
 
   useEffect(() => {
     dispatch(getUserDataThunk())
@@ -40,16 +33,6 @@ function FeedPage() {
       removeTokenRequest();
     };
   }, [refreshToken]);
-
-  function handleLogout() {
-    dispatch(logoutThunk());
-    dispatch(removeUserData());
-    dispatch(removeLogOutData());
-    dispatch(removeLogin());
-    dispatch(removeRegister());
-    localStorage.clear();
-    navigate("/login")
-  }
 
   function setColumnWidth() {
     const num = orders.filter((item: TOrderItem) => {return (item.status === "done")}).length;

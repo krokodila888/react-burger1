@@ -6,13 +6,16 @@ import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-c
 import { setOrderInfo } from '../../services/actions/currentOrderInfo';
 import { setOnClick, setItemType } from '../../services/actions/location';
 import { IIngredient, TIngredient } from '../../types/types';
-import { TMessageAllOrders, TOrderItem } from '../../types/types';
+import { TMessage, TOrderItem } from '../../types/types';
 import React, { FC } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import IngredientIcon from "../IngredientIcon/IngredientIcon";
 
 type TOrderCardProps = {
   orderItem: TOrderItem
 }
+
+
 
 function OrderSmallCard (props: TOrderCardProps) {
 
@@ -27,7 +30,6 @@ function OrderSmallCard (props: TOrderCardProps) {
 
   function handleClick(orderItem: TOrderItem) {
     dispatch(setOrderInfo(orderItem));
-    console.log(orderItem);
     dispatch(setItemType('order'));
     dispatch(setOnClick(orderItem));
     navigate(`/feed/:${orderItem._id}`)
@@ -41,9 +43,9 @@ function OrderSmallCard (props: TOrderCardProps) {
   let twoDaysAgo = `${twoDaysAgo1.getDate()}.${('0' + (twoDaysAgo1.getMonth()+1)).slice(-2)}.${twoDaysAgo1.getFullYear()}`;
 
   let itemsInOrder = orderItem.ingredients.reduce((list: Array<IIngredient>, elem: string) => {
-    let aaa = ingredients.filter((item1: IIngredient) => (item1._id === elem));
-    if (aaa !== null) {
-      list.push(aaa[0])
+    let item = ingredients.filter((item1: IIngredient) => (item1._id === elem));
+    if (item !== null) {
+      list.push(item[0])
     }
     return list
   }, [])
@@ -68,7 +70,7 @@ function OrderSmallCard (props: TOrderCardProps) {
   }, 0);
 
   const icons = icons1.slice(0, 6).map((item: string, index: number) => (
-    <div>
+    <div key={index}>
     <IngredientIcon
       src={item}
       srcSet={item}

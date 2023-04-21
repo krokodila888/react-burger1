@@ -1,16 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrag } from "react-dnd";
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import './OrderProfileCard.css';
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientPropTypes} from "../../utils/constants";
-import { setCurrentIngredient } from '../../services/actions/currentIngredient';
-import { setOnClick } from '../../services/actions/location';
-import { IIngredient, TIngredient } from '../../types/types';
-import { TMessageAllOrders, TOrderItem } from '../../types/types';
+import './orderProfileCard.css';
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IIngredient, TOrderItem } from '../../types/types';
 import React, { FC } from 'react';
 import IngredientIcon from "../IngredientIcon/IngredientIcon";
+import { setOrderInfo } from '../../services/actions/currentOrderInfo';
+import { setOnClick, setItemType } from '../../services/actions/location';
 
 type TOrderCardProps = {
   orderItem: TOrderItem
@@ -27,12 +23,6 @@ function OrderProfileCard (props: TOrderCardProps) {
   const creationDate: string = `${orderItem.createdAt.slice(8, 10)}.${orderItem.createdAt.slice(5, 7)}.${orderItem.createdAt.slice(0, 4)}`;
   const currentDate: string = ('0' + current.getDate()).slice(-2) + '.' + ('0' + (current.getMonth()+1)).slice(-2) + '.' + current.getFullYear();
 
-  function handleClick(ingredient: TIngredient) {
-    dispatch(setCurrentIngredient(ingredient));
-    console.log(ingredient);
-    dispatch(setOnClick(ingredient));
-    navigate(`/ingredients/:${ingredient._id}`)
-  }
   let yesterday1 = new Date();
   yesterday1.setDate(yesterday1.getDate() - 1);
   let yesterday = `${yesterday1.getDate()}.${('0' + (yesterday1.getMonth()+1)).slice(-2)}.${yesterday1.getFullYear()}`;
@@ -68,7 +58,7 @@ function OrderProfileCard (props: TOrderCardProps) {
   }, 0);
 
   const icons = icons1.slice(0, 6).map((item: string, index: number) => (
-    <div>
+    <div key={index}>
     <IngredientIcon
       src={item}
       srcSet={item}
@@ -79,7 +69,7 @@ function OrderProfileCard (props: TOrderCardProps) {
     </div>
   ));
 
-  function getData(): string {
+  function getDate(): string {
     if (creationDate === currentDate) return "Сегодня";
     else if (creationDate === yesterday) return "Вчера";
     else if (creationDate === twoDaysAgo) return "2 дня назад";
@@ -96,11 +86,19 @@ function OrderProfileCard (props: TOrderCardProps) {
     else return "white"
   };
 
+  function handleClick(orderItem: TOrderItem) {
+    dispatch(setOrderInfo(orderItem));
+    console.log(orderItem);
+    dispatch(setItemType('orderProfile'));
+    dispatch(setOnClick(orderItem));
+    navigate(`/profile/orders/:${orderItem._id}`)
+  }
+
   return (
-    <li className="orderProfileCard__card">
+    <li className="orderProfileCard__card" onClick={() => handleClick(orderItem)}>
       <div className='orderProfileCard__div'>
         <p className="text text_type_main-default">#{orderItem.number}</p>
-        <p className="text text_type_main-small text_color_inactive">{getData()}, {orderItem.createdAt.slice(11, 13)}:{orderItem.createdAt.slice(14, 16)}</p>
+        <p className="text text_type_main-small text_color_inactive">{getDate()}, {orderItem.createdAt.slice(11, 13)}:{orderItem.createdAt.slice(14, 16)}</p>
       </div>
       <p className="text text_type_main-medium orderSmallCard_name pt-4">{orderItem.name}</p>
       <p className='text text_type_main-small' style={{color: `${getStatusStyle()}`, }}>{getStatus()}</p>
@@ -115,7 +113,6 @@ function OrderProfileCard (props: TOrderCardProps) {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-
     </li>
   )
 }

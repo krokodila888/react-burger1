@@ -22,13 +22,8 @@ function ProfileOrderPage() {
   const navigate = useNavigate();
   //const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
   const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
-  const [form, setValue] = useState<TFormOrderProfile>({ name: '', email: '', password: '' });
-  const { message, total, totalToday, orders } = useSelector((state: any) => state.wsReducer);
+  const { message, orders } = useSelector((state: any) => state.wsReducer);
   const copied = structuredClone(orders).reverse();
-
-  React.useEffect(() => {
-    console.log('AAA');
-  }, []);
 
   React.useEffect(() => {
     const token = localStorage.getItem('accessToken');

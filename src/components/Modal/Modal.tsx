@@ -46,10 +46,14 @@ const Modal: FC<IModalProps> = ({ isOpen, onClose, children }) => {
   }, []);
 
   function handleClose() {
-    onClose();
-    dispatch(removeOnClick());
-    if (onClick) {navigate(-1)}
-    else navigate('/')
+    /*if (onClick) {*/
+      onClose();
+      navigate(-1);
+      /*dispatch(removeOnClick()); }
+    else {
+      onClose();
+      navigate('/');*/
+      dispatch(removeOnClick());/*}*/
   }
 
   React.useEffect(() => {

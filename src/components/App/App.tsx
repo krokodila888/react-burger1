@@ -14,6 +14,8 @@ import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
 import ProfilePage from '../../pages/ProfilePage/ProfilePage';
 import FeedPage from '../../pages/FeedPage/FeedPage';
 import ProfileOrdersPage from '../../pages/ProfileOrdersPage/ProfileOrdersPage';
+import ProfileOrderPage from '../../pages/ProfileOrderPage/ProfileOrderPage';
+import OrderPage from '../../pages/OrderPage/OrderPage';
 import IngredientPage from '../../pages/IngredientPage/IngredientPage';
 import { removeOrder } from '../../services/actions/sendOrder';
 import { removeOrderInfo } from '../../services/actions/currentOrderInfo';
@@ -26,6 +28,8 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderInfo from "../OrderInfo/OrderInfo";
 import { getIngredients } from '../../services/actions/ingredients';
 import { sendNewOrderThunk } from '../../services/actions/sendOrder';
+import { wsActions } from "../../services/wsMiddleware";
+import { wsUrl } from "../../utils/constants";
 
 type ScriptEvent = () => void;
 
@@ -38,6 +42,17 @@ function App() {
   const [orderModalIsOpen, setOrderModalIsOpen] = useState<boolean>(false);
   const dispatch = useDispatch() as any;
 
+  const { message, total, totalToday, orders } = useSelector((state: any) => state.wsReducer);
+
+  useEffect(() => {
+    dispatch({ type: wsActions.wsInit, payload: wsUrl });
+  }, []);
+
+  /*useEffect(() => {
+    if (message && message[0] !== null)
+    console.log(message);
+  }, [message]);*/
+
   useEffect(() => {
     dispatch(getUserDataThunk());
   }, []);
@@ -45,6 +60,10 @@ function App() {
   useEffect(()=> {
     dispatch(getIngredients());
   }, [])
+
+  useEffect(()=> {
+  console.log(localStorage.getItem('accessToken'))
+}, [])
 
   useEffect(() => {
     if (getUserDataRequestFailed)
@@ -91,14 +110,14 @@ function App() {
               />} />
           <Route path="/profile/*" element={
             <ProtectedRoute 
-              loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
+              loggedIn={localStorage.getItem('accessToken') !== null}
               url={'/login'}>
               <ProfilePage />
             </ProtectedRoute>}>      
           </Route>
           <Route path="/profile/orders" element={
             <ProtectedRoute 
-              loggedIn={user !== null && localStorage.getItem('accessToken') !== null}
+              loggedIn={localStorage.getItem('accessToken') !== null}
               url={'/login'}>
               <ProfileOrdersPage />
             </ProtectedRoute>}>      
@@ -132,6 +151,18 @@ function App() {
               }
             />
           )}
+          {onClick && (itemType === 'orderProfile') && (<Route path="/profile/orders/:orderId" element={
+            <ProtectedRoute 
+              loggedIn={localStorage.getItem('accessToken') !== null}
+              url={'/login'}>
+              <Modal 
+                  isOpen={onClick}
+                  onClose={closeModal}>
+                    <OrderInfo />
+                </Modal>
+            </ProtectedRoute>}>      
+          </Route>)}
+
           {onClick && (itemType === 'order') && (
             <Route
               path='/feed/:orderId'
@@ -159,7 +190,9 @@ function App() {
             </ProtectedRoute>}>      
           </Route>*/
           <Route path="*" element={<PageNotFound />} />
-          {!onClick && <Route path="/ingredients/:ingredientID" element={<IngredientPage />} />}
+          {!onClick && (locations[0].slice(0, 5) === '/ingr') && <Route path="/ingredients/:ingredientID" element={<IngredientPage />} />}
+          {!onClick && (locations[0].slice(0, 5) === '/feed') && <Route path="/feed/:orderID" element={<OrderPage />} />}
+          {!onClick && (locations[0].slice(0, 5) === '/prof') && <Route path="/profile/orders/:orderID" element={<ProfileOrderPage />} />}
         </Routes>
       </BrowserRouter>
       <div id="react-modals"></div>
@@ -168,3 +201,22 @@ function App() {
 }
 
 export default App;
+
+/*
+          {onClick && (itemType === 'orderProfile') && (
+            <Route
+              path='/profile/orders/:orderId'
+              element={
+                <Modal 
+                  isOpen={onClick}
+                  onClose={closeModal}>
+                    <OrderInfo />
+                </Modal>
+              }
+            />
+          )}
+*/
+
+/*
+user !== null && 
+*/

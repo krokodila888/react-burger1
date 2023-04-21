@@ -34,7 +34,6 @@ function BurgerIngredients() {
 
   React.useEffect(() => {
     getPosition();
-    console.log(ingredients);
   }, []);
 
   React.useEffect(() => {

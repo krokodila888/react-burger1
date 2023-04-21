@@ -42,7 +42,7 @@ export const setLocation = (currentLocation: string): ISetLocation => ({
   currentLocation
 }); 
 
-export const setItemType = (itemType: 'ingredient' | 'order'): ISetItemType => ({
+export const setItemType = (itemType: 'ingredient' | 'order' | 'orderProfile'): ISetItemType => ({
   type: ON_CLICK_ITEM,
   itemType
 }); 

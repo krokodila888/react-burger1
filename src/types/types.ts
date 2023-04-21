@@ -12,6 +12,9 @@ export interface IIngredient {
   readonly __v: number;
   readonly _id: string;
   keyId?: string;
+  id?: string;
+  index?: number;
+  count?: number;
 }
 
 export type TIngredient = {
@@ -30,6 +33,7 @@ export type TIngredient = {
   keyId?: string;
   id?: string;
   index?: number;
+  count?: number;
 };
 
 export type TOrderItem = {
@@ -39,12 +43,13 @@ export type TOrderItem = {
   number: number; 
   status: string;
   updatedAt: string; 
-  _id: string
+  _id: string;
 }
 
-export type TMessageAllOrders = {
-  success: boolean,
+export type TMessage = {
+  success: boolean;
+  message?: any;
   orders?: Array<TOrderItem>;
-  total?: number,
-  totalToday?: number
+  total?: number;
+  totalToday?: number;
 }

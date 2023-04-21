@@ -20,6 +20,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  align-self: center;
+  padding-top: 122px;
 }
 
 .divRow {

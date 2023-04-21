@@ -29,12 +29,22 @@ export class Api {
 
   _handleResult(res: Response) {
     if (res.ok) {
-        return res.json();
+      return res.json();
     } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
+      return Promise.reject(`Ошибка: ${res.status}`);
     }
   }
-  
+
+  _handleResult2(res: Response) {
+    if (res.ok) {
+      return res.json()}
+    else if (!res.ok) {
+      const err = res.json();
+      return err;
+    }
+    //return res.json();
+  }
+
   getIngredients() {
     return fetch(`${this._bazeUrl}/ingredients`, {
         headers: {
@@ -93,7 +103,7 @@ export class Api {
         Authorization: 'Bearer ' + `${localStorage.getItem('accessToken')}`
       },
     })
-    .then(this._handleResult)
+    .then(this._handleResult2)
   }
 
   updateUser(data: string | null) {

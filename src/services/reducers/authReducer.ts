@@ -3,22 +3,28 @@ import {
     SEND_LOGIN_DATA_FAILED,
     SEND_LOGIN_DATA_SUCCESS,
     REMOVE_LOGIN_DATA,
+
     SEND_REGISTER_DATA,
     SEND_REGISTER_DATA_FAILED,
     SEND_REGISTER_DATA_SUCCESS,
     REMOVE_REGISTER_DATA,
+
     GET_USER_REQUEST,
     GET_USER_REQUEST_FAILED,
+    GET_USER_REQUEST_FAILED_TOKEN,
     GET_USER_REQUEST_SUCCESS,
+
     SEND_UPDATED_USER_REQUEST,
     SEND_USER_REQUEST_FAILED,
-    GET_USER_REQUEST_FAILED_TOKEN,
+
     SEND_USER_REQUEST_SUCCESS,
     REMOVE_USER_DATA,
+
     SEND_LOGOUT_REQUEST,
     SEND_LOGOUT_REQUEST_FAILED,
     SEND_LOGOUT_REQUEST_SUCCESS,
     REMOVE_LOGOUT_DATA,
+
     SEND_REFRESH_TOKEN_REQUEST,
     SEND_REFRESH_TOKEN_REQUEST_FAILED, 
     SEND_REFRESH_TOKEN_REQUEST_SUCCESS,
@@ -52,19 +58,24 @@ import {
     sendLoginRequest: false,
     sendLoginFailed: false,
     sendLogin: {},
+
     sendRegisterRequest: false,
     sendRegisterFailed: false,
     sendRegister: {},
+
     getUserDataRequest: false,
     getUserDataRequestFailed: false,
+    userDataRequestRes: {},
+
     updateUserDataRequest: false,
     updateUserDataRequestFailed: false,
-    userDataRequestRes: {},
     updateUserData: {},
     user: null,
+
     sendLogOutRequest: false,
     sendLogOutRequestFailed: false,
     logOutRequest: {},
+
     sendRefreshTokenRequest: false,
     sendRefreshTokenFailed: false,
     refreshToken: {}
@@ -150,15 +161,15 @@ import {
       case GET_USER_REQUEST_FAILED: {
         return { 
           ...state, 
-          //userDataRequestRes: action.userData,
+          userDataRequestRes: action.userData,
           getUserDataRequestFailed: true, 
           getUserDataRequest: false 
         };
       }
       case GET_USER_REQUEST_FAILED_TOKEN: {
         return { 
-          ...state, 
-          userDataRequestRes: action,
+          ...state,
+          getUserDataRequestFailed: true,
           getUserDataRequest: false 
         };
       }

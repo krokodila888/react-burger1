@@ -28,7 +28,6 @@ function IngredientCard (props: TIngredientCardProps) {
 
   function handleClick(ingredient: TIngredient) {
     dispatch(setCurrentIngredient(ingredient));
-    console.log(ingredient);
     dispatch(setItemType('ingredient'));
     dispatch(setOnClick(ingredient));
     navigate(`/ingredients/:${ingredient._id}`)

@@ -79,16 +79,16 @@ export interface IGetUserDataAction {
 
 export interface IGetUserDataFailedAction {
   readonly type: typeof GET_USER_REQUEST_FAILED;
-}
-
-export interface IGetUserDataSuccessAction {
-  readonly type: typeof GET_USER_REQUEST_SUCCESS;
   readonly userData: any;
 }
 
 export interface IGetUserDataFailedTokenAction {
   readonly type: typeof GET_USER_REQUEST_FAILED_TOKEN;
-  readonly userDataRequestRes: any;
+}
+
+export interface IGetUserDataSuccessAction {
+  readonly type: typeof GET_USER_REQUEST_SUCCESS;
+  readonly userData: any;
 }
 
 export interface IUpdateUserAction {
@@ -224,15 +224,14 @@ export const getUserDataAction = (): IGetUserDataAction => ({
   type: GET_USER_REQUEST
 });
 
-export const getUserDataFailedAction = (): IGetUserDataFailedAction => ({
-  type: GET_USER_REQUEST_FAILED
+export const getUserDataFailedAction = (userData: any): IGetUserDataFailedAction => ({
+  type: GET_USER_REQUEST_FAILED,
+  userData
 });
 
 export const getUserDataFailedTokenAction = (
-  userDataRequestRes: any
 ): IGetUserDataFailedTokenAction => ({
   type: GET_USER_REQUEST_FAILED_TOKEN,
-  userDataRequestRes
 });
 
 export const getUserDataSuccessAction = (
@@ -248,9 +247,10 @@ export const getUserDataThunk = (): any => (dispatch: any) => {
     if (res && res.success) {
       dispatch(getUserDataSuccessAction(res));}
     else if (res && !res.success) {
-      dispatch(getUserDataFailedTokenAction(res));
+      console.log(res);
+      dispatch(getUserDataFailedTokenAction());
     } else {
-      dispatch(getUserDataFailedAction());
+      dispatch(getUserDataFailedAction(res));
     }
   });
 };
