@@ -1,0 +1,107 @@
+.feedPage__container {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  max-width: 1280px;
+  margin-top: 40px;
+  gap: 60px;
+}
+
+.feedPage__second-column {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.feedPage__row {
+  display: flex;
+  flex-direction: row;
+  gap: 36px;
+  /*justify-content: center;
+  align-items: end;*/
+}
+
+.feedPage__column1 {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedPage__column2 {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  flex-wrap: wrap;
+}
+
+.feedPage__num {
+  min-width: 70px;
+}
+
+.feedPage__digits-num {
+  color: #00CCCC;
+}
+
+.feedPage__column {
+  display: flex;
+  flex-direction: column;
+  padding-top: 120px;
+  width: 320px;
+}
+
+.feedPage__column a {
+  text-decoration: none;
+  height: 64px;
+}
+
+.feedPage__column a:hover {
+  opacity: 0.5;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.feedPage__row:first-of-type {
+  padding-top: 60px;
+}
+
+.feedPage__text {
+  margin: 0;
+}
+
+.feedPage__title {
+  margin: 0;
+  padding: 0;
+}
+
+.feedPage__text1 {
+  margin: 0;
+  padding-bottom: 24px;
+}
+
+.feedPage__text-glow {
+  text-shadow: 0px 0px 16px rgba(51, 51, 255, 0.25), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.feedPage__active {
+  font-family: 'Jet Brains Mono';
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.25;
+  color: white;
+}
+
+.feedPage__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-align: center;
+  padding-top: 120px;
+}
+
+.feedPage__link {
+  font-family: 'Jet Brains Mono';
+  font-size: 14px;
+  line-height: 1.43;
+  font-weight: normal;
+  color: #4C4CFF;
+  text-decoration: none;
+}
