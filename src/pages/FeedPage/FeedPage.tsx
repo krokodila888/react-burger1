@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
+import React, { useEffect} from 'react';
 import './FeedPage.css';
 import { getUserDataThunk, getNewTokenThunk, removeTokenRequest } from '../../services/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';

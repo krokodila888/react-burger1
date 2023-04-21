@@ -1,8 +1,6 @@
-import React, { useState, useEffect, FC } from "react";
-import { BrowserRouter, Routes, useLocation, Route, useNavigate } from 'react-router-dom';
-import { Navigate, useParams } from "react-router";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styles from "./app.module.css";
-import Preloader from '../Preloader/Preloader';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeCurrentIngredient } from '../../services/actions/currentIngredient';
 import Main from '../../pages/Main/Main';
@@ -29,7 +27,7 @@ import OrderInfo from "../OrderInfo/OrderInfo";
 import { getIngredients } from '../../services/actions/ingredients';
 import { sendNewOrderThunk } from '../../services/actions/sendOrder';
 import { wsActions } from "../../services/wsMiddleware";
-import { wsUrl } from "../../utils/constants";
+import { wsUrl, wsUrlForUser } from "../../utils/constants";
 
 type ScriptEvent = () => void;
 
@@ -37,7 +35,7 @@ function App() {
 
   const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
   const { emailSend } = useSelector((state: any) => state.resetPasswordReducer);
-  const { locations, onClick, itemData, itemType } = useSelector((state: any) => state.locationReducer);
+  const { locations, onClick, itemType } = useSelector((state: any) => state.locationReducer);
   const [isUserLoaded, setIsUserLoaded] = useState<boolean>(false);
   const [orderModalIsOpen, setOrderModalIsOpen] = useState<boolean>(false);
   const dispatch = useDispatch() as any;
@@ -48,10 +46,11 @@ function App() {
     dispatch({ type: wsActions.wsInit, payload: wsUrl });
   }, []);
 
-  /*useEffect(() => {
-    if (message && message[0] !== null)
-    console.log(message);
-  }, [message]);*/
+  useEffect(() => {
+    if (locations[0].slice(0, 16) === '/profile/orders/')
+    {const token = localStorage.getItem('accessToken');
+    dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` })}
+  }, [locations]);
 
   useEffect(() => {
     dispatch(getUserDataThunk());
@@ -60,10 +59,6 @@ function App() {
   useEffect(()=> {
     dispatch(getIngredients());
   }, [])
-
-  useEffect(()=> {
-  console.log(localStorage.getItem('accessToken'))
-}, [])
 
   useEffect(() => {
     if (getUserDataRequestFailed)
@@ -148,8 +143,7 @@ function App() {
                   onClose={closeModal}>
                     <IngredientDetails />
                 </Modal>
-              }
-            />
+            }/>
           )}
           {onClick && (itemType === 'orderProfile') && (<Route path="/profile/orders/:orderId" element={
             <ProtectedRoute 
@@ -162,7 +156,6 @@ function App() {
                 </Modal>
             </ProtectedRoute>}>      
           </Route>)}
-
           {onClick && (itemType === 'order') && (
             <Route
               path='/feed/:orderId'
@@ -191,8 +184,15 @@ function App() {
           </Route>*/
           <Route path="*" element={<PageNotFound />} />
           {!onClick && (locations[0].slice(0, 5) === '/ingr') && <Route path="/ingredients/:ingredientID" element={<IngredientPage />} />}
-          {!onClick && (locations[0].slice(0, 5) === '/feed') && <Route path="/feed/:orderID" element={<OrderPage />} />}
-          {!onClick && (locations[0].slice(0, 5) === '/prof') && <Route path="/profile/orders/:orderID" element={<ProfileOrderPage />} />}
+          {!onClick && (locations[0].slice(0, 5) === '/feed') && <Route path="/feed/:orderID" element={
+          <OrderPage />} />}
+          {!onClick && (locations[0].slice(0, 16) === '/profile/orders/') && (<Route path="/profile/orders/:orderId" element={
+            <ProtectedRoute 
+              loggedIn={localStorage.getItem('accessToken') !== null}
+              url={'/login'}>
+              <ProfileOrderPage />
+            </ProtectedRoute>}>      
+          </Route>)}
         </Routes>
       </BrowserRouter>
       <div id="react-modals"></div>
@@ -201,22 +201,3 @@ function App() {
 }
 
 export default App;
-
-/*
-          {onClick && (itemType === 'orderProfile') && (
-            <Route
-              path='/profile/orders/:orderId'
-              element={
-                <Modal 
-                  isOpen={onClick}
-                  onClose={closeModal}>
-                    <OrderInfo />
-                </Modal>
-              }
-            />
-          )}
-*/
-
-/*
-user !== null && 
-*/

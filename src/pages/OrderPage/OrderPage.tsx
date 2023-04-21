@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import clsx from "clsx";
 import { useParams } from 'react-router-dom';
 import styles from './OrderPage.module.css';
@@ -112,7 +112,6 @@ function OrderPage() {
               <img src={item.image_mobile} alt='ingredient' width="112" height="56" />
             </picture>
             </div>
-
               <p className="text text_type_main-small">
                 {item.name}
               </p>
@@ -137,7 +136,6 @@ function OrderPage() {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-
       </>}
     </div>}
     </>

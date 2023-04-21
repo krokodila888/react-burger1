@@ -1,10 +1,9 @@
 import React, { FC } from "react";
-import PropTypes from 'prop-types';
 import styles from "./burgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from '../IngredientCard/IngredientCard';
 import { useSelector, useDispatch } from 'react-redux';
-import { IIngredient, TIngredient } from '../../types/types';
+import { TIngredient } from '../../types/types';
 
 function BurgerIngredients() {
   const bunsScroll = React.useRef<HTMLDivElement>(null);
@@ -115,7 +114,6 @@ function BurgerIngredients() {
           ))}
         </ul>
       </div>)}
-
     </section>
   );
 }  

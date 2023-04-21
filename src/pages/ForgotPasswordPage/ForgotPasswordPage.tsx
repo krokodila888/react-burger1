@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Button, EmailInput, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import Preloader from '../../components/Preloader/Preloader';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { sendEmailToResetPasswordThunk, removeEmail, removePassword } from '../../services/actions/resetPassword';
@@ -15,9 +15,7 @@ type TEmail = {
 function ForgotPasswordPage() {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
-  //const { user } = useSelector(state => state.authReducer);
   const { user } = useSelector((state: any) => state.authReducer);
-  //const { sendEmailRequest, sendEmailFailed, sendEmailRes } = useSelector(state => state.resetPasswordReducer);
   const { sendEmailRequest, sendEmailFailed, sendEmailRes, sendPasswordRes } = useSelector((state: any) => state.resetPasswordReducer);
   const [formEmail, setFormEmail] = useState<TEmail>({ email: '' });
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

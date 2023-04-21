@@ -1,14 +1,12 @@
-import React, { useState, useCallback, useEffect, PureComponent, FunctionComponent, FC } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styles from './ingredientPage.module.css';
 import Preloader from '../../components/Preloader/Preloader';
-import { getIngredients } from '../../services/actions/ingredients';
-import { IIngredient, TIngredient } from '../../types/types';
+import { IIngredient } from '../../types/types';
 
 function IngredientPage() {
 
-  //const { ingredients, ingredientsRequest } = useSelector(state => state.ingredientsReducer);
   const { ingredients, ingredientsRequest } = useSelector((state: any) => state.ingredientsReducer);
   const [ingredient1, setIngredient1] = useState<IIngredient | undefined>();
   const ingredientId = useParams() as any;

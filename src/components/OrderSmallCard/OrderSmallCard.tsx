@@ -1,21 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import './OrderSmallCard.css';
-import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setOrderInfo } from '../../services/actions/currentOrderInfo';
 import { setOnClick, setItemType } from '../../services/actions/location';
-import { IIngredient, TIngredient } from '../../types/types';
-import { TMessage, TOrderItem } from '../../types/types';
-import React, { FC } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { IIngredient} from '../../types/types';
+import { TOrderItem } from '../../types/types';
 import IngredientIcon from "../IngredientIcon/IngredientIcon";
 
 type TOrderCardProps = {
   orderItem: TOrderItem
 }
-
-
 
 function OrderSmallCard (props: TOrderCardProps) {
 
@@ -106,7 +101,6 @@ function OrderSmallCard (props: TOrderCardProps) {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-
     </li>
   )
 }

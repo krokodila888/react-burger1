@@ -7,7 +7,6 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Navigate, useNavigate } from "react-router-dom";
 import { removeOnClick } from '../../services/actions/location';
 import { useSelector, useDispatch } from 'react-redux';
-import {locationReducer} from '../../services/reducers/locationReducer';
 
 type ScriptEvent = () => void;
 

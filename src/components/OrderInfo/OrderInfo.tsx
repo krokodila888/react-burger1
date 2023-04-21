@@ -4,7 +4,6 @@ import styles from "./OrderInfo.module.css";
 import { useSelector } from 'react-redux';
 import { IIngredient, TIngredient, TOrderItem } from '../../types/types';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useLocation } from 'react-router-dom';
 
 type ScriptEvent = () => void;
 
@@ -50,7 +49,8 @@ function OrderInfo() {
 
   function getStatus(): string {
     if (currentOrderInfo.status === 'done') return "Выполнен";
-    else return "Готовится"
+    if (currentOrderInfo !== null && currentOrderInfo.status === 'pending') return "Готовится";
+    else return "Создан"
   };
 
   function getStatusStyle(): string {
@@ -92,7 +92,6 @@ function OrderInfo() {
               <img src={item.image_mobile} alt='ingredient' width="112" height="56" />
             </picture>
             </div>
-
               <p className="text text_type_main-small">
                 {item.name}
               </p>
@@ -117,12 +116,8 @@ function OrderInfo() {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-
     </div>
   );
 }
 
 export default OrderInfo;
-/*
-              <img src={item.image_mobile} alt='ingredient'/>
-              */

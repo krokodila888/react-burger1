@@ -5,7 +5,7 @@ import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burg
 import Preloader from '../../components/Preloader/Preloader';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './resetPassword.module.css';
-import { resetPasswordThunk, removePassword } from '../../services/actions/resetPassword';
+import { resetPasswordThunk} from '../../services/actions/resetPassword';
 
 type TFormPassword = {
   password: string;
@@ -21,8 +21,7 @@ function ResetPasswordPage() {
 
   useEffect(() => {
     if (sendPasswordRes.success) {
-    navigate("/");
-    /*dispatch(removePassword())*/}
+    navigate("/");}
   }, [sendPasswordRes]);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -14,7 +14,6 @@ type TFormProfile = {
 function ProfilePage() {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
-  //const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
   const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
   const [form, setValue] = useState<TFormProfile>({ name: '', email: '', password: '' });
 

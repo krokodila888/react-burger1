@@ -14,10 +14,8 @@ type TFormLogin = {
 function LoginPage() {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
-  //const { user } = useSelector(state => state.authReducer);
   const { user } = useSelector((state: any) => state.authReducer);
   const [form, setValue] = useState<TFormLogin>({ email: '', password: '' });
-  //const { sendLogin, sendLoginRequest, sendLoginFailed } = useSelector(state => state.authReducer);
   const { sendLogin, sendLoginRequest, sendLoginFailed } = useSelector((state: any) => state.authReducer);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,37 +37,37 @@ function LoginPage() {
  } }, [sendLogin]);
 
   return (
-      <div className={styles.container}>
-        <form className={styles.form} onSubmit={handleLogin}>
-          <h1 className="text text_type_main-medium">Вход</h1>
-          <EmailInput 
-            placeholder="E-mail" 
-            value={form.email} 
-            name="email" 
-            onChange={onChange} />
-          <PasswordInput 
-            placeholder="Пароль"
-            value={form.password}
-            name="password"
-            onChange={onChange}
-            icon={'ShowIcon'} />
-          <Button 
-            htmlType="button" 
-            type="primary" 
-            size="large"
-            onClick={handleLogin}>
-            Войти
-          </Button>
-        </form>
-        <div className={styles.row}>
-          <p className="text text_type_main-small text_color_inactive">Вы - новый пользователь?</p>
-          <Link to="/register" className={styles.link}> Зарегистрироваться</Link>
-        </div>
-        <div className={styles.row}>
-          <p className="text text_type_main-small text_color_inactive pt-4">Забыли пароль? </p>
-          <Link to="/forgot-password" className={styles.link}> Восстановить пароль</Link>
-        </div>
+    <div className={styles.container}>
+      <form className={styles.form} onSubmit={handleLogin}>
+        <h1 className="text text_type_main-medium">Вход</h1>
+        <EmailInput 
+          placeholder="E-mail" 
+          value={form.email} 
+          name="email" 
+          onChange={onChange} />
+        <PasswordInput 
+          placeholder="Пароль"
+          value={form.password}
+          name="password"
+          onChange={onChange}
+          icon={'ShowIcon'} />
+        <Button 
+          htmlType="button" 
+          type="primary" 
+          size="large"
+          onClick={handleLogin}>
+          Войти
+        </Button>
+      </form>
+      <div className={styles.row}>
+        <p className="text text_type_main-small text_color_inactive">Вы - новый пользователь?</p>
+        <Link to="/register" className={styles.link}> Зарегистрироваться</Link>
       </div>
+      <div className={styles.row}>
+        <p className="text text_type_main-small text_color_inactive pt-4">Забыли пароль? </p>
+        <Link to="/forgot-password" className={styles.link}> Восстановить пароль</Link>
+      </div>
+    </div>
   );
 }
 

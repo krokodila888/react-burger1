@@ -4,7 +4,7 @@ import { useDrag, useDrop } from "react-dnd";
 import styles from "./fillingItem.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientPropTypes } from "../../utils/constants";
-import { IIngredient, TIngredient } from '../../types/types';
+import { TIngredient } from '../../types/types';
 
 type TMoveCard = (dragIndex: number | undefined, hoverIndex: number) => void;
 type TFillingItemProps = {

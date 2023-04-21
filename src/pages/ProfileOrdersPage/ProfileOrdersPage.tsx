@@ -1,15 +1,12 @@
-import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
-import { Link, Navigate, useNavigate, NavLink } from 'react-router-dom';
-import { Input, Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
+import React, { useEffect } from 'react';
+import { useNavigate, NavLink } from 'react-router-dom';
 import styles from './profileOrdersPage.module.css';
-import { getUserDataThunk, getNewTokenThunk, removeTokenRequest, updateUserDataThunk, removeUserData, removeLogOutData, logoutThunk, removeLogin, removeRegister } from '../../services/actions/auth';
+import { getUserDataThunk, getNewTokenThunk, removeTokenRequest, removeUserData, removeLogOutData, logoutThunk, removeLogin, removeRegister } from '../../services/actions/auth';
 import { useSelector, useDispatch } from 'react-redux';
-import { wsUrl, wsUrlForUser } from "../../utils/constants";
+import { wsUrlForUser } from "../../utils/constants";
 import { wsActions } from "../../services/wsMiddleware";
 import { TOrderItem } from '../../types/types';
 import OrderProfileCard from "../../components/OrderProfileCard/OrderProfileCard";
-import Modal from "../../components/Modal/Modal";
-import OrderInfo from "../../components/OrderInfo/OrderInfo";
 
 type TFormOrderProfile = {
   name: string;
@@ -20,21 +17,14 @@ type TFormOrderProfile = {
 function ProfileOrderPage() {
   const dispatch = useDispatch() as any;
   const navigate = useNavigate();
-  //const { user, refreshToken, getUserDataRequestFailed } = useSelector(state => state.authReducer);
   const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
   const { message, orders } = useSelector((state: any) => state.wsReducer);
   const copied = structuredClone(orders).reverse();
 
   React.useEffect(() => {
     const token = localStorage.getItem('accessToken');
-    console.log(token);
     dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` });
   }, []);
-
-  React.useEffect(() => {
-    if (message && message[0] !== null)
-    console.log(message);
-  }, [message]);
 
   useEffect(() => {
     dispatch(getUserDataThunk())

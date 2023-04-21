@@ -31,9 +31,9 @@ function OrderProfileCard (props: TOrderCardProps) {
   let twoDaysAgo = `${twoDaysAgo1.getDate()}.${('0' + (twoDaysAgo1.getMonth()+1)).slice(-2)}.${twoDaysAgo1.getFullYear()}`;
 
   let itemsInOrder = orderItem.ingredients.reduce((list: Array<IIngredient>, elem: string) => {
-    let aaa = ingredients.filter((item1: IIngredient) => (item1._id === elem));
-    if (aaa !== null) {
-      list.push(aaa[0])
+    let item = ingredients.filter((item1: IIngredient) => (item1._id === elem));
+    if (item !== null) {
+      list.push(item[0])
     }
     return list
   }, [])
@@ -88,7 +88,6 @@ function OrderProfileCard (props: TOrderCardProps) {
 
   function handleClick(orderItem: TOrderItem) {
     dispatch(setOrderInfo(orderItem));
-    console.log(orderItem);
     dispatch(setItemType('orderProfile'));
     dispatch(setOnClick(orderItem));
     navigate(`/profile/orders/:${orderItem._id}`)
