@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, useLocation, Routes, Route, useNavigate } from 'react-router-dom';
 import styles from "./app.module.css";
-import { useDispatch, useSelector } from 'react-redux';
 import { removeCurrentIngredient } from '../../services/actions/currentIngredient';
 import Main from '../../pages/Main/Main';
 import PageNotFound from '../../pages/PageNotFound/PageNotFound';
@@ -28,29 +27,34 @@ import { getIngredients } from '../../services/actions/ingredients';
 import { sendNewOrderThunk } from '../../services/actions/sendOrder';
 import { wsActions } from "../../services/wsMiddleware";
 import { wsUrl, wsUrlForUser } from "../../utils/constants";
+import { useAppDispatch } from '../../services/wsMiddleware';
+import { useAppSelector } from '../../services/wsMiddleware';
 
 type ScriptEvent = () => void;
 
 function App() {
 
-  const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
-  const { emailSend } = useSelector((state: any) => state.resetPasswordReducer);
-  const { locations, onClick, itemType } = useSelector((state: any) => state.locationReducer);
+  const { user, refreshToken, getUserDataRequestFailed } = useAppSelector((state) => state.authReducer);
+  const { emailSend } = useAppSelector((state) => state.resetPasswordReducer);
+  const { locations, onClick, itemType } = useAppSelector((state) => state.locationReducer);
   const [isUserLoaded, setIsUserLoaded] = useState<boolean>(false);
   const [orderModalIsOpen, setOrderModalIsOpen] = useState<boolean>(false);
-  const dispatch = useDispatch() as any;
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const { message, total, totalToday, orders } = useSelector((state: any) => state.wsReducer);
+  let background = location.state && location.state.background;
+
+  const { message, total, totalToday, orders } = useAppSelector((state) => state.wsReducer);
 
   useEffect(() => {
+    if (location.pathname.includes("/feed"))
     dispatch({ type: wsActions.wsInit, payload: wsUrl });
-  }, []);
-
-  useEffect(() => {
     if (locations[0].slice(0, 16) === '/profile/orders/')
     {const token = localStorage.getItem('accessToken');
-    dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` })}
+    dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` })};
   }, [locations]);
+
 
   useEffect(() => {
     dispatch(getUserDataThunk());
@@ -79,24 +83,36 @@ function App() {
     } else {setIsUserLoaded(false)}
   }, [user]);
 
-  function openOrderModal(data: boolean) {
+  function openOrderModal(data: Array<string>) {
     dispatch(sendNewOrderThunk(data));
     setOrderModalIsOpen(true)
   }
 
   const closeModal: ScriptEvent = () => {
-    setOrderModalIsOpen(false);
-    dispatch(removeCurrentIngredient());
-    dispatch(removeOrderInfo());
-    dispatch(removeOrder());
-    dispatch(removeOnClick())
+    if (onClick) {
+      setOrderModalIsOpen(false);
+      dispatch(removeCurrentIngredient());
+      dispatch(removeOrderInfo());
+      dispatch(removeOrder());
+      dispatch(removeOnClick());
+      navigate(-1);
+      dispatch(removeOnClick()); }
+    else {
+      setOrderModalIsOpen(false);
+      dispatch(removeCurrentIngredient());
+      dispatch(removeOrderInfo());
+      dispatch(removeOrder());
+      dispatch(removeOnClick());
+      navigate('/');
+      dispatch(removeOnClick());
+    }
   }
 
   return (
     <div className={styles.page}>
-      <BrowserRouter>
+
         <AppHeader/>
-        <Routes>
+        <Routes location={background || location}>
           <Route path="/" element={
             <Main 
               onClose={closeModal}
@@ -134,6 +150,34 @@ function App() {
               <RegisterPage />
             </ProtectedRoute>}>      
           </Route>
+          <Route path="/forgot-password" element={
+            <ProtectedRoute 
+            loggedIn={user === null}
+            url={'/'}>
+              <ForgotPasswordPage />
+            </ProtectedRoute>}>      
+          </Route>
+          <Route path="/reset-password" element={
+            <ProtectedRoute 
+            loggedIn={user === null && emailSend}
+            url={'/forgot-password'}>
+              <ResetPasswordPage />
+            </ProtectedRoute>}>      
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+          {/*!onClick && (locations[0].slice(0, 5) === '/ingr') && */<Route path="/ingredients/:ingredientID" element={<IngredientPage />} />}
+          {/*!onClick && (locations[0].slice(0, 5) === '/feed') && */<Route path="/feed/:orderID" element={
+          <OrderPage />} />}
+          {/*!onClick && (locations[0].slice(0, 16) === '/profile/orders/') && (*/<Route path="/profile/orders/:orderId" element={
+            <ProtectedRoute 
+              loggedIn={localStorage.getItem('accessToken') !== null}
+              url={'/login'}>
+              <ProfileOrderPage />
+            </ProtectedRoute>}>      
+          </Route>}
+        </Routes>
+        {background && (
+        <Routes>
           {onClick && (itemType === 'ingredient') && (
             <Route
               path='/ingredients/:ingredientId'
@@ -143,8 +187,7 @@ function App() {
                   onClose={closeModal}>
                     <IngredientDetails />
                 </Modal>
-            }/>
-          )}
+            }/>)}
           {onClick && (itemType === 'orderProfile') && (<Route path="/profile/orders/:orderId" element={
             <ProtectedRoute 
               loggedIn={localStorage.getItem('accessToken') !== null}
@@ -168,34 +211,9 @@ function App() {
               }
             />
           )}
-          <Route path="/forgot-password" element={
-            <ProtectedRoute 
-            loggedIn={user === null}
-            url={'/'}>
-              <ForgotPasswordPage />
-            </ProtectedRoute>}>      
-          </Route>
-          <Route path="/reset-password" element={
-            <ProtectedRoute 
-            loggedIn={user === null && emailSend}
-            url={'/forgot-password'}>
-              <ResetPasswordPage />
-            </ProtectedRoute>}>      
-          </Route>*/
-          <Route path="*" element={<PageNotFound />} />
-          {!onClick && (locations[0].slice(0, 5) === '/ingr') && <Route path="/ingredients/:ingredientID" element={<IngredientPage />} />}
-          {!onClick && (locations[0].slice(0, 5) === '/feed') && <Route path="/feed/:orderID" element={
-          <OrderPage />} />}
-          {!onClick && (locations[0].slice(0, 16) === '/profile/orders/') && (<Route path="/profile/orders/:orderId" element={
-            <ProtectedRoute 
-              loggedIn={localStorage.getItem('accessToken') !== null}
-              url={'/login'}>
-              <ProfileOrderPage />
-            </ProtectedRoute>}>      
-          </Route>)}
         </Routes>
-      </BrowserRouter>
-      <div id="react-modals"></div>
+      )}
+
     </div>
   );
 }

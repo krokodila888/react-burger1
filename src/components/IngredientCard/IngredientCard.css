@@ -18,3 +18,12 @@
   text-align: center;
   height: 48px;
 }
+
+.ingredientCard__link {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

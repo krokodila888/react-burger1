@@ -6,12 +6,12 @@ import type { TOrderInfoActions } from '../actions/currentOrderInfo';
 import { TOrderItem } from '../../types/types';
 
 type TCurrentOrderInfoState = {
-  currentOrderInfo: TOrderItem | {},
+  currentOrderInfo: TOrderItem | null,
   orderInfoModalIsOpen: boolean
 } 
 
 const initialState: TCurrentOrderInfoState = {
-  currentOrderInfo: {},
+  currentOrderInfo: null,
   orderInfoModalIsOpen: false
 }
 

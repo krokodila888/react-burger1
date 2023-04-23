@@ -1,11 +1,12 @@
 import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import Preloader from '../../components/Preloader/Preloader';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './resetPassword.module.css';
 import { resetPasswordThunk} from '../../services/actions/resetPassword';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 type TFormPassword = {
   password: string;
@@ -13,10 +14,10 @@ type TFormPassword = {
 }
 
 function ResetPasswordPage() {
-  const dispatch = useDispatch() as any;
+  const dispatch = useAppDispatch() as any;
   const navigate = useNavigate();
-  const { user } = useSelector((state: any) => state.authReducer);
-  const { sendPasswordRequest, sendPasswordFailed, sendPasswordRes, emailSend } = useSelector((state: any) => state.resetPasswordReducer);
+  const { user } = useAppSelector((state) => state.authReducer);
+  const { sendPasswordRequest, sendPasswordFailed, sendPasswordRes, emailSend } = useAppSelector((state) => state.resetPasswordReducer);
   const [formPassword, setFormPassword] = useState<TFormPassword>({ password: '', token: '' });
 
   useEffect(() => {
@@ -51,10 +52,9 @@ function ResetPasswordPage() {
           name="token" 
           onChange={onChange} />
         <Button 
-          htmlType="button" 
+          htmlType="submit" 
           type="primary" 
-          size="large"
-          onClick={handleSubmit}>
+          size="large">
             Сохранить
         </Button>
       </form>

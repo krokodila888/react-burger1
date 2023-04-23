@@ -1,13 +1,12 @@
 import React from "react";
-import { connect } from 'react-redux';
 import "./OrderDetails.css";
 import Done from "../../images/done.svg";
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
 import Preloader from '../Preloader/Preloader';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 function OrderDetails() {
-  const { sendOrderNumber, sendOrderRequest, sendOrderFailed } = useSelector((state: any) => state.currentOrderReducer);
+  const { sendOrderNumber, sendOrderRequest, sendOrderFailed } = useAppSelector((state) => state.currentOrderReducer);
 
   return (
     <div className="pic">

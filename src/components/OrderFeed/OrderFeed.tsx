@@ -1,27 +1,22 @@
 import React, { FC } from "react";
-import PropTypes from 'prop-types';
 import styles from "./orderFeed.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
 import { wsActions } from "../../services/wsMiddleware";
 import { wsUrl, wsUrlForUser } from "../../utils/constants";
 import { TOrderItem } from '../../types/types';
 import OrderSmallCard from "../OrderSmallCard/OrderSmallCard";
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 function OrderFeed() {
 
-  const dispatch = useDispatch();
-  const { message, orders } = useSelector((state: any) => state.wsReducer);
+  const dispatch = useAppDispatch();
+  const { message, orders } = useAppSelector((state) => state.wsReducer);
 
   React.useEffect(() => {
     const token = localStorage.getItem('accessToken');
     dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` });
   }, []);
-
-  /*React.useEffect(() => {
-    if (message && message[0] !== null)
-    console.log(message);
-  }, [message]);*/
 
   return (
     <section className={styles.section}>

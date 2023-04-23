@@ -51,7 +51,7 @@ export const removeLocations = (): IRemoveLocations => ({
   type: REMOVE_LOCATIONS
 }); 
 
-export const setOnClick = (currentItem: IIngredient | TOrderItem ): ISetOnClick => ({
+export const setOnClick = (currentItem: TIngredient | TOrderItem ): ISetOnClick => ({
   type: ON_CLICK,
   currentItem
 }); 

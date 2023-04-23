@@ -1,6 +1,5 @@
 import React from "react";
 import "./modalOverlay.css";
-import PropTypes from 'prop-types';
 
 interface IModalOverlayProps {
   isOpen: boolean;
@@ -16,7 +15,3 @@ function ModalOverlay(props: IModalOverlayProps) {
 }
 
 export default ModalOverlay;
-
-ModalOverlay.propTypes = {
-  isOpen: PropTypes.bool.isRequired
-};

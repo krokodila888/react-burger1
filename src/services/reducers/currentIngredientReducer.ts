@@ -6,12 +6,12 @@ import type { TCurrentIngredientActions } from '../actions/currentIngredient';
 import { TIngredient } from '../../types/types';
 
 type TCurrentIngredientState = {
-  currentItem: TIngredient | {},
+  currentItem: TIngredient | null,
   ingredientModalIsOpen: boolean
 } 
 
 const initialState: TCurrentIngredientState = {
-  currentItem: {},
+  currentItem: null,
   ingredientModalIsOpen: false
 }
 
@@ -28,9 +28,11 @@ export const currentIngredientReducer = (state = initialState, action: TCurrentI
           fat: action.fat, 
           proteins: action.proteins,
           image_mobile: action.image_mobile,
+          image: action.image,
           price: action.price,
           type1: action.type,
-          _id: action._id
+          _id: action._id,
+          __v: action.__v,
         },
         ingredientModalIsOpen: true
       }

@@ -13,9 +13,11 @@ export interface ISetCurrentIngredient {
   readonly fat: number, 
   readonly proteins: number,
   readonly image_mobile: string,
+  readonly image: string,
   readonly price: number,
-  readonly type1: string,
+  readonly type1?: string,
   readonly _id: string,
+  readonly __v: number;
   readonly ingredientModalIsOpen: boolean
 }
 
@@ -37,7 +39,9 @@ export function setCurrentIngredient(data: TIngredient): ISetCurrentIngredient {
     fat: data.fat, 
     proteins: data.proteins,
     image_mobile: data.image_mobile,
+    image: data.image,
     price: data.price,
+    __v: data.__v,
     type1: data.type,
     _id: data._id,
     ingredientModalIsOpen: true

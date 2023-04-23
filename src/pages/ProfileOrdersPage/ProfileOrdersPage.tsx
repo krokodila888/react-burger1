@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import styles from './profileOrdersPage.module.css';
 import { getUserDataThunk, getNewTokenThunk, removeTokenRequest, removeUserData, removeLogOutData, logoutThunk, removeLogin, removeRegister } from '../../services/actions/auth';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
 import { wsUrlForUser } from "../../utils/constants";
 import { wsActions } from "../../services/wsMiddleware";
 import { TOrderItem } from '../../types/types';
 import OrderProfileCard from "../../components/OrderProfileCard/OrderProfileCard";
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 type TFormOrderProfile = {
   name: string;
@@ -15,11 +16,11 @@ type TFormOrderProfile = {
 }
 
 function ProfileOrderPage() {
-  const dispatch = useDispatch() as any;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
-  const { message, orders } = useSelector((state: any) => state.wsReducer);
-  const copied = structuredClone(orders).reverse();
+  const { user, refreshToken, getUserDataRequestFailed } = useAppSelector((state) => state.authReducer);
+  const { message, orders } = useAppSelector((state) => state.wsReducer);
+  const copied = structuredClone(orders);
 
   React.useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -80,7 +81,7 @@ function ProfileOrderPage() {
                 orderItem = {item}
               />
             </div>
-          ))}
+          )).reverse()}
       </div>)}
     </div>
   );

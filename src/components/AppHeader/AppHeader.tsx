@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import "./AppHeader.css";
-import { NavLink, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { NavLink, useLocation, Link, useNavigate } from 'react-router-dom';
 import { setLocation } from '../../services/actions/location';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 function AppHeader() {
   let location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(setLocation(location.pathname));
@@ -26,11 +26,14 @@ function AppHeader() {
             <ListIcon type="secondary"/>Лента заказов
           </NavLink>
         </div>
-          <Logo/>
-          <NavLink to="/profile" className={({ isActive }) => 
-            (isActive ? 'appHeader__link appHeader__active-link text text_type_main-default pl-5 pr-5 pb-5 pt-5 appHeader__padding-to-right' : "appHeader__link text text_type_main-default text_color_inactive pl-5 pr-5 pb-5 pt-5 appHeader__padding-to-right")} >
-            <ProfileIcon type="secondary"/>Личный кабинет
-          </NavLink>
+        <Link
+          to={`/`}>
+          <Logo />
+        </Link>
+        <NavLink to="/profile" className={({ isActive }) => 
+          (isActive ? 'appHeader__link appHeader__active-link text text_type_main-default pl-5 pr-5 pb-5 pt-5 appHeader__padding-to-right' : "appHeader__link text text_type_main-default text_color_inactive pl-5 pr-5 pb-5 pt-5 appHeader__padding-to-right")} >
+          <ProfileIcon type="secondary"/>Личный кабинет
+        </NavLink>
       </nav>
     </header>
   );

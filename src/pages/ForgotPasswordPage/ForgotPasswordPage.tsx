@@ -1,10 +1,11 @@
 import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import Preloader from '../../components/Preloader/Preloader';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { sendEmailToResetPasswordThunk, removeEmail, removePassword } from '../../services/actions/resetPassword';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 import styles from './forgotPasswordPage.module.css';
 
@@ -13,10 +14,10 @@ type TEmail = {
 }
 
 function ForgotPasswordPage() {
-  const dispatch = useDispatch() as any;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state: any) => state.authReducer);
-  const { sendEmailRequest, sendEmailFailed, sendEmailRes, sendPasswordRes } = useSelector((state: any) => state.resetPasswordReducer);
+  const { user } = useAppSelector((state) => state.authReducer);
+  const { sendEmailRequest, sendEmailFailed, sendEmailRes, sendPasswordRes } = useAppSelector((state) => state.resetPasswordReducer);
   const [formEmail, setFormEmail] = useState<TEmail>({ email: '' });
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormEmail({ ...formEmail, [e.target.name]: e.target.value });
@@ -49,10 +50,9 @@ function ForgotPasswordPage() {
               name="email" 
               onChange={onChange} />
             <Button 
-              htmlType="button" 
+              htmlType="submit"  
               type="primary" 
-              size="large"
-              onClick={handleSubmit}>
+              size="large">
                 Восстановить
             </Button>
           </form>

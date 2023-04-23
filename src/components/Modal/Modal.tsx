@@ -1,12 +1,8 @@
 import React, { useState, FC } from "react";
-import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom'
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import "./modal.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Navigate, useNavigate } from "react-router-dom";
-import { removeOnClick } from '../../services/actions/location';
-import { useSelector, useDispatch } from 'react-redux';
 
 type ScriptEvent = () => void;
 
@@ -25,9 +21,6 @@ interface IModalProps {
 const Modal: FC<IModalProps> = ({ isOpen, onClose, children }) => {
 
   const overlay = React.useRef<HTMLDivElement | null>(null);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const onClick = useSelector((state: ILocationReducerState) => state.onClick);
 
   React.useEffect(() => {
     const closeByClick = (event: MouseEvent) => {
@@ -45,14 +38,7 @@ const Modal: FC<IModalProps> = ({ isOpen, onClose, children }) => {
   }, []);
 
   function handleClose() {
-    /*if (onClick) {*/
-      onClose();
-      navigate(-1);
-      /*dispatch(removeOnClick()); }
-    else {
-      onClose();
-      navigate('/');*/
-      dispatch(removeOnClick());/*}*/
+    onClose()
   }
 
   React.useEffect(() => {
@@ -83,9 +69,3 @@ const Modal: FC<IModalProps> = ({ isOpen, onClose, children }) => {
 }
 
 export default Modal;
-
-Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired
-};

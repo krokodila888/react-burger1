@@ -3,7 +3,8 @@ import { useNavigate, NavLink } from 'react-router-dom';
 import { Input, Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './profilePage.module.css';
 import { getUserDataThunk, getNewTokenThunk, removeTokenRequest, updateUserDataThunk, removeUserData, removeLogOutData, logoutThunk, removeLogin, removeRegister } from '../../services/actions/auth';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 type TFormProfile = {
   name: string;
@@ -12,9 +13,9 @@ type TFormProfile = {
 }
 
 function ProfilePage() {
-  const dispatch = useDispatch() as any;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
+  const { user, refreshToken, getUserDataRequestFailed } = useAppSelector((state) => state.authReducer);
   const [form, setValue] = useState<TFormProfile>({ name: '', email: '', password: '' });
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +79,7 @@ function ProfilePage() {
             Выход
           </NavLink>
         </div>
-        <form className={styles.form} onSubmit={handleCancel}>
+        <form className={styles.form} onSubmit={handleUpdateUser}>
           <Input 
             placeholder="Имя" 
             value={form.name} 
@@ -98,11 +99,18 @@ function ProfilePage() {
             icon={'EditIcon'} />
           {(user !== null && (form.email !== user.email || form.name !== user.name || form.password !== '')) ? 
             (<>
-            <Button htmlType="button" type="primary" size="medium" onClick={handleUpdateUser}> 
-              Сохранить
+            <Button 
+              htmlType="submit" 
+              type="primary" 
+              size="medium"> 
+                Сохранить
             </Button>
-            <Button htmlType="button" type="primary" size="medium" > 
-              Отмена
+            <Button 
+              htmlType="button" 
+              type="primary" 
+              size="medium" 
+              onClick={handleCancel}> 
+                Отмена
             </Button>
         </>) : (<></>)}
         </form>

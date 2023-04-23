@@ -5,10 +5,10 @@ import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstruc
 import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients';
 import styles from "./main.module.css";
 import Preloader from '../../components/Preloader/Preloader';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 type ScriptEvent = () => void;
-type ScriptEventModalOpen = (data: boolean) => void;
+type ScriptEventModalOpen = (data: Array<string>) => void;
 
 interface IMainProps {
   onClose: ScriptEvent;

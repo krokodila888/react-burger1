@@ -1,31 +1,41 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
 import clsx from "clsx";
 import { useParams } from 'react-router-dom';
 import styles from './ProfileOrderPage.module.css';
 import { IIngredient, TIngredient, TOrderItem } from '../../types/types';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import Preloader from '../../components/Preloader/Preloader';
+import { wsActions } from "../../services/wsMiddleware";
+import { wsUrlForUser } from "../../utils/constants";
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 function ProfileOrderPage() {
 
-  const { ingredients } = useSelector((state: any) => state.ingredientsReducer);
-  const { user, refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
-  const { message, orders } = useSelector((state: any) => state.wsReducer);
+  const { ingredients } = useAppSelector((state) => state.ingredientsReducer);
+  const { user, refreshToken, getUserDataRequestFailed } = useAppSelector((state) => state.authReducer);
+  const { message, orders } = useAppSelector((state) => state.wsReducer);
   const orderID = useParams() as any;
   const [currentOrderInfo, setCurrentOrderInfo] = useState<TOrderItem | null>(null);
-  const [itemsInOrder, setItemsInOrder] = useState<Array<IIngredient> | null>(null);
-  const [arrToRender, setArrToRender] = useState<Array<IIngredient> | null>(null);
-  const dispatch = useDispatch() as any;
+  const [itemsInOrder, setItemsInOrder] = useState<Array<TIngredient> | null>(null);
+  const [arrToRender, setArrToRender] = useState<Array<TIngredient> | null>(null);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch({ type: wsActions.wsInit, payload: wsUrlForUser });
+    return () => {
+      dispatch({ type: wsActions.onClose });
+    };
+  }, [dispatch]);
 
   useEffect(() => {if (orders[0] !== null && orders !== undefined)
     setCurrentOrderInfo(orders.filter((item: TOrderItem) => (item._id === orderID.orderId.replace(':', '')))[0]);
   }, [orders]);
 
-  useEffect(() => {if (currentOrderInfo !== null && currentOrderInfo !== undefined)
+  useEffect(() => {if (ingredients !== null && currentOrderInfo !== null && currentOrderInfo !== undefined)
     {const itemsInOrder1 = currentOrderInfo.ingredients.
-      reduce((list: Array<IIngredient>, elem: string) => {
-      let item = ingredients.filter((item1: IIngredient) => (item1._id === elem));
+      reduce((list: Array<TIngredient>, elem: string) => {
+      let item = ingredients.filter((item1: TIngredient) => (item1._id === elem));
       if (item !== null) {
       list.push(item[0])
       }
@@ -36,8 +46,8 @@ function ProfileOrderPage() {
 
   useEffect(() => {if (itemsInOrder !== null && itemsInOrder !== undefined)
     {const arrToRender1 = itemsInOrder
-      .map((item: IIngredient) => ({...item, count: itemsInOrder.filter((item2: IIngredient) => item2._id === item._id).length}))
-      .reduce((list: Array<IIngredient>, elem: IIngredient) => {
+      .map((item: TIngredient) => ({...item, count: itemsInOrder.filter((item2: TIngredient) => item2._id === item._id).length}))
+      .reduce((list: Array<TIngredient>, elem: TIngredient) => {
     if (elem.count === 1) list.push(elem);
     else if ((elem.count !== undefined && elem.count > 1) && (list.filter((item1) => (item1._id === elem._id)).length === 0)) list.push(elem);
     return list
@@ -64,7 +74,7 @@ function ProfileOrderPage() {
 
   function getPrices(): number | undefined {
     if (itemsInOrder !== null && itemsInOrder !== undefined) {
-      const prices = itemsInOrder.reduce((sum: number, elem: IIngredient) => {
+      const prices = itemsInOrder.reduce((sum: number, elem: TIngredient) => {
       if (elem && elem !== null && elem !== undefined)
         {sum = sum + elem.price}
       return sum
@@ -86,7 +96,7 @@ function ProfileOrderPage() {
   
   return (
     <>
-    {orders === null ? <Preloader isLoading={orders.filter((item: TOrderItem) => (item._id === orderID.orderId.replace(':', '')))[0] === undefined}/> :
+    {orders === null ? <Preloader isLoading={/*orders.filter((item: TOrderItem) => (item._id === orderID.orderId.replace(':', '')))[0] === undefined*/orders === null}/> :
     <div className={styles.div}>
       {currentOrderInfo !== null && currentOrderInfo !== undefined && <>
     <h2 className="text text_type_digits-default">
@@ -114,7 +124,6 @@ function ProfileOrderPage() {
               <img src={item.image_mobile} alt='ingredient' width="112" height="56" />
             </picture>
             </div>
-
               <p className="text text_type_main-small">
                 {item.name}
               </p>

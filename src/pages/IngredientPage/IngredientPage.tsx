@@ -1,20 +1,25 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
 import { useParams } from 'react-router-dom';
 import styles from './ingredientPage.module.css';
 import Preloader from '../../components/Preloader/Preloader';
-import { IIngredient } from '../../types/types';
+import { TIngredient } from '../../types/types';
+import IngredientDetails from '../../components/IngredientDetails/IngredientDetails';
+import { setCurrentIngredient } from '../../services/actions/currentIngredient';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 function IngredientPage() {
 
-  const { ingredients, ingredientsRequest } = useSelector((state: any) => state.ingredientsReducer);
-  const [ingredient1, setIngredient1] = useState<IIngredient | undefined>();
+  const { ingredients, ingredientsRequest } = useAppSelector((state) => state.ingredientsReducer);
+  const [ingredient1, setIngredient1] = useState<TIngredient | undefined>();
   const ingredientId = useParams() as any;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { currentItem } = useAppSelector((state) => state.currentIngredientReducer);
+
 
   const loadIngredientInfo = useCallback(
     () => {if (ingredients !== null) {
-      let currentItem: IIngredient | undefined = ingredients.find((item: IIngredient) => item._id === ingredientId.ingredientID.replace(':', ''));
+      let currentItem: TIngredient | undefined = ingredients.find((item: TIngredient) => item._id === ingredientId.ingredientID.replace(':', ''));
       setIngredient1(currentItem);
     }},
     [ingredients]
@@ -26,59 +31,23 @@ function IngredientPage() {
     },
     [ingredientId, loadIngredientInfo, ingredients]
   );
+
+  useEffect(() => {
+    if (ingredient1 !== undefined) {
+      dispatch(setCurrentIngredient(ingredient1));}
+  }, [ingredient1]);
   
   return (
     <>
-    {ingredientsRequest && ingredients === null && typeof(ingredients) === 'undefined' && ingredient1 === null ? (
+    {ingredientsRequest && ingredients === null && typeof(ingredients) === 'undefined' && ingredient1 === null && currentItem === undefined ? (
       <>
         <p>Идет загрузка</p>
         <Preloader isLoading={ingredientsRequest} />
         </>
-      ) : (    
-      <div className={styles.container}>
-        <h2 className="text text_type_main-large pt-3">
-          Детали ингредиента
-        </h2>
-        {ingredient1 === undefined ? <p>Идет загрузка</p> :
-        <>
-        <img src={ingredient1.image_large} alt="Картинка с выбранным ингредиентом" />
-        <h3 className="text text_type_main-medium pt-4">
-          {ingredient1.name}
-        </h3>
-        <ul className={styles.dataBlock}>
-          <li className={styles.li}>
-            <p className="text text_type_main-default text_color_inactive">
-              Каллории, ккал
-            </p>
-            <p className="text text_type_digits-default text_color_inactive">
-              {ingredient1.calories}
-            </p>
-          </li>
-          <li className={styles.li}>
-            <p className="text text_type_main-default text_color_inactive">
-              Белки, г
-            </p>
-            <p className="text text_type_digits-default text_color_inactive">
-              {ingredient1.proteins}
-            </p>
-          </li>
-          <li className={styles.li}>
-            <p className="text text_type_main-default text_color_inactive">
-              Жиры, г
-            </p>
-            <p className="text text_type_digits-default text_color_inactive">
-              {ingredient1.fat}
-            </p>
-          </li>
-          <li className={styles.li}>
-            <p className="text text_type_main-default text_color_inactive">
-              Углеводы, г
-            </p>
-            <p className="text text_type_digits-default text_color_inactive">{ingredient1.carbohydrates}</p>
-          </li>
-        </ul>
-        </>}
-      </div>
+      ) : (
+        <div className={styles.container}>
+          <IngredientDetails/>
+        </div>
   )} </>
   )
 }

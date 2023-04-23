@@ -14,6 +14,79 @@
   padding: 0;
 }
 
+.p1 {
+  padding: 16px 24px;
+  display: inline-block;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  max-width: 536px;
+  width: 536px;
+  min-height: 80px;
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 24px;
+  color: #F2F2F3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  border-radius: 88px 88px 40px 40px;
+  justify-items: center;
+  text-align: center;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+
+.p2 {
+  padding: 16px 24px;
+  display: inline-block;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  max-width: 536px;
+  width: 536px;
+  min-height: 80px;
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 24px;
+  color: #F2F2F3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  border-radius: 40px;
+  justify-items: center;
+  text-align: center;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+  margin-left: 20px;
+}
+
+.p3 {
+  padding: 16px 24px;
+  display: inline-block;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  max-width: 536px;
+  width: 536px;
+  min-height: 80px;
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 24px;
+  color: #F2F2F3;
+  flex-grow: 1;
+  box-sizing: border-box;
+  border-radius: 40px 40px 88px 88px;
+  justify-items: center;
+  text-align: center;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+
 .li {
   display: flex;
   align-items: center;
@@ -74,4 +147,5 @@
   font-size: 18px;
   text-align: center;
   margin: 0;
+  padding: 16px 0 16px 100px;
 }

@@ -2,7 +2,8 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import { loginThunk, getUserDataThunk } from '../../services/actions/auth';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 import styles from './loginPage.module.css';
 
@@ -12,11 +13,11 @@ type TFormLogin = {
 }
 
 function LoginPage() {
-  const dispatch = useDispatch() as any;
+  const dispatch = useAppDispatch() as any;
   const navigate = useNavigate();
-  const { user } = useSelector((state: any) => state.authReducer);
+  const { user } = useAppSelector((state) => state.authReducer);
   const [form, setValue] = useState<TFormLogin>({ email: '', password: '' });
-  const { sendLogin, sendLoginRequest, sendLoginFailed } = useSelector((state: any) => state.authReducer);
+  const { sendLogin, sendLoginRequest, sendLoginFailed } = useAppSelector((state) => state.authReducer);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -52,10 +53,9 @@ function LoginPage() {
           onChange={onChange}
           icon={'ShowIcon'} />
         <Button 
-          htmlType="button" 
+          htmlType="submit"  
           type="primary" 
-          size="large"
-          onClick={handleLogin}>
+          size="large">
           Войти
         </Button>
       </form>

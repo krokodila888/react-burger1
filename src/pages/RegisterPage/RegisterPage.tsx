@@ -1,9 +1,10 @@
 import React, { useCallback, useState, useEffect, ChangeEvent } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Input, Button, PasswordInput, EmailInput, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useSelector, useDispatch } from 'react-redux';
+import { Input, Button, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useAppSelector } from '../../services/wsMiddleware';
 import styles from './registerPage.module.css';
 import { registerThunk, getUserDataThunk } from '../../services/actions/auth';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 type TFormRegister = {
   email: string;
@@ -13,10 +14,10 @@ type TFormRegister = {
 
 function RegisterPage() {
   const [form, setValue] = useState<TFormRegister>({ email: '', password: '', name: ''  });
-  const { user } = useSelector((state: any) => state.authReducer);
-  const dispatch = useDispatch() as any;
+  const { user } = useAppSelector((state) => state.authReducer);
+  const dispatch = useAppDispatch() as any;
   const navigate = useNavigate();
-  const { sendRegister, sendRegisterRequest, sendRegisterFailed } = useSelector((state: any) => state.authReducer);
+  const { sendRegister, sendRegisterRequest, sendRegisterFailed } = useAppSelector((state) => state.authReducer);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
@@ -55,10 +56,9 @@ function RegisterPage() {
           onChange={onChange}
           icon={'ShowIcon'} />
         <Button 
-          htmlType="button" 
+          htmlType="submit"
           type="primary" 
-          size="large" 
-          onClick={handleRegister}>
+          size="large" >
             Зарегистрироваться
         </Button>
       </form>

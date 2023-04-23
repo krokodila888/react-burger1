@@ -8,6 +8,14 @@
   border-radius: 40px;
 }
 
+.orderProfileCard__link {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .orderProfileCard_name {
   width: 796px;
 }

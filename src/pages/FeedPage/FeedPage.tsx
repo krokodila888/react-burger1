@@ -1,16 +1,17 @@
 import React, { useEffect} from 'react';
 import './FeedPage.css';
 import { getUserDataThunk, getNewTokenThunk, removeTokenRequest } from '../../services/actions/auth';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector } from '../../services/wsMiddleware';
 import { wsActions } from "../../services/wsMiddleware";
 import { wsUrl } from "../../utils/constants";
 import OrderFeed from '../../components/OrderFeed/OrderFeed';
 import { TOrderItem } from '../../types/types';
+import { useAppDispatch } from '../../services/wsMiddleware';
 
 function FeedPage() {
-  const dispatch = useDispatch() as any;
-  const { total, totalToday, orders } = useSelector((state: any) => state.wsReducer);
-  const { refreshToken, getUserDataRequestFailed } = useSelector((state: any) => state.authReducer);
+  const dispatch = useAppDispatch();
+  const { total, totalToday, orders } = useAppSelector((state) => state.wsReducer);
+  const { refreshToken, getUserDataRequestFailed } = useAppSelector((state) => state.authReducer);
 
   useEffect(() => {
     dispatch({ type: wsActions.wsInit, payload: wsUrl });

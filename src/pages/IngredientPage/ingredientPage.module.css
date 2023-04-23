@@ -28,4 +28,11 @@
   max-width: 640px;
   padding-top: 120px;
   align-items: center;
+  text-align: center;
+}
+
+.container h2 {
+  align-self: center !important;
+  text-align: center;
+  display: block !important;
 }

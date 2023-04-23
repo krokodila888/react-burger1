@@ -12,35 +12,28 @@ type TCurrentBurgerState = {
 } 
   
 const initialState: TCurrentBurgerState = {
-  currentBurger: [
-    {
-      name: "Краторная булка N-200i",
-      type: "bun",
-      image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-      image: "https://code.s3.yandex.net/react/code/bun-02.png",
-      price: 1255,
-      _id: "643d69a5c3f7b9001cfa093c",
-      calories: 420,
-      carbohydrates: 53,
-      fat: 24,
-      image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
-      proteins: 80,
-      __v: 0
-    }]
+  currentBurger: []
 }
 
 export const currentBurgerReducer = (state = initialState, action:  TCurrentBurgerActions): TCurrentBurgerState => {
   switch (action.type) {
     // @ts-ignore
     case ADD_INGREDIENT: {
-      const previousIngredients = [...state.currentBurger].slice(1);
+      const previousIngredients = [...state.currentBurger];
       if ((action.item.type === 'main' || 'sauce') && (action.item.type !== 'bun'))
       return {
         ...state,
         currentBurger: [
-          state.currentBurger[0],
           ...previousIngredients,
           action.item
+        ],
+      };
+      else if ((action.item.type !== 'main' || 'sauce') && (action.item.type === 'bun') && previousIngredients.find((item) => item.type === 'bun'))
+      return {
+        ...state,
+        currentBurger: [
+          action.item,
+          ...previousIngredients.slice(1)
         ],
       };
       else if ((action.item.type !== 'main' || 'sauce') && (action.item.type === 'bun'))
@@ -49,8 +42,9 @@ export const currentBurgerReducer = (state = initialState, action:  TCurrentBurg
         currentBurger: [
           action.item,
           ...previousIngredients
-      ],
-    };};
+        ],
+      }};
+    // eslint-disable-next-line no-fallthrough
     case REMOVE_INGREDIENT: 
       return {
         ...state,
@@ -58,7 +52,10 @@ export const currentBurgerReducer = (state = initialState, action:  TCurrentBurg
           (item1: any) => (item1.keyId !== action.item.keyId)
         ),
       };
-    case REPLACE_INGREDIENT:
+// eslint-disable-next-line no-fallthrough, no-lone-blocks
+    // @ts-ignore
+    case REPLACE_INGREDIENT: {
+      if (state.currentBurger[0].type === 'bun')
       return {
         ...state,
         currentBurger: [
@@ -66,6 +63,20 @@ export const currentBurgerReducer = (state = initialState, action:  TCurrentBurg
           ...action.items
         ],
       };
+      else /*if (state.currentBurger[0].type !== 'bun')*/
+      return {
+        ...state,
+        currentBurger: [
+          ...action.items
+        ],
+    }};
+      /*return {
+        ...state,
+        currentBurger: [
+          state.currentBurger[0],
+          ...action.items
+        ],
+      };*/
     case CLEAR_CONSTRUCTOR:{
       return initialState
     }

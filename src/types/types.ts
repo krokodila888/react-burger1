@@ -27,12 +27,13 @@ export type TIngredient = {
   readonly name: string;
   readonly price: number;
   readonly proteins: number;
-  readonly type: string;
+  readonly type?: string;
   readonly __v: number;
   readonly _id: string;
   keyId?: string;
   id?: string;
   index?: number;
+  type1?: string;
   count?: number;
 };
 

@@ -1,16 +1,15 @@
 import React, { FC } from "react";
-import PropTypes, { string } from 'prop-types';
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./fillingItem.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientPropTypes } from "../../utils/constants";
 import { TIngredient } from '../../types/types';
 
 type TMoveCard = (dragIndex: number | undefined, hoverIndex: number) => void;
 type TFillingItemProps = {
   item: TIngredient;
   index: number;
-  removeItem: FC<TIngredient>;
+  //removeItem: FC<TIngredient>;
+  removeItem: any;
   moveCard: any;
 }
 
@@ -77,10 +76,3 @@ function FillingItem(props: TFillingItemProps) {
 }
 
 export default FillingItem;
-
-FillingItem.propTypes = {
-  index: PropTypes.number.isRequired,
-  removeItem: PropTypes.func.isRequired,
-  moveCard: PropTypes.func.isRequired,
-  item: ingredientPropTypes.isRequired,
-};

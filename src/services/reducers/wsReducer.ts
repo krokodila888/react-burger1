@@ -15,19 +15,19 @@ export interface IMessage {
 
 type TWSState = {
   wsConnected: boolean;
-  orders: TOrderItem[];
+  orders: ReadonlyArray<TOrderItem>;
   total: number | null;
   totalToday: number | null;
   error?: Event;
-  message: TMessage | {}
+  message: TMessage | null
 }
   
-const initialState = {
+const initialState: TWSState = {
   wsConnected: false,
   orders: [],
   total: null,
   totalToday: null,
-  message: {}
+  message: null
 };
 
 // Создадим редьюсер для WebSocket

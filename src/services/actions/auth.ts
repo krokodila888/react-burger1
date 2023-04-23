@@ -156,6 +156,23 @@ export type TAuthActions =
   | IRefreshTokenFailedAction
   | IRefreshTokenSuccessAction;
 
+type TLoginData = {
+  email: string, 
+  password: string
+}
+
+type TRegisterData = {
+  email: string, 
+  password: string,
+  name: string
+}
+
+type TUpdateUserData = {
+  email: string, 
+  password: string,
+  name: string
+}
+
 export const loginAction = (): ILoginAction => ({
   type: SEND_LOGIN_DATA
 });
@@ -171,7 +188,7 @@ export const loginSuccessAction = (
   sendLogin
 });
 
-export const loginThunk = (data: any): any => (dispatch: any) => {
+export const loginThunk = (data: TLoginData): any => (dispatch: any) => {
   dispatch(loginAction());
   api.signIn(data).then(res => {
     if (res && res.success) {
@@ -197,7 +214,7 @@ export const registerSuccessAction = (
   sendRegister
 });
 
-export const registerThunk = (data: any): any => (dispatch: any) => {
+export const registerThunk = (data: TRegisterData): any => (dispatch: any) => {
   dispatch(registerAction());
   api.signUp(data).then(res => {
     if (res && res.success) {
@@ -270,7 +287,7 @@ export const updateUserSuccessAction = (
   newUserData
 });
 
-export const updateUserDataThunk = (data: any): any => (dispatch: any) => {
+export const updateUserDataThunk = (data: TUpdateUserData): any => (dispatch: any) => {
   dispatch(updateUserAction());
   api.updateUser(data).then(res => {
     if (res && res.success) {

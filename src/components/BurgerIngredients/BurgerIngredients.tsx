@@ -2,8 +2,9 @@ import React, { FC } from "react";
 import styles from "./burgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from '../IngredientCard/IngredientCard';
-import { useSelector, useDispatch } from 'react-redux';
 import { TIngredient } from '../../types/types';
+import { useAppDispatch } from '../../services/wsMiddleware';
+import { useAppSelector } from '../../services/wsMiddleware';
 
 function BurgerIngredients() {
   const bunsScroll = React.useRef<HTMLDivElement>(null);
@@ -11,10 +12,10 @@ function BurgerIngredients() {
   const sauceScroll = React.useRef<HTMLDivElement>(null);  
   const fillingsBlock = React.useRef<HTMLDivElement>(null);
   const [current, setCurrent] = React.useState('bunsScroll');
-  const { user } = useSelector((state: any) => state.authReducer);
-  const { ingredients, ingredientsRequest } = useSelector((state: any) => state.ingredientsReducer);
+  const { user } = useAppSelector((state) => state.authReducer);
+  const { ingredients, ingredientsRequest } = useAppSelector((state) => state.ingredientsReducer);
   const [heightScroll, setHeightScroll] = React.useState(0);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
   function getPosition() {
     if (fillingsBlock.current) {
