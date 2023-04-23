@@ -47,10 +47,104 @@ export type TOrderItem = {
   _id: string;
 }
 
+export type TUser = {
+  email: string,
+  name: string
+}
+
 export type TMessage = {
   success: boolean;
-  message?: any;
+  message?: string;
   orders?: Array<TOrderItem>;
   total?: number;
   totalToday?: number;
+  accessToken?: string;
+  refreshToken?: string;
+  user?: TUser;
 }
+
+export type TLoginMessage = {
+  success: boolean;
+  accessToken?: string;
+  refreshToken?: string;
+  user?: TUser;
+  message?: string;
+}
+
+export type TLoginMessageSucceed = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+  user: TUser;
+}
+
+export type TRegisterMessage = {
+  success: boolean;
+  user?: TUser;
+  accessToken?: string;
+  refreshToken?: string;
+  message?: string;
+}
+
+export type TRefreshTokenMessage = {
+  success: boolean;
+  accessToken?: string;
+  refreshToken?: string;
+  message?: string;
+}
+
+export type TOrderMessage = {
+  success: boolean;
+  name?: string;
+  order?: TOrderItem;
+  message?: string;
+}
+
+export type TOrderMessageSuccess = {
+  success: boolean;
+  name: string;
+  order: TOrderItem;
+}
+
+export type TUserMessage = {
+  success: boolean;
+  user?: TUser;
+  message?: string;
+}
+
+export type TUserMessageSuccess = {
+  success: boolean;
+  user: TUser;
+}
+
+export type TLoginData = {
+  email: string, 
+  password: string
+}
+
+export type TRegisterData = {
+  email: string, 
+  password: string,
+  name: string
+}
+
+export type TUpdateUserData = {
+  email: string, 
+  password: string,
+  name: string
+}
+
+export type TSendEmailData = {
+  email: string
+}
+
+export type TResetPasswordData = {
+  password: string,
+  token: string
+}
+
+export type TWSMessage = {
+  totalToday: number,
+  total: number,
+  orders: Array<TOrderItem>
+};

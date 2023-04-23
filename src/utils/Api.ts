@@ -86,7 +86,7 @@ export class Api {
         'email': data.email,
         'name': data.name})
       })
-    .then(this._handleResult)
+    .then(this._handleResult2)
     .catch((res)=>console.log(res.status, res.statusText))
   }
 
@@ -101,7 +101,7 @@ export class Api {
         'password': data.password
         })
     })
-    .then(this._handleResult)
+    .then(this._handleResult2)
     .catch((res)=>console.log(res.status, res.statusText))
   }
 
@@ -130,7 +130,7 @@ export class Api {
     .catch((res)=>console.log(res))
   }
 
-  refreshToken(data: string) {
+  refreshToken(/*data: string*/) {
     return fetch(`${bazeUrl}/auth/token`, {
       method: 'POST',
       headers: {
@@ -138,7 +138,7 @@ export class Api {
       },
       body: JSON.stringify({"token": localStorage.getItem('refreshToken')})
     })
-    .then(this._handleResult)
+    .then(this._handleResult2)
     .catch((res)=>console.log(res.status, res.statusText))
   }
 

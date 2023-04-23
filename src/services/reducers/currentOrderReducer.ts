@@ -5,11 +5,13 @@ import {
   REMOVE_ORDER
 } from "../../utils/constants";
 import type { TSendOrderActions } from '../actions/sendOrder';
+import { TOrderMessageSuccess, TOrderMessage } from '../../types/types';
+
 
 type TSendOrderState = {
   sendOrderRequest: boolean,
   sendOrderFailed: boolean,
-  sendOrder: any | {},
+  sendOrder: TOrderMessage | {},
   sendOrderNumber: number | null
 } 
 

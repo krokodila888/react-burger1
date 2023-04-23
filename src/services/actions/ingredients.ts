@@ -7,6 +7,8 @@ import {
   GET_INGREDIENTS_SUCCESS
 } from "../../utils/constants";
 
+import { AppDispatch } from '../../services/wsMiddleware';
+
 export interface IGetIngredientsAction {
   readonly type: typeof GET_INGREDIENTS;
 }
@@ -40,7 +42,7 @@ export type TGetIngredientsActions =
     ingredients
   });
 
-export const getIngredients = (): any => (dispatch: any) => {
+export const getIngredients = () => (dispatch: AppDispatch) => {
   dispatch(getIngredientsAction());
   api.getIngredients().then(res => {
     if (res && res.success) {

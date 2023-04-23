@@ -24,12 +24,12 @@ function ForgotPasswordPage() {
   };
 
   useEffect(() => {
-    if (sendPasswordRes.success) {
+    if (sendPasswordRes !== null && sendPasswordRes.success) {
     dispatch(removePassword())}
   }, [sendPasswordRes]);
 
   useEffect(() => {
-    if (sendEmailRes.success) {
+    if (sendEmailRes !== null && sendEmailRes.success) {
     navigate("/reset-password");
     dispatch(removeEmail())}
   }, [sendEmailRes]);

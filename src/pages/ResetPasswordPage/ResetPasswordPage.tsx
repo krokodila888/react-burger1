@@ -14,14 +14,14 @@ type TFormPassword = {
 }
 
 function ResetPasswordPage() {
-  const dispatch = useAppDispatch() as any;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.authReducer);
   const { sendPasswordRequest, sendPasswordFailed, sendPasswordRes, emailSend } = useAppSelector((state) => state.resetPasswordReducer);
   const [formPassword, setFormPassword] = useState<TFormPassword>({ password: '', token: '' });
 
   useEffect(() => {
-    if (sendPasswordRes.success) {
+    if (sendPasswordRes !== null && sendPasswordRes.success) {
     navigate("/");}
   }, [sendPasswordRes]);
 

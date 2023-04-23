@@ -13,9 +13,9 @@ type TFormLogin = {
 }
 
 function LoginPage() {
-  const dispatch = useAppDispatch() as any;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { user } = useAppSelector((state) => state.authReducer);
+  //const { user } = useAppSelector((state) => state.authReducer);
   const [form, setValue] = useState<TFormLogin>({ email: '', password: '' });
   const { sendLogin, sendLoginRequest, sendLoginFailed } = useAppSelector((state) => state.authReducer);
 
@@ -30,12 +30,12 @@ function LoginPage() {
   }
 
   useEffect(() => {
-    if (sendLogin.success) {
+    if (sendLogin !== null && sendLogin.accessToken !== undefined && sendLogin.refreshToken !== undefined ) {
       localStorage.setItem('accessToken', sendLogin.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', sendLogin.refreshToken);
       dispatch(getUserDataThunk());
       navigate(-1);
- } }, [sendLogin]);
+ }}, [sendLogin]);
 
   return (
     <div className={styles.container}>

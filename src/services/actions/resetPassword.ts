@@ -1,4 +1,6 @@
 import { api } from '../../utils/Api';
+import { AppDispatch } from '../../services/wsMiddleware';
+import { TSendEmailData, TResetPasswordData, TMessage } from '../../types/types';
 
 import {
   SEND_EMAIL,
@@ -11,15 +13,6 @@ import {
   REMOVE_PASSWORD
 } from "../../utils/constants";
 
-type TFormPassword = {
-  password: string;
-  token: string;
-}
-
-type TEmail = {
-  email: string;
-}
-
 export interface ISendEmailAction {
   readonly type: typeof SEND_EMAIL;
 }
@@ -30,7 +23,7 @@ export interface ISendEmailFailedAction {
 
 export interface ISendEmailSuccessAction {
   readonly type: typeof SEND_EMAIL_SUCCESS;
-  readonly sendEmailRes: any
+  readonly sendEmailRes: TMessage
 }
 
 export interface ISendPasswordAction {
@@ -43,7 +36,7 @@ export interface ISendPasswordFailedAction {
 
 export interface ISendPasswordSuccessAction {
   readonly type: typeof SEND_PASSWORD_SUCCESS;
-  readonly sendPasswordRes: any;
+  readonly sendPasswordRes: TMessage;
 }
 
 export interface IRemoveEmail {
@@ -73,13 +66,13 @@ export const sendEmailFailedAction = (): ISendEmailFailedAction => ({
 });
 
 export const sendEmailSuccessAction = (
-  sendEmailRes: any
+  sendEmailRes: TMessage
 ): ISendEmailSuccessAction => ({
   type: SEND_EMAIL_SUCCESS,
   sendEmailRes
 });
 
-export const sendEmailToResetPasswordThunk = (data: any): any => (dispatch: any) => {
+export const sendEmailToResetPasswordThunk = (data: TSendEmailData) => (dispatch: AppDispatch) => {
   dispatch(sendEmailAction());
   api.requestToResetPassword(data).then(res => {
     if (res && res.success) {
@@ -89,30 +82,6 @@ export const sendEmailToResetPasswordThunk = (data: any): any => (dispatch: any)
     }
   });
 };
-
-/*export function sendEmailToResetPassword(data) {
-  return function(dispatch) {
-    dispatch({
-      type: SEND_EMAIL
-    })
-    api.requestToResetPassword(data).then( res  => {
-      if (res && res.success) {
-        dispatch({
-          type: SEND_EMAIL_SUCCESS,
-          sendEmailRes: res
-        })
-      } else {
-        dispatch({
-          type: SEND_EMAIL_FAILED
-        })
-      }
-    }).catch( err => {
-      dispatch({
-        type: SEND_EMAIL_FAILED
-      })
-    })
-  }
-}*/
 
 export function removeEmail(): IRemoveEmail {
   return {
@@ -129,13 +98,13 @@ export const sendPasswordFailedAction = (): ISendPasswordFailedAction => ({
 });
 
 export const sendPasswordSuccessAction = (
-  sendPasswordRes: any
+  sendPasswordRes: TMessage
 ): ISendPasswordSuccessAction => ({
   type: SEND_PASSWORD_SUCCESS,
   sendPasswordRes
 });
 
-export const resetPasswordThunk = (data1: any): any => (dispatch: any) => {
+export const resetPasswordThunk = (data1: TResetPasswordData) => (dispatch: AppDispatch) => {
   dispatch(sendPasswordAction());
   api.resetPassword(data1).then(res => {
     if (res && res.success) {
@@ -145,30 +114,6 @@ export const resetPasswordThunk = (data1: any): any => (dispatch: any) => {
     }
   });
 };
-
-/*export function resetPassword(data) {
-  return function(dispatch) {
-    dispatch({
-      type: SEND_PASSWORD
-    })
-    api.resetPassword(data).then( res  => {
-      if (res && res.success) {
-        dispatch({
-          type: SEND_PASSWORD_SUCCESS,
-          sendPasswordRes: res
-        })
-      } else {
-        dispatch({
-          type: SEND_PASSWORD_FAILED
-        })
-      }
-    }).catch( err => {
-      dispatch({
-        type: SEND_PASSWORD_FAILED
-      })
-    })
-  }
-}*/
 
 export function removePassword(): IRemovePassword {
   return {

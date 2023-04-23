@@ -46,6 +46,7 @@ function App() {
   let background = location.state && location.state.background;
 
   const { message, total, totalToday, orders } = useAppSelector((state) => state.wsReducer);
+  const { sendLogin } = useAppSelector((state) => state.authReducer);
 
   useEffect(() => {
     if (location.pathname.includes("/feed"))
@@ -57,8 +58,16 @@ function App() {
 
 
   useEffect(() => {
+    if (sendLogin !== null && sendLogin.success !== null && sendLogin.accessToken !== undefined && sendLogin.refreshToken !== undefined) {
+      console.log(localStorage.accessToken);
+      localStorage.setItem('accessToken', sendLogin.accessToken.replace('Bearer ', ''));
+      localStorage.setItem('refreshToken', sendLogin.refreshToken);
     dispatch(getUserDataThunk());
-  }, []);
+}}, []);
+
+useEffect(() => {
+  dispatch(getUserDataThunk());
+}, []);
 
   useEffect(()=> {
     dispatch(getIngredients());
@@ -70,7 +79,7 @@ function App() {
   }, [getUserDataRequestFailed]);
 
   useEffect(() => {
-    if (refreshToken.success) {
+    if (refreshToken && refreshToken.success && refreshToken.accessToken !== undefined && refreshToken.refreshToken !== undefined) {
       localStorage.setItem('accessToken', refreshToken.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', refreshToken.refreshToken);
       dispatch(getUserDataThunk())
@@ -165,10 +174,10 @@ function App() {
             </ProtectedRoute>}>      
           </Route>
           <Route path="*" element={<PageNotFound />} />
-          {/*!onClick && (locations[0].slice(0, 5) === '/ingr') && */<Route path="/ingredients/:ingredientID" element={<IngredientPage />} />}
-          {/*!onClick && (locations[0].slice(0, 5) === '/feed') && */<Route path="/feed/:orderID" element={
+          {!onClick && (locations[0].slice(0, 5) === '/ingr') && <Route path="/ingredients/:ingredientID" element={<IngredientPage />} />}
+          {!onClick &&/* (locations[0].slice(0, 5) === '/feed') && */<Route path="/feed/:orderID" element={
           <OrderPage />} />}
-          {/*!onClick && (locations[0].slice(0, 16) === '/profile/orders/') && (*/<Route path="/profile/orders/:orderId" element={
+          {!onClick && /*(locations[0].slice(0, 16) === '/profile/orders/') && (*/<Route path="/profile/orders/:orderId" element={
             <ProtectedRoute 
               loggedIn={localStorage.getItem('accessToken') !== null}
               url={'/login'}>
@@ -178,33 +187,33 @@ function App() {
         </Routes>
         {background && (
         <Routes>
-          {onClick && (itemType === 'ingredient') && (
+          {/*onClick && (itemType === 'ingredient') &&*/ (
             <Route
               path='/ingredients/:ingredientId'
               element={
                 <Modal 
-                  isOpen={onClick}
+                  isOpen={(locations[0].slice(0, 14) === '/ingredients/:')}
                   onClose={closeModal}>
                     <IngredientDetails />
                 </Modal>
             }/>)}
-          {onClick && (itemType === 'orderProfile') && (<Route path="/profile/orders/:orderId" element={
+          {/*onClick && (itemType === 'orderProfile') && */(<Route path="/profile/orders/:orderId" element={
             <ProtectedRoute 
               loggedIn={localStorage.getItem('accessToken') !== null}
               url={'/login'}>
               <Modal 
-                  isOpen={onClick}
+                  isOpen={(locations[0].slice(0, 17) === '/profile/orders/:')}
                   onClose={closeModal}>
                     <OrderInfo />
                 </Modal>
             </ProtectedRoute>}>      
           </Route>)}
-          {onClick && (itemType === 'order') && (
+          {/*onClick && (itemType === 'order') && */(
             <Route
               path='/feed/:orderId'
               element={
                 <Modal 
-                  isOpen={onClick}
+                  isOpen={(locations[0].slice(0, 7) === '/feed/:')}
                   onClose={closeModal}>
                     <OrderInfo />
                 </Modal>
@@ -219,3 +228,13 @@ function App() {
 }
 
 export default App;
+
+/*
+<Route path="/login" element={
+            <ProtectedRoute 
+              loggedIn={user === null}
+              url={`/`}>
+              <LoginPage />
+            </ProtectedRoute>}>      
+          </Route>
+          */

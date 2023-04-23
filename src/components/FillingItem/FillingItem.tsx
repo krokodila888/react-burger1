@@ -4,16 +4,18 @@ import styles from "./fillingItem.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TIngredient } from '../../types/types';
 
-type TMoveCard = (dragIndex: number | undefined, hoverIndex: number) => void;
+type TMoveCard = (dragIndex: number, hoverIndex: number) => void;
+type TRemoveCard = (item: TIngredient) => void;
+
+type ScriptEvent = () => void;
+type ScriptEventModalOpen = (data: Array<string>) => void;
+
 type TFillingItemProps = {
   item: TIngredient;
   index: number;
-  //removeItem: FC<TIngredient>;
-  removeItem: any;
-  moveCard: any;
+  removeItem: TRemoveCard;
+  moveCard: TMoveCard;
 }
-
-type THandlerId = number | string | null;
 
 function FillingItem(props: TFillingItemProps) {
   const { item, index, removeItem, moveCard } = props;
@@ -60,7 +62,7 @@ function FillingItem(props: TFillingItemProps) {
     });
     const opacity = isDragging ? 0 : 1;
     if (item.type !== 'bun') drag(drop(ref));
-    const preventDefault = (e: any) => e.preventDefault();
+    const preventDefault = (e: Event) => e.preventDefault();
 
   return (
     <li className={styles.li} ref={ref}>

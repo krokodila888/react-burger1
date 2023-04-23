@@ -3,25 +3,29 @@ import clsx from "clsx";
 import styles from "./OrderInfo.module.css";
 import { useAppSelector } from '../../services/wsMiddleware';
 import { IIngredient, TIngredient, TOrderItem } from '../../types/types';
+import { useParams } from 'react-router-dom';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 type ScriptEvent = () => void;
 
-interface ILocationReducerState {
-  onClick: any;
-}
-
 function OrderInfo() {
   const { ingredients } = useAppSelector((state) => state.ingredientsReducer);
-  const { currentOrderInfo } = useAppSelector((state) => state.currentOrderInfoReducer);
+  const { orders } = useAppSelector((state) => state.wsReducer);
+  //const { currentOrderInfo } = useAppSelector((state) => state.currentOrderInfoReducer);
+  const [currentOrderInfo1, setCurrentOrderInfo1] = React.useState<TOrderItem | null>(null);
+  const orderId = useParams() as any;
   const [itemsInOrder, setItemsInOrder] = React.useState<Array<TIngredient> | null>(null);
   const [arrToRender, setArrToRender] = React.useState<Array<TIngredient> | null>(null);
 
+  React.useEffect(() => {if (orders[0] !== null)
+    setCurrentOrderInfo1(orders.filter((item: TOrderItem) => (item._id === orderId.orderId.replace(':', '')))[0]);
+  }, [orders]);
+
   function getDate1() {
-  if (currentOrderInfo !== null)
+  if (currentOrderInfo1 !== null)
     {
       const current = new Date();
-      const creationDate: string = `${currentOrderInfo.createdAt.slice(8, 10)}.${currentOrderInfo.createdAt.slice(5, 7)}.${currentOrderInfo.createdAt.slice(0, 4)}`;
+      const creationDate: string = `${currentOrderInfo1.createdAt.slice(8, 10)}.${currentOrderInfo1.createdAt.slice(5, 7)}.${currentOrderInfo1.createdAt.slice(0, 4)}`;
       const currentDate: string = ('0' + current.getDate()).slice(-2) + '.' + ('0' + (current.getMonth()+1)).slice(-2) + '.' + current.getFullYear();
       let yesterday1 = new Date();
       yesterday1.setDate(yesterday1.getDate() - 1);
@@ -36,9 +40,9 @@ function OrderInfo() {
     }
   }
 
-  React.useEffect(() => {if (ingredients !== null && currentOrderInfo !== null && currentOrderInfo !== undefined)
-    {const itemsInOrder1 = currentOrderInfo.ingredients.
-      reduce((list: Array<TIngredient>, elem: string) => {
+  React.useEffect(() => {if (ingredients !== null && currentOrderInfo1 !== null && currentOrderInfo1 !== undefined)
+    {const itemsInOrder1 = currentOrderInfo1.ingredients
+      .reduce((list: Array<TIngredient>, elem: string) => {
       let item = ingredients.filter((item1: TIngredient) => (item1._id === elem));
       if (item !== null) {
       list.push(item[0])
@@ -46,7 +50,7 @@ function OrderInfo() {
     return list
     }, []);
     setItemsInOrder(itemsInOrder1);}
-  }, [currentOrderInfo]);
+  }, [currentOrderInfo1]);
 
   React.useEffect(() => {if (itemsInOrder !== null && itemsInOrder !== undefined)
     {const arrToRender1 = itemsInOrder
@@ -79,24 +83,24 @@ function OrderInfo() {
   };
 
   function getStatus(): string {
-    if (currentOrderInfo !== null && currentOrderInfo.status === 'done') return "Выполнен";
-    if (currentOrderInfo !== null && currentOrderInfo.status === 'pending') return "Готовится";
+    if (currentOrderInfo1 !== null && currentOrderInfo1.status === 'done') return "Выполнен";
+    if (currentOrderInfo1 !== null && currentOrderInfo1.status === 'pending') return "Готовится";
     else return "Создан"
   };
 
   function getStatusStyle(): string {
-    if (currentOrderInfo !== null && currentOrderInfo.status === 'done') return '#00CCCC';
+    if (currentOrderInfo1 !== null && currentOrderInfo1.status === 'done') return '#00CCCC';
     else return "white"
   };
 
   return (
     <div className={styles.div}>
-      {currentOrderInfo !== null && <>
+      {currentOrderInfo1 !== null && currentOrderInfo1 !== undefined && <>
       <h2 className="text text_type_digits-default">
-        #{currentOrderInfo.number}
+        #{currentOrderInfo1.number}
       </h2>
       <h3 className="text text_type_main-medium pb-2">
-        {currentOrderInfo.name}
+        {currentOrderInfo1.name}
       </h3>
       <p className='text text_type_main-small' style={{
         color: `${getStatusStyle()}`, 
@@ -132,7 +136,7 @@ function OrderInfo() {
       </div>
       <div className={'orderProfileCard__div'}>
         <p className='text text_type_main-small text_color_inactive'>
-          {getDate1()}, {currentOrderInfo.createdAt.slice(11, 13)}:{currentOrderInfo.createdAt.slice(14, 16)}
+          {getDate1()}, {currentOrderInfo1.createdAt.slice(11, 13)}:{currentOrderInfo1.createdAt.slice(14, 16)}
         </p>
         <div className={styles.divRow }>
           <p className="text text_type_digits-default">

@@ -37,7 +37,7 @@ function ProfileOrderPage() {
   }, [getUserDataRequestFailed]);
 
   useEffect(() => {
-    if (refreshToken.success) {
+    if (refreshToken && refreshToken.success && refreshToken.accessToken !== undefined && refreshToken.refreshToken !== undefined) {
       localStorage.setItem('accessToken', refreshToken.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', refreshToken.refreshToken);
       dispatch(getUserDataThunk());
@@ -75,7 +75,7 @@ function ProfileOrderPage() {
         <p>Идет загрузка</p>
       ) : (
       <div className={styles.scroll} >
-        {message.success && typeof(message) !== 'undefined' && (message) !== null && copied.map((item: TOrderItem, index: number) => (
+        {message && typeof(message) !== 'undefined' && (message) !== null && copied.map((item: TOrderItem, index: number) => (
             <div key={index}>
               <OrderProfileCard 
                 orderItem = {item}

@@ -31,7 +31,7 @@ export type TCurrentBurgerActions =
   | IReplaceIngredient
   | IClearConstructor;
 
-export function setIngredient(data: any): ISetIngredient {
+export function setIngredient(data: TIngredient): ISetIngredient {
   return {
     type: ADD_INGREDIENT,
     item: data
@@ -45,7 +45,7 @@ export function removeIngredient(data: TIngredient): IRemoveIngredient {
   }
 } 
 
-export function replaceIngredient(data: any) : IReplaceIngredient {
+export function replaceIngredient(data: Array<TIngredient>) : IReplaceIngredient {
   return {
     type: REPLACE_INGREDIENT,
     items: data

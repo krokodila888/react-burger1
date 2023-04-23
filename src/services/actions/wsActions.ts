@@ -3,9 +3,9 @@ import {
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_MESSAGE,
-  //WS_SEND_MESSAGE,
   WS_CONNECTION_START,
 } from "../../utils/constants";
+import { TMessage, TOrderItem, TWSMessage } from '../../types/types';
 
 //import type { IMessage, IUserResponse } from "./modelsData";
 
@@ -28,7 +28,7 @@ export type TUserActions =
   | IJoinChatSuccessAction;*/
 
 export interface IMessage {
-  readonly message: any;
+  readonly message: TWSMessage;
 }
 
 export interface IWSConnectionStart {
@@ -52,19 +52,12 @@ export interface IWSConnectionClosedAction {
 
 export interface IWSGetMessageAction {
   readonly type: typeof WS_GET_MESSAGE;
-  payload: any
-  //readonly message: IMessage;
+  payload:  TWSMessage
 }
-
-/*export interface IWSSendMessageAction {
-  readonly type: typeof WS_SEND_MESSAGE;
-  readonly payload: {message: string};
-}*/
 
 export type TWSActions =
   | IWSConnectionStart
   | IWSConnectionSuccessAction
   | IWSConnectionErrorAction
   | IWSConnectionClosedAction
-  | IWSGetMessageAction
-  /*| IWSSendMessageAction*/;
+  | IWSGetMessageAction;

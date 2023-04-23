@@ -1,4 +1,6 @@
 import { api } from '../../utils/Api';
+import { TLoginData, TUserMessageSuccess, TLoginMessageSucceed, TRegisterMessage, TRegisterData, TUpdateUserData, TMessage, TUserMessage, TLoginMessage, TRefreshTokenMessage } from '../../types/types';
+import { AppDispatch } from '../../services/wsMiddleware';
 
 import {
   SEND_LOGIN_DATA,
@@ -37,7 +39,7 @@ export interface ILoginFailedAction {
 
 export interface ILoginSuccessAction {
   readonly type: typeof SEND_LOGIN_DATA_SUCCESS;
-  readonly sendLogin: any;
+  readonly sendLogin: TLoginMessageSucceed;
 }
 
 export interface IRemoveLogin {
@@ -54,7 +56,7 @@ export interface IRegisterFailedAction {
 
 export interface IRegisterSuccessAction {
   readonly type: typeof SEND_REGISTER_DATA_SUCCESS;
-  readonly sendRegister: any;
+  readonly sendRegister: TRegisterMessage;
 }
 
 export interface IRemoveRegister {
@@ -78,8 +80,8 @@ export interface IGetUserDataAction {
 }
 
 export interface IGetUserDataFailedAction {
-  readonly type: typeof GET_USER_REQUEST_FAILED;
-  readonly userData: any;
+  readonly type: typeof GET_USER_REQUEST_FAILED/*;
+  readonly userData: TUserMessage;*/
 }
 
 export interface IGetUserDataFailedTokenAction {
@@ -88,7 +90,7 @@ export interface IGetUserDataFailedTokenAction {
 
 export interface IGetUserDataSuccessAction {
   readonly type: typeof GET_USER_REQUEST_SUCCESS;
-  readonly userData: any;
+  readonly userData: TUserMessageSuccess;
 }
 
 export interface IUpdateUserAction {
@@ -101,7 +103,7 @@ export interface IUpdateUserFailedAction {
 
 export interface IUpdateUserSuccessAction {
   readonly type: typeof SEND_USER_REQUEST_SUCCESS;
-  readonly newUserData: any;
+  readonly newUserData: TUserMessageSuccess;
 }
 
 export interface ILogoutAction {
@@ -114,7 +116,7 @@ export interface ILogoutFailedAction {
 
 export interface ILogoutSuccessAction {
   readonly type: typeof SEND_LOGOUT_REQUEST_SUCCESS;
-  readonly logOutRequest: any;
+  readonly logOutRequest: TMessage;
 }
 
 export interface IRefreshTokenAction {
@@ -127,7 +129,7 @@ export interface IRefreshTokenFailedAction {
 
 export interface IRefreshTokenSuccessAction {
   readonly type: typeof SEND_REFRESH_TOKEN_REQUEST_SUCCESS;
-  readonly refreshTokenRequest: any;
+  readonly refreshTokenRequest: TRefreshTokenMessage;
 }
 
 export type TAuthActions = 
@@ -156,23 +158,6 @@ export type TAuthActions =
   | IRefreshTokenFailedAction
   | IRefreshTokenSuccessAction;
 
-type TLoginData = {
-  email: string, 
-  password: string
-}
-
-type TRegisterData = {
-  email: string, 
-  password: string,
-  name: string
-}
-
-type TUpdateUserData = {
-  email: string, 
-  password: string,
-  name: string
-}
-
 export const loginAction = (): ILoginAction => ({
   type: SEND_LOGIN_DATA
 });
@@ -182,13 +167,13 @@ export const loginFailedAction = (): ILoginFailedAction => ({
 });
 
 export const loginSuccessAction = (
-  sendLogin: any
+  sendLogin: TLoginMessageSucceed
 ): ILoginSuccessAction => ({
   type: SEND_LOGIN_DATA_SUCCESS,
   sendLogin
 });
 
-export const loginThunk = (data: TLoginData): any => (dispatch: any) => {
+export const loginThunk = (data: TLoginData) => (dispatch: AppDispatch) => {
   dispatch(loginAction());
   api.signIn(data).then(res => {
     if (res && res.success) {
@@ -208,13 +193,13 @@ export const registerFailedAction = (): IRegisterFailedAction => ({
 });
 
 export const registerSuccessAction = (
-  sendRegister: any
+  sendRegister: TRegisterMessage
 ): IRegisterSuccessAction => ({
   type: SEND_REGISTER_DATA_SUCCESS,
   sendRegister
 });
 
-export const registerThunk = (data: TRegisterData): any => (dispatch: any) => {
+export const registerThunk = (data: TRegisterData) => (dispatch: AppDispatch) => {
   dispatch(registerAction());
   api.signUp(data).then(res => {
     if (res && res.success) {
@@ -241,9 +226,9 @@ export const getUserDataAction = (): IGetUserDataAction => ({
   type: GET_USER_REQUEST
 });
 
-export const getUserDataFailedAction = (userData: any): IGetUserDataFailedAction => ({
-  type: GET_USER_REQUEST_FAILED,
-  userData
+export const getUserDataFailedAction = (/*userDataFailed*/): IGetUserDataFailedAction/*)*/ => ({
+  type: GET_USER_REQUEST_FAILED/*,
+  userDataFailed*/
 });
 
 export const getUserDataFailedTokenAction = (
@@ -252,22 +237,21 @@ export const getUserDataFailedTokenAction = (
 });
 
 export const getUserDataSuccessAction = (
-  userData: any
+  userData: TUserMessageSuccess
 ): IGetUserDataSuccessAction => ({
   type: GET_USER_REQUEST_SUCCESS,
   userData
 });
 
-export const getUserDataThunk = (): any => (dispatch: any) => {
+export const getUserDataThunk = () => (dispatch: AppDispatch) => {
   dispatch(getUserDataAction());
   api.getUserRequest().then(res => {
     if (res && res.success) {
       dispatch(getUserDataSuccessAction(res));}
     else if (res && !res.success) {
-      console.log(res);
       dispatch(getUserDataFailedTokenAction());
     } else {
-      dispatch(getUserDataFailedAction(res));
+      dispatch(getUserDataFailedAction(/*res*/));
     }
   });
 };
@@ -281,13 +265,13 @@ export const updateUserFailedAction = (): IUpdateUserFailedAction => ({
 });
 
 export const updateUserSuccessAction = (
-  newUserData: any
+  newUserData: TUserMessageSuccess
 ): IUpdateUserSuccessAction => ({
   type: SEND_USER_REQUEST_SUCCESS,
   newUserData
 });
 
-export const updateUserDataThunk = (data: TUpdateUserData): any => (dispatch: any) => {
+export const updateUserDataThunk = (data: TUpdateUserData) => (dispatch: AppDispatch) => {
   dispatch(updateUserAction());
   api.updateUser(data).then(res => {
     if (res && res.success) {
@@ -307,13 +291,13 @@ export const logoutFailedAction = (): ILogoutFailedAction => ({
 });
 
 export const logoutSuccessAction = (
-  logOutRequest: any
+  logOutRequest: TMessage
 ): ILogoutSuccessAction => ({
   type: SEND_LOGOUT_REQUEST_SUCCESS,
   logOutRequest
 });
 
-export const logoutThunk = (): any => (dispatch: any) => {
+export const logoutThunk = () => (dispatch: AppDispatch) => {
   dispatch(logoutAction());
   api.signOut().then(res => {
     if (res && res.success) {
@@ -345,16 +329,16 @@ export const refreshTokenFailedAction = (): IRefreshTokenFailedAction => ({
 });
 
 export const refreshTokenSuccessAction = (
-  refreshTokenRequest: any
+  refreshTokenRequest: TRefreshTokenMessage
 ): IRefreshTokenSuccessAction => ({
   type: SEND_REFRESH_TOKEN_REQUEST_SUCCESS,
   refreshTokenRequest
 });
 
-export const getNewTokenThunk = (): any => (dispatch: any) => {
+export const getNewTokenThunk = () => (dispatch: AppDispatch) => {
   if (localStorage.getItem('refreshToken') !== null || {}) {
   dispatch(refreshTokenAction());
-  api.refreshToken(localStorage.getItem('refreshToken') || '{}').then(res => {
+  api.refreshToken(/*localStorage.getItem('refreshToken') || '{}'*/).then(res => {
     if (res && res.success) {
       dispatch(refreshTokenSuccessAction(res));
     } else {

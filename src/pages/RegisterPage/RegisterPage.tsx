@@ -15,7 +15,7 @@ type TFormRegister = {
 function RegisterPage() {
   const [form, setValue] = useState<TFormRegister>({ email: '', password: '', name: ''  });
   const { user } = useAppSelector((state) => state.authReducer);
-  const dispatch = useAppDispatch() as any;
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { sendRegister, sendRegisterRequest, sendRegisterFailed } = useAppSelector((state) => state.authReducer);
 
@@ -28,7 +28,7 @@ function RegisterPage() {
   }
 
   React.useEffect(() => {
-    if (sendRegister.success) {
+    if (sendRegister && sendRegister.success && sendRegister.accessToken !== undefined && sendRegister.refreshToken !== undefined) {
       localStorage.setItem('accessToken', sendRegister.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', sendRegister.refreshToken);
       dispatch(getUserDataThunk());

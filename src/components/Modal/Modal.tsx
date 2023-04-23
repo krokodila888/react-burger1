@@ -6,10 +6,6 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 type ScriptEvent = () => void;
 
-interface ILocationReducerState {
-  onClick: any;
-}
-
 const modalRoot = (document.getElementById("react-modals") as Element);
 
 interface IModalProps {

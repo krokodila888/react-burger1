@@ -5,7 +5,7 @@ import {
   ON_CLICK_ITEM,
   REMOVE_ON_CLICK
 } from "../../utils/constants";
-import { IIngredient, TIngredient, TOrderItem  } from '../../types/types';
+import { TIngredient, TOrderItem  } from '../../types/types';
 
 export interface ISetLocation {
   readonly type: typeof SET_LOCATION;

@@ -32,7 +32,7 @@ function ProfilePage() {
   }, [getUserDataRequestFailed]);
 
   useEffect(() => {
-    if (refreshToken.success) {
+    if (refreshToken && refreshToken.success && refreshToken.accessToken !== undefined && refreshToken.refreshToken !== undefined) {
       localStorage.setItem('accessToken', refreshToken.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', refreshToken.refreshToken);
       dispatch(getUserDataThunk());
@@ -41,7 +41,7 @@ function ProfilePage() {
   }, [refreshToken]);
 
   useEffect(() => {
-    if (user !== null)
+    if (user !== null && user !== undefined)
     setValue({ name: user.name, email: user.email, password: '' });
   }, [user]);
 
@@ -60,6 +60,7 @@ function ProfilePage() {
   }
 
   function handleCancel() {
+    if (user)
     setValue({ name: user.name, email: user.email, password: '' })
   }
 
@@ -97,7 +98,7 @@ function ProfilePage() {
             name="password"
             onChange={onChange}
             icon={'EditIcon'} />
-          {(user !== null && (form.email !== user.email || form.name !== user.name || form.password !== '')) ? 
+          {(user !== null && user !== undefined && (form.email !== user.email || form.name !== user.name || form.password !== '')) ? 
             (<>
             <Button 
               htmlType="submit" 

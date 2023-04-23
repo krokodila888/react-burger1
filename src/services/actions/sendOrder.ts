@@ -1,4 +1,6 @@
 import { api } from '../../utils/Api';
+import { AppDispatch } from '../../services/wsMiddleware';
+import { TOrderMessageSuccess, TOrderMessage } from '../../types/types';
 
 import {
   SEND_ORDER,
@@ -6,7 +8,6 @@ import {
   SEND_ORDER_SUCCESS,
   REMOVE_ORDER
 } from "../../utils/constants";
-import { IIngredient, TIngredient } from '../../types/types';
 
 export interface ISendOrderAction {
   readonly type: typeof SEND_ORDER;
@@ -18,7 +19,7 @@ export interface ISendOrderFailedAction {
 
 export interface ISendOrderSuccessAction {
   readonly type: typeof SEND_ORDER_SUCCESS;
-  readonly sendOrder: any;
+  readonly sendOrder: TOrderMessageSuccess;
   readonly sendOrderNumber: number;
 }
 
@@ -41,14 +42,14 @@ export const sendOrderFailedAction = (): ISendOrderFailedAction => ({
 });
 
 export const sendOrderSuccessAction = (
-  sendOrder: any, sendOrderNumber:number
+  sendOrder: TOrderMessageSuccess, sendOrderNumber:number
 ): ISendOrderSuccessAction => ({
   type: SEND_ORDER_SUCCESS,
   sendOrder,
   sendOrderNumber
 });
 
-export const sendNewOrderThunk = (data: any): any => (dispatch: any) => {
+export const sendNewOrderThunk = (data: Array<string>) => (dispatch: AppDispatch) => {
   dispatch(sendOrderAction());
   api.sendOrder(data).then(res => {
     if (res && res.success) {

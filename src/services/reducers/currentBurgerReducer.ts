@@ -49,7 +49,7 @@ export const currentBurgerReducer = (state = initialState, action:  TCurrentBurg
       return {
         ...state,
         currentBurger: state.currentBurger.filter(
-          (item1: any) => (item1.keyId !== action.item.keyId)
+          (item1: TIngredient) => (item1.keyId !== action.item.keyId)
         ),
       };
 // eslint-disable-next-line no-fallthrough, no-lone-blocks

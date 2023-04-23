@@ -1,3 +1,4 @@
+import { TMessage } from "../../types/types";
 import {
   SEND_EMAIL,
   SEND_EMAIL_FAILED,
@@ -13,21 +14,21 @@ import type { TResetPasswordActions } from '../actions/resetPassword';
 type TResetPasswordState = {
   sendEmailRequest: boolean,
   sendEmailFailed: boolean,
-  sendEmailRes: any | {},
+  sendEmailRes: TMessage | null,
   emailSend: boolean,
   sendPasswordRequest: boolean,
   sendPasswordFailed: boolean,
-  sendPasswordRes: any | {}
+  sendPasswordRes: TMessage | null
 } 
 
 const initialState: TResetPasswordState = {
   sendEmailRequest: false,
   sendEmailFailed: false,
-  sendEmailRes: {},
+  sendEmailRes: null,
   emailSend: false,
   sendPasswordRequest: false,
   sendPasswordFailed: false,
-  sendPasswordRes: {}
+  sendPasswordRes: null
 }
 
 export const resetPasswordReducer = (state = initialState, action: TResetPasswordActions): TResetPasswordState => {
@@ -59,7 +60,7 @@ export const resetPasswordReducer = (state = initialState, action: TResetPasswor
         ...state,
         sendEmailRequest: false,
         sendEmailFailed: false,
-        sendEmailRes: {}
+        sendEmailRes: null
       };
     }
     case SEND_PASSWORD: {
@@ -88,7 +89,7 @@ export const resetPasswordReducer = (state = initialState, action: TResetPasswor
         ...state,
         sendPasswordRequest: false,
         sendPasswordFailed: false,
-        sendPasswordRes: {},
+        sendPasswordRes: null,
         emailSend: false
       };
     }

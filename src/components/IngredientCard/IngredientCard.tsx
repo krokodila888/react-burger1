@@ -16,7 +16,7 @@ type TIngredientCardProps = {
 function IngredientCard (props: TIngredientCardProps) {
   const {ingredient } = props;
   const location = useLocation();
-  const { currentBurger } = useAppSelector((state: any) => state.currentBurgerReducer);
+  const { currentBurger } = useAppSelector((state) => state.currentBurgerReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const itemId: string = ingredient._id;
@@ -42,7 +42,8 @@ function IngredientCard (props: TIngredientCardProps) {
     if ((ingredient.type === 'main' || 'sauce') && !currentBurger.find((item: TIngredient) => (item !== null && item !== undefined && item._id !== undefined && item._id === ingredient._id)))
     return 0;
     if ((ingredient.type === 'main' || 'sauce') && aaa.find((item: TIngredient) => (item !== null && item !== undefined && item._id !== undefined && item._id === ingredient._id)))
-  return aaa.filter((item: TIngredient) => (item._id === ingredient._id)).length;}
+  return aaa.filter((item: TIngredient) => (item._id === ingredient._id)).length;
+else return 0}
   }
 
   return (
@@ -60,7 +61,7 @@ function IngredientCard (props: TIngredientCardProps) {
         src={ingredient.image} 
         alt="Изображение компонента бургера" 
         className="ingredientCard__image"/>
-      { (count() > 0) && <Counter count={count()} size="default" extraClass="m-1"/>}
+      { (count() !== undefined) && (count() > 0) && <Counter count={count()} size="default" extraClass="m-1"/>}
       <div className="ingredientCard__price pb-1 pt-1">
         <p className="text text_type_digits-default">
           {ingredient.price}

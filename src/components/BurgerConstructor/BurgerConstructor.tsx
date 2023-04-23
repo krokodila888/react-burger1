@@ -70,8 +70,8 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ isOpen, onClose, openO
     if (ingredients !== null) {
     let currentItem: TIngredient | undefined = structuredClone(ingredients.find((item: TIngredient) => (item._id === data.itemId)));
     if (currentItem !== undefined && ingredients !== null)
-    {currentItem.keyId = uuidv4();}
-    dispatch(setIngredient(currentItem));}
+    {currentItem.keyId = uuidv4();
+    dispatch(setIngredient(currentItem));}}
   }
 
   const moveCard = React.useCallback((dragIndex: number, hoverIndex: number) => {
@@ -131,7 +131,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ isOpen, onClose, openO
           <p className={styles.p2}>
             Перетащите ингредиенты сюда
           </p>}
-        {typeof(ingredients) !== 'undefined' && (ingredients) !== null && currentBurger.filter((elem: TIngredient) => (elem !== undefined && elem.type !== 'bun')).map((item: TIngredient, index: any) => (
+        {typeof(ingredients) !== 'undefined' && (ingredients) !== null && currentBurger.filter((elem: TIngredient) => (elem !== undefined && elem.type !== 'bun')).map((item: TIngredient, index: number) => (
           <FillingItem 
             item={item} 
             removeItem={removeItem} 

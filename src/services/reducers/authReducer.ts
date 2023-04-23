@@ -31,54 +31,56 @@ import {
     REMOVE_REFRESH_TOKEN_DATA
   } from "../../utils/constants";
   import type { TAuthActions } from '../actions/auth';
+  import { TUser, TMessage, TUserMessageSuccess, TLoginMessage, TRefreshTokenMessage, TRegisterMessage, TLoginMessageSucceed } from '../../types/types';
+
 
   type TAuthState = {
     sendLoginRequest: boolean,
     sendLoginFailed: boolean,
-    sendLogin: any | {},
+    sendLogin: TLoginMessage | null,
     sendRegisterRequest: boolean,
     sendRegisterFailed: boolean,
-    sendRegister: any | {},
+    sendRegister: TRegisterMessage | null,
     getUserDataRequest: boolean,
     getUserDataRequestFailed: boolean,
     updateUserDataRequest: boolean,
     updateUserDataRequestFailed: boolean,
-    userDataRequestRes: any | {},
-    updateUserData: any | {},
-    user: any | null,
+    userDataRequestRes: TMessage | null,
+    updateUserData: TMessage | null,
+    user: TUser | null,
     sendLogOutRequest: boolean,
     sendLogOutRequestFailed: boolean,
-    logOutRequest: any | {},
+    logOutRequest: TMessage | null,
     sendRefreshTokenRequest: boolean,
     sendRefreshTokenFailed: boolean,
-    refreshToken: any | {}
+    refreshToken: TRefreshTokenMessage | null
   } 
   
   const initialState: TAuthState = {
     sendLoginRequest: false,
     sendLoginFailed: false,
-    sendLogin: {},
+    sendLogin: null,
 
     sendRegisterRequest: false,
     sendRegisterFailed: false,
-    sendRegister: {},
+    sendRegister: null,
 
     getUserDataRequest: false,
     getUserDataRequestFailed: false,
-    userDataRequestRes: {},
+    userDataRequestRes: null,
 
     updateUserDataRequest: false,
     updateUserDataRequestFailed: false,
-    updateUserData: {},
+    updateUserData: null,
     user: null,
 
     sendLogOutRequest: false,
     sendLogOutRequestFailed: false,
-    logOutRequest: {},
+    logOutRequest: null,
 
     sendRefreshTokenRequest: false,
     sendRefreshTokenFailed: false,
-    refreshToken: {}
+    refreshToken: null
   }
   
   export const authReducer = (state = initialState, action: TAuthActions): TAuthState => {
@@ -94,7 +96,7 @@ import {
         return { 
           ...state, 
           sendLogin: action.sendLogin,
-          //user: action.sendLogin.user,
+          user: action.sendLogin.user,
           sendLoginRequest: false 
         };
       }
@@ -110,7 +112,7 @@ import {
           ...state, 
           sendLoginRequest: false,
           sendLoginFailed: false,
-          sendLogin: {},
+          sendLogin: null,
         };
       }
       case SEND_REGISTER_DATA: {
@@ -124,7 +126,6 @@ import {
         return { 
           ...state, 
           sendRegister: action.sendRegister,
-          //user: action.sendRegister.user,
           sendRegisterRequest: false 
         };
       }
@@ -140,7 +141,7 @@ import {
           ...state, 
           sendRegisterRequest: false,
           sendRegisterFailed: false,
-          sendRegister: {},
+          sendRegister: null,
         };
       }
       case GET_USER_REQUEST: {
@@ -161,7 +162,7 @@ import {
       case GET_USER_REQUEST_FAILED: {
         return { 
           ...state, 
-          userDataRequestRes: action.userData,
+          /*userDataRequestRes: action.userData,*/
           getUserDataRequestFailed: true, 
           getUserDataRequest: false 
         };
@@ -203,7 +204,7 @@ import {
           updateUserDataRequest: false,
           updateUserDataRequestFailed: false,
           //userDataRequestRes: {},
-          updateUserData: {},
+          updateUserData: null,
           user: null
         };
       }
@@ -233,7 +234,7 @@ import {
           ...state, 
           sendLogOutRequest: false,
           sendLogOutRequestFailed: false,
-          logOutRequest: {},
+          logOutRequest: null,
         };
       }
       case SEND_REFRESH_TOKEN_REQUEST: {
@@ -262,7 +263,7 @@ import {
           ...state, 
           sendRefreshTokenRequest: false,
           sendRefreshTokenFailed: false,
-          refreshToken: {},
+          refreshToken: null,
         };
       }
       default: {
