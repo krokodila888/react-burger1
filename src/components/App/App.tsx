@@ -48,26 +48,30 @@ function App() {
   const { message, total, totalToday, orders } = useAppSelector((state) => state.wsReducer);
   const { sendLogin } = useAppSelector((state) => state.authReducer);
 
-  useEffect(() => {
-    if (location.pathname.includes("/feed"))
-    dispatch({ type: wsActions.wsInit, payload: wsUrl });
-    if (locations[0].slice(0, 16) === '/profile/orders/')
-    {const token = localStorage.getItem('accessToken');
-    dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` })};
-  }, [locations]);
+  /*useEffect(() => {
+    if (sendLogin !== null && sendLogin.accessToken !== undefined && sendLogin.refreshToken !== undefined ) {
+      localStorage.setItem('accessToken', sendLogin.accessToken.replace('Bearer ', ''));
+      localStorage.setItem('refreshToken', sendLogin.refreshToken);
+      dispatch(getUserDataThunk());
+ }}, [sendLogin]);*/
 
 
   useEffect(() => {
-    if (sendLogin !== null && sendLogin.success !== null && sendLogin.accessToken !== undefined && sendLogin.refreshToken !== undefined) {
+    if (sendLogin !== null && sendLogin.success === true && sendLogin.accessToken !== undefined && sendLogin.refreshToken !== undefined) {
       console.log(localStorage.accessToken);
       localStorage.setItem('accessToken', sendLogin.accessToken.replace('Bearer ', ''));
       localStorage.setItem('refreshToken', sendLogin.refreshToken);
     dispatch(getUserDataThunk());
-}}, []);
+}}, [sendLogin]);
 
 useEffect(() => {
-  dispatch(getUserDataThunk());
+  console.log(localStorage);
 }, []);
+
+useEffect(() => {
+  /*if (user === null || user === undefined)*/
+  dispatch(getUserDataThunk());
+}, [/*user*/]);
 
   useEffect(()=> {
     dispatch(getIngredients());
@@ -128,16 +132,16 @@ useEffect(() => {
               orderModalIsOpen={orderModalIsOpen}
               openOrderModal={openOrderModal}
               />} />
-          <Route path="/profile/*" element={
+          <Route path="/profile" element={
             <ProtectedRoute 
-              loggedIn={localStorage.getItem('accessToken') !== null}
+              loggedIn={localStorage.getItem('accessToken') !== null/* && user !== null*/}
               url={'/login'}>
               <ProfilePage />
             </ProtectedRoute>}>      
           </Route>
           <Route path="/profile/orders" element={
             <ProtectedRoute 
-              loggedIn={localStorage.getItem('accessToken') !== null}
+              loggedIn={localStorage.getItem('accessToken') !== null /*&& user !== null*/}
               url={'/login'}>
               <ProfileOrdersPage />
             </ProtectedRoute>}>      
@@ -197,7 +201,7 @@ useEffect(() => {
                     <IngredientDetails />
                 </Modal>
             }/>)}
-          {/*onClick && (itemType === 'orderProfile') && */(<Route path="/profile/orders/:orderId" element={
+          {/*locations[1] !== '' && *//*onClick && (itemType === 'orderProfile') && */(<Route path="/profile/orders/:orderId" element={
             <ProtectedRoute 
               loggedIn={localStorage.getItem('accessToken') !== null}
               url={'/login'}>

@@ -7,42 +7,26 @@ import { TIngredient } from '../../types/types';
 import { setCurrentIngredient } from '../../services/actions/currentIngredient';
 import { useAppDispatch } from '../../services/wsMiddleware';
 
+
 function IngredientDetails() {
   //const { currentItem } = useAppSelector((state) => state.currentIngredientReducer);
 
   const { ingredients, ingredientsRequest } = useAppSelector((state) => state.ingredientsReducer);
   const [ingredient1, setIngredient1] = useState<TIngredient | undefined>();
-  const ingredientId = useParams() as any;
+  const ingredientID = useParams() as any;
   const dispatch = useAppDispatch();
+  const { locations } = useAppSelector((state) => state.locationReducer);
+  const ingredientID1 = locations[0].slice(14, 38);
+
   const { currentItem } = useAppSelector((state) => state.currentIngredientReducer);
 
-  useEffect(
-    () => {
-      console.log(ingredientId)
-    },
-    []
-  );
-
-
-  const loadIngredientInfo = useCallback(
-    () => {if (ingredients !== null) {
-      let currentItem: TIngredient | undefined = ingredients.find((item: TIngredient) => item._id === ingredientId.ingredientId.replace(':', ''));
-      setIngredient1(currentItem);
-    }},
-    [ingredients]
-  );
-
-  useEffect(
-    () => {
-      loadIngredientInfo();
-    },
-    [ingredientId, loadIngredientInfo, ingredients]
-  );
-
   useEffect(() => {
-    if (ingredient1 !== undefined) {
-      dispatch(setCurrentIngredient(ingredient1));}
-  }, [ingredient1]);
+    if(ingredients !== null && (ingredientID1 !== null) && ingredientID1 !== undefined && (currentItem === null || currentItem === undefined)) {
+    let currentItem1: TIngredient | undefined = ingredients.find((item: TIngredient) => item._id === ingredientID1);
+    if (currentItem1 !== undefined)
+    dispatch(setCurrentIngredient(currentItem1));
+    }
+  }, [ingredientID1, ingredients, currentItem]);
 
   return (
     <div className={styles.test}>

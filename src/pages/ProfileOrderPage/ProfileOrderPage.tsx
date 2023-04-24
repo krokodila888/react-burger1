@@ -21,8 +21,16 @@ function ProfileOrderPage() {
   const [arrToRender, setArrToRender] = useState<Array<TIngredient> | null>(null);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  /*useEffect(() => {
     dispatch({ type: wsActions.wsInit, payload: wsUrlForUser });
+    return () => {
+      dispatch({ type: wsActions.onClose });
+    };
+  }, [dispatch]);*/
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` });
     return () => {
       dispatch({ type: wsActions.onClose });
     };

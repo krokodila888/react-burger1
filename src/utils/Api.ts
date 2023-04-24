@@ -57,7 +57,6 @@ export class Api {
           'Content-Type': 'application/json'
         },
       }).then(this._handleResult)
-      .catch((res)=>console.log(res.status, res.statusText))
   } 
 
   sendOrder(data: string[]) {
@@ -72,7 +71,6 @@ export class Api {
     })
       })
     .then(this._handleResult)
-    .catch((res)=>console.log(res.status, res.statusText))
   }
 
   signUp(data: TRegister) {
@@ -87,7 +85,6 @@ export class Api {
         'name': data.name})
       })
     .then(this._handleResult2)
-    .catch((res)=>console.log(res.status, res.statusText))
   }
 
   signIn(data: TLogin) {
@@ -102,7 +99,6 @@ export class Api {
         })
     })
     .then(this._handleResult2)
-    .catch((res)=>console.log(res.status, res.statusText))
   }
 
   getUserRequest() {
@@ -114,7 +110,6 @@ export class Api {
       },
     })
     .then(this._handleResult2)
-    .catch((res)=>console.log(res.status, res.statusText))
   }
 
   updateUser(data: TUpdateUserData) {
@@ -127,7 +122,6 @@ export class Api {
       body: JSON.stringify(data)
     })
     .then(this._handleResult)
-    .catch((res)=>console.log(res))
   }
 
   refreshToken(/*data: string*/) {
@@ -139,7 +133,6 @@ export class Api {
       body: JSON.stringify({"token": localStorage.getItem('refreshToken')})
     })
     .then(this._handleResult2)
-    .catch((res)=>console.log(res.status, res.statusText))
   }
 
   requestToResetPassword(data: TRequestToResetPassword) {
@@ -153,7 +146,6 @@ export class Api {
       })
     })
     .then(this._handleResult)
-    .catch((res)=>console.log(res.status, res.statusText))
   }
 
   resetPassword(data: TResetPassword) {
@@ -165,7 +157,6 @@ export class Api {
       body: JSON.stringify(data)
       })
       .then(this._handleResult)
-      .catch((res)=>console.log(res.status, res.statusText))
   } 
 
   signOut() {
@@ -177,7 +168,6 @@ export class Api {
       body: JSON.stringify({"token": localStorage.getItem('refreshToken')})
     })
     .then(this._handleResult)
-    .catch((res)=>console.log(res.status, res.statusText))
   }
 }
   

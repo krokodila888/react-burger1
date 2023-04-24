@@ -15,7 +15,6 @@ type TFormLogin = {
 function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  //const { user } = useAppSelector((state) => state.authReducer);
   const [form, setValue] = useState<TFormLogin>({ email: '', password: '' });
   const { sendLogin, sendLoginRequest, sendLoginFailed } = useAppSelector((state) => state.authReducer);
 
@@ -25,21 +24,14 @@ function LoginPage() {
     setValue({ ...form, [name]: value });
   };
 
-  function handleLogin() {
+  function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
     dispatch(loginThunk(form));
   }
 
-  useEffect(() => {
-    if (sendLogin !== null && sendLogin.accessToken !== undefined && sendLogin.refreshToken !== undefined ) {
-      localStorage.setItem('accessToken', sendLogin.accessToken.replace('Bearer ', ''));
-      localStorage.setItem('refreshToken', sendLogin.refreshToken);
-      dispatch(getUserDataThunk());
-      navigate(-1);
- }}, [sendLogin]);
-
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleLogin}>
+      <form className={styles.form} onSubmit={(e)=>handleLogin(e)}>
         <h1 className="text text_type_main-medium">Вход</h1>
         <EmailInput 
           placeholder="E-mail" 

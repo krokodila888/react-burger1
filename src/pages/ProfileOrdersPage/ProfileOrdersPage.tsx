@@ -22,10 +22,18 @@ function ProfileOrderPage() {
   const { message, orders } = useAppSelector((state) => state.wsReducer);
   const copied = structuredClone(orders);
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     const token = localStorage.getItem('accessToken');
     dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` });
-  }, []);
+  }, []);*/
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    dispatch({ type: wsActions.wsInit, payload: `${wsUrlForUser}?token=${token}` });
+    return () => {
+      dispatch({ type: wsActions.onClose });
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getUserDataThunk())

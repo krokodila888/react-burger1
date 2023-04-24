@@ -51,13 +51,15 @@ export const sendOrderSuccessAction = (
 
 export const sendNewOrderThunk = (data: Array<string>) => (dispatch: AppDispatch) => {
   dispatch(sendOrderAction());
-  api.sendOrder(data).then(res => {
+  api.sendOrder(data)
+  .then(res => {
     if (res && res.success) {
       dispatch(sendOrderSuccessAction(res, res.order.number));
     } else {
       dispatch(sendOrderFailedAction());
     }
-  });
+  })
+  .catch((res)=>console.log(res.status, res.statusText))
 };
 
 export const removeOrder = (): IRemoveOrder => ({

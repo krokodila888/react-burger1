@@ -23,7 +23,8 @@ function RegisterPage() {
     setValue({ ...form, [e.target.name]: e.target.value });
   };
 
-  function handleRegister() {
+  function handleRegister(e: React.FormEvent) {
+    e.preventDefault();
     dispatch(registerThunk(form))
   }
 
@@ -37,7 +38,7 @@ function RegisterPage() {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleRegister}>
+      <form className={styles.form} onSubmit={(e)=>handleRegister(e)}>
         <h1 className="text text_type_main-medium">Регистрация</h1>
         <Input 
           placeholder="Имя" 

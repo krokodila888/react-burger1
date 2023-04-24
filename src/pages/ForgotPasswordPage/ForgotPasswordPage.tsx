@@ -34,7 +34,8 @@ function ForgotPasswordPage() {
     dispatch(removeEmail())}
   }, [sendEmailRes]);
 
-  function handleSubmit() {
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
     dispatch(sendEmailToResetPasswordThunk(formEmail))
   }
 
@@ -42,7 +43,7 @@ function ForgotPasswordPage() {
     <div className={styles.container}>
       {(!sendEmailRequest && !sendEmailFailed) ? (
         <>
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={(e)=>handleSubmit(e)}>
             <h1 className="text text_type_main-medium">Восстановление пароля</h1>
             <EmailInput 
               placeholder="Укажите e-mail" 

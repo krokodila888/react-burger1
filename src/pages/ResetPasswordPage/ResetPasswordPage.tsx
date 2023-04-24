@@ -29,7 +29,8 @@ function ResetPasswordPage() {
     setFormPassword({ ...formPassword, [e.target.name]: e.target.value });
   };
 
-  function handleSubmit() {
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
     console.log(formPassword);
     dispatch(resetPasswordThunk(formPassword))
   }
@@ -38,7 +39,7 @@ function ResetPasswordPage() {
     <div className={styles.container}>
       {(!sendPasswordRequest && !sendPasswordFailed) ? (
           <>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={(e)=>handleSubmit(e)}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <PasswordInput 
           placeholder="Введите новый пароль" 

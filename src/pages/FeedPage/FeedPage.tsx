@@ -15,7 +15,10 @@ function FeedPage() {
 
   useEffect(() => {
     dispatch({ type: wsActions.wsInit, payload: wsUrl });
-  }, []);
+    return () => {
+      dispatch({ type: wsActions.onClose });
+    };
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getUserDataThunk())

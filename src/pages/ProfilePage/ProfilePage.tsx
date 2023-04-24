@@ -55,7 +55,8 @@ function ProfilePage() {
     navigate("/login")
   }
 
-  function handleUpdateUser() {
+  function handleUpdateUser(e: React.FormEvent) {
+    e.preventDefault();
     dispatch(updateUserDataThunk(form));
   }
 
@@ -80,7 +81,7 @@ function ProfilePage() {
             Выход
           </NavLink>
         </div>
-        <form className={styles.form} onSubmit={handleUpdateUser}>
+        <form className={styles.form} onSubmit={(e)=>handleUpdateUser(e)}>
           <Input 
             placeholder="Имя" 
             value={form.name} 

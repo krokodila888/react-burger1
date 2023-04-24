@@ -74,13 +74,15 @@ export const sendEmailSuccessAction = (
 
 export const sendEmailToResetPasswordThunk = (data: TSendEmailData) => (dispatch: AppDispatch) => {
   dispatch(sendEmailAction());
-  api.requestToResetPassword(data).then(res => {
+  api.requestToResetPassword(data)
+  .then(res => {
     if (res && res.success) {
       dispatch(sendEmailSuccessAction(res));
     } else {
       dispatch(sendEmailFailedAction());
     }
-  });
+  })
+  .catch((res)=>console.log(res.status, res.statusText))
 };
 
 export function removeEmail(): IRemoveEmail {
@@ -106,13 +108,15 @@ export const sendPasswordSuccessAction = (
 
 export const resetPasswordThunk = (data1: TResetPasswordData) => (dispatch: AppDispatch) => {
   dispatch(sendPasswordAction());
-  api.resetPassword(data1).then(res => {
+  api.resetPassword(data1)
+  .then(res => {
     if (res && res.success) {
       dispatch(sendPasswordSuccessAction(res));
     } else {
       dispatch(sendPasswordFailedAction());
     }
-  });
+  })
+  .catch((res)=>console.log(res.status, res.statusText))
 };
 
 export function removePassword(): IRemovePassword {

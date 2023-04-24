@@ -50,5 +50,6 @@ export const getIngredients = () => (dispatch: AppDispatch) => {
     } else {
       dispatch(getIngredientsFailedAction());
     }
-  });
+  })
+  .catch((res)=>console.log(res.status, res.statusText))
 };

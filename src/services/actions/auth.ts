@@ -175,13 +175,13 @@ export const loginSuccessAction = (
 
 export const loginThunk = (data: TLoginData) => (dispatch: AppDispatch) => {
   dispatch(loginAction());
-  api.signIn(data).then(res => {
+  api.signIn(data)
+  .then(res => {
     if (res && res.success) {
       dispatch(loginSuccessAction(res));
     } else {
-      dispatch(loginFailedAction());
-    }
-  });
+      dispatch(loginFailedAction())}})
+  .catch((res)=>console.log(res.status, res.statusText))
 };
 
 export const registerAction = (): IRegisterAction => ({
@@ -201,13 +201,15 @@ export const registerSuccessAction = (
 
 export const registerThunk = (data: TRegisterData) => (dispatch: AppDispatch) => {
   dispatch(registerAction());
-  api.signUp(data).then(res => {
+  api.signUp(data)
+  .then(res => {
     if (res && res.success) {
       dispatch(registerSuccessAction(res));
     } else {
       dispatch(registerFailedAction());
     }
-  });
+  })
+  .catch((res)=>console.log(res.status, res.statusText))
 };
 
 export function removeLogin(): IRemoveLogin {
@@ -245,7 +247,8 @@ export const getUserDataSuccessAction = (
 
 export const getUserDataThunk = () => (dispatch: AppDispatch) => {
   dispatch(getUserDataAction());
-  api.getUserRequest().then(res => {
+  api.getUserRequest()
+  .then(res => {
     if (res && res.success) {
       dispatch(getUserDataSuccessAction(res));}
     else if (res && !res.success) {
@@ -253,7 +256,8 @@ export const getUserDataThunk = () => (dispatch: AppDispatch) => {
     } else {
       dispatch(getUserDataFailedAction(/*res*/));
     }
-  });
+  })
+  .catch((res)=>console.log(res.status, res.statusText))
 };
 
 export const updateUserAction = (): IUpdateUserAction => ({
@@ -273,13 +277,15 @@ export const updateUserSuccessAction = (
 
 export const updateUserDataThunk = (data: TUpdateUserData) => (dispatch: AppDispatch) => {
   dispatch(updateUserAction());
-  api.updateUser(data).then(res => {
+  api.updateUser(data)
+  .then(res => {
     if (res && res.success) {
       dispatch(updateUserSuccessAction(res));
     } else {
       dispatch(updateUserFailedAction());
     }
-  });
+  })
+  .catch((res)=>console.log(res.status, res.statusText))
 };
 
 export const logoutAction = (): ILogoutAction => ({
@@ -305,7 +311,8 @@ export const logoutThunk = () => (dispatch: AppDispatch) => {
     } else {
       dispatch(logoutFailedAction());
     }
-  });
+  })
+  .catch((res)=>console.log(res.status, res.statusText))
 };
 
 export function removeLogOutData(): IRemoveLogoutData {
@@ -338,13 +345,15 @@ export const refreshTokenSuccessAction = (
 export const getNewTokenThunk = () => (dispatch: AppDispatch) => {
   if (localStorage.getItem('refreshToken') !== null || {}) {
   dispatch(refreshTokenAction());
-  api.refreshToken(/*localStorage.getItem('refreshToken') || '{}'*/).then(res => {
+  api.refreshToken(/*localStorage.getItem('refreshToken') || '{}'*/)
+  .then(res => {
     if (res && res.success) {
       dispatch(refreshTokenSuccessAction(res));
     } else {
       dispatch(refreshTokenFailedAction());
     }
-  });}
+  })
+  .catch((res)=>console.log(res.status, res.statusText))}
 };
 
 export function removeTokenRequest(): IRemoveTokenRequest {
