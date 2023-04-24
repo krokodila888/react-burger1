@@ -65,10 +65,6 @@ function App() {
 }}, [sendLogin]);
 
 useEffect(() => {
-  console.log(localStorage);
-}, []);
-
-useEffect(() => {
   /*if (user === null || user === undefined)*/
   dispatch(getUserDataThunk());
 }, [/*user*/]);
