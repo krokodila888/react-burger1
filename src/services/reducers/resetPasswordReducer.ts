@@ -21,7 +21,7 @@ type TResetPasswordState = {
   sendPasswordRes: TMessage | null
 } 
 
-const initialState: TResetPasswordState = {
+export const initialState: TResetPasswordState = {
   sendEmailRequest: false,
   sendEmailFailed: false,
   sendEmailRes: null,

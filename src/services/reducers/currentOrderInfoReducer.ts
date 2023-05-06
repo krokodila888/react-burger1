@@ -10,7 +10,7 @@ type TCurrentOrderInfoState = {
   orderInfoModalIsOpen: boolean
 } 
 
-const initialState: TCurrentOrderInfoState = {
+export const initialState: TCurrentOrderInfoState = {
   currentOrderInfo: null,
   orderInfoModalIsOpen: false
 }
@@ -21,13 +21,13 @@ export const currentOrderInfoReducer = (state = initialState, action: TOrderInfo
       return {
         ...state,
         currentOrderInfo: {
-          createdAt: action.createdAt,
-          ingredients: action.ingredients,
-          name: action.name,
-          number: action.number,
-          status: action.status,
-          updatedAt: action.updatedAt,
-          _id: action._id
+          createdAt: action.currentOrderInfo.createdAt,
+          ingredients: action.currentOrderInfo.ingredients,
+          name: action.currentOrderInfo.name,
+          number: action.currentOrderInfo.number,
+          status: action.currentOrderInfo.status,
+          updatedAt: action.currentOrderInfo.updatedAt,
+          _id: action.currentOrderInfo._id
         },
         orderInfoModalIsOpen: true
       }
