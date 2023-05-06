@@ -101,21 +101,6 @@ describe('currentBurgerReducer', () => {
       image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
       __v: 0,
       keyId: '333'
-    },
-    {
-      _id: '643d69a5c3f7b9001cfa093c',
-      name: 'Краторная булка N-200i',
-      type: 'bun',
-      proteins: 80,
-      fat: 24,
-      carbohydrates: 53,
-      calories: 420,
-      price: 1255,
-      image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-      image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-      image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-      __v: 0,
-      keyId: '111'
     }
   ]
 
@@ -152,6 +137,14 @@ describe('currentBurgerReducer', () => {
     }
   ]
 
+  const testInitialState: any = {
+    currentBurger: [currentBurgerWithoutBunForTest]
+  }
+
+  const testInitialState1: any = {
+    currentBurger: [currentBurgerForTest]
+  }
+
   it('should ADD_INGREDIENT (bun type), burger with bun', () => {
     expect(currentBurgerReducer(initialState, { 
       type: ADD_INGREDIENT,
@@ -160,11 +153,50 @@ describe('currentBurgerReducer', () => {
       .toEqual({
         ...initialState, 
         currentBurger: [
-          ingredient1/*,
+          ingredient1
+        ],
+      })
+  })
+
+  it('should ADD_INGREDIENT (not bun type), burger with bun', () => {
+    expect(currentBurgerReducer(initialState, { 
+      type: ADD_INGREDIENT,
+      item: ingredient2
+    }))
+      .toEqual({
+        ...initialState, 
+        currentBurger: [
+          ingredient2/*,
           ...currentBurgerForTest.slice(1)*/
         ],
       })
   })
+
+  it('should ADD_INGREDIENT (bun type), burger complete without bun', () => {
+    expect(currentBurgerReducer(testInitialState, { 
+      type: ADD_INGREDIENT,
+      item: ingredient1
+    }))
+      .toEqual({
+        currentBurger: [
+          ingredient1,
+          ...testInitialState.currentBurger
+        ],
+      })
+  })
+
+  /*it('should ADD_INGREDIENT (bun type), burger complete with bun', () => {
+    expect(currentBurgerReducer(testInitialState1, { 
+      type: ADD_INGREDIENT,
+      item: ingredient1
+    }))
+      .toEqual({
+        currentBurger: [
+          ingredient1,
+          ...currentBurgerForTest.slice(1)
+        ],
+      })
+  })*/
 
   it('should REPLACE_INGREDIENT (not bun type)', () => {
     expect(currentBurgerReducer(initialState, { 
