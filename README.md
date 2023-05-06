@@ -1,8 +1,8 @@
-# Getting Started with Create React App
+# Итоговый проект курса Реакт-разработчик
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Деплой: https://one-for-study.nomoredomains.icu/
 
-## Available Scripts
+Available Scripts
 
 In the project directory, you can run:
 
