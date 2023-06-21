@@ -11,7 +11,7 @@ type TCurrentBurgerState = {
   currentBurger: ReadonlyArray<TIngredient>
 } 
   
-const initialState: TCurrentBurgerState = {
+export const initialState: TCurrentBurgerState = {
   currentBurger: []
 }
 
@@ -55,7 +55,7 @@ export const currentBurgerReducer = (state = initialState, action:  TCurrentBurg
 // eslint-disable-next-line no-fallthrough, no-lone-blocks
     // @ts-ignore
     case REPLACE_INGREDIENT: {
-      if (state.currentBurger[0].type === 'bun')
+      if (state.currentBurger.length > 0 && state.currentBurger[0].type === 'bun')
       return {
         ...state,
         currentBurger: [

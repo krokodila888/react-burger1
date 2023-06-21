@@ -50,6 +50,7 @@ else return 0}
     <li 
       ref={dragRef} 
       className="ingredientCard__card"
+      test-id="ingredientCard"
     >
       <Link
         to={`/ingredients/:${ingredient._id}`} 

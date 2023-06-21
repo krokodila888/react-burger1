@@ -3,7 +3,7 @@ import {
   GET_INGREDIENTS_FAILED,
   GET_INGREDIENTS_SUCCESS
   } from "../../utils/constants";
-  import type { TGetIngredientsActions } from '../actions/ingredients';
+import type { TGetIngredientsActions } from '../actions/ingredients';
 import { TIngredient } from '../../types/types';
 
 type TIngredientsState = {
@@ -12,7 +12,7 @@ type TIngredientsState = {
   ingredients: ReadonlyArray<TIngredient> | null
 } 
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
   ingredients: null

@@ -10,7 +10,7 @@ type TCurrentIngredientState = {
   ingredientModalIsOpen: boolean
 } 
 
-const initialState: TCurrentIngredientState = {
+export const initialState: TCurrentIngredientState = {
   currentItem: null,
   ingredientModalIsOpen: false
 }
@@ -21,18 +21,18 @@ export const currentIngredientReducer = (state = initialState, action: TCurrentI
       return {
         ...state,
         currentItem: {
-          name: action.name, 
-          image_large: action.image_large, 
-          calories: action.calories, 
-          carbohydrates: action.carbohydrates, 
-          fat: action.fat, 
-          proteins: action.proteins,
-          image_mobile: action.image_mobile,
-          image: action.image,
-          price: action.price,
-          type1: action.type,
-          _id: action._id,
-          __v: action.__v,
+          name: action.currentItem.name, 
+          image_large: action.currentItem.image_large, 
+          calories: action.currentItem.calories, 
+          carbohydrates: action.currentItem.carbohydrates, 
+          fat: action.currentItem.fat, 
+          proteins: action.currentItem.proteins,
+          image_mobile: action.currentItem.image_mobile,
+          image: action.currentItem.image,
+          price: action.currentItem.price,
+          type1: action.currentItem.type1,
+          _id: action.currentItem._id,
+          __v: action.currentItem.__v,
         },
         ingredientModalIsOpen: true
       }

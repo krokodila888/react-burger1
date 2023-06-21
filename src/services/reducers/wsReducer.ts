@@ -22,7 +22,7 @@ type TWSState = {
   message: TWSMessage | null
 }
   
-const initialState: TWSState = {
+export const initialState: TWSState = {
   wsConnected: false,
   orders: [],
   total: null,

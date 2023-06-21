@@ -55,8 +55,11 @@ const Modal: FC<IModalProps> = ({ isOpen, onClose, children }) => {
         <ModalOverlay isOpen={isOpen} />
       </div>
       <div className='modal__container'>
-        <div className="modal__button-container">
-          <CloseIcon type="primary" onClick={handleClose} />
+        <div className="modal__button-container" test-id="modalCloseIconContainer">
+          <CloseIcon 
+          type="primary" 
+          onClick={handleClose}
+          />
         </div>
         {children}
        </div>

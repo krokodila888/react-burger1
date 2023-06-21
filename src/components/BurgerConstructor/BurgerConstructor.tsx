@@ -156,7 +156,7 @@ const BurgerConstructor: FC<TBurgerConstructorProps> = ({ isOpen, onClose, openO
           }
         </li>
       </ul>
-      <div className={styles.sum}>
+      <div className={styles.sum} test-id='burgerConstructorButton'>
         {typeof(ingredients) !== 'undefined' && (ingredients) !== null && 
         <>
           <p className="text text_type_digits-medium">

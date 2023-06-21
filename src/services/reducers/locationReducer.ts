@@ -15,7 +15,7 @@ type TLocationState = {
   itemData: TIngredient | TOrderItem | {}
 } 
 
-const initialState: TLocationState = {
+export const initialState: TLocationState = {
   locations: ['', '', ''],
   onClick: false,
   itemType: '',

@@ -64,10 +64,10 @@ function App() {
     dispatch(getUserDataThunk());
 }}, [sendLogin]);
 
-useEffect(() => {
-  /*if (user === null || user === undefined)*/
-  dispatch(getUserDataThunk());
-}, [/*user*/]);
+  useEffect(() => {
+    /*if (user === null || user === undefined)*/
+     dispatch(getUserDataThunk());
+  }, [/*user*/]);
 
   useEffect(()=> {
     dispatch(getIngredients());

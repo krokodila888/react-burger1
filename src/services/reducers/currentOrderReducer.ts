@@ -15,7 +15,7 @@ type TSendOrderState = {
   sendOrderNumber: number | null
 } 
 
-const initialState: TSendOrderState = {
+export const initialState: TSendOrderState = {
   sendOrderRequest: false,
   sendOrderFailed: false,
   sendOrder: {},
